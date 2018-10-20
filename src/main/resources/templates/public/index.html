@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/public::header"></head>
+<head th:replace="layout/public :: header"></head>
+
 <body class="page-body skin-red" >
 <div class="page-container 		" >
     <div th:replace="layout/public::leftbar"></div>
@@ -90,7 +91,7 @@
 	<div class="col-md-8">
     	<div class="row">
             <!-- CALENDAR-->
-            <div class="col-md-12 col-xs-12">    
+            <div class="col-md-12 col-xs-12">
                 <div class="panel panel-primary " data-collapsed="0">
                     <div class="panel-heading">
                         <div class="panel-title">
@@ -108,211 +109,211 @@
             </div>
         </div>
     </div>
-    
+
 	<div class="col-md-4">
 		<div class="row">
             <div class="col-md-12">
-            
+
                 <div class="tile-stats tile-red">
                     <div class="icon"><i class="fa fa-group"></i></div>
-                    <div class="num" data-start="0" data-end="6308" 
+                    <div class="num" data-start="0" data-end="6308"
                     		data-postfix="" data-duration="1500" data-delay="0">0</div>
-                    
+
                     <h3>Sinh viên</h3>
                    <p>Tổng số tài khoản sinh viên</p>
                 </div>
-                
+
             </div>
             <div class="col-md-12">
-            
+
                 <div class="tile-stats tile-green">
                     <div class="icon"><i class="entypo-users"></i></div>
-                    <div class="num" data-start="0" data-end="21" 
+                    <div class="num" data-start="0" data-end="21"
                     		data-postfix="" data-duration="800" data-delay="0">0</div>
-                    
+
                     <h3>Cán bộ</h3>
                    <p>Tổng số tài khoản cán bộ</p>
                 </div>
-                
+
             </div>
             <div class="col-md-12">
-            
+
                 <div class="tile-stats tile-aqua">
                     <div class="icon"><i class="entypo-user"></i></div>
                     <div class="num" data-start="0" data-end="4168"
                     		data-postfix="" data-duration="500" data-delay="0">0</div>
-                    
+
                     <h3>Đăng ký</h3>
                    <p>Tổng số đăng ký trong kỳ</p>
                 </div>
-                
+
             </div>
             <div class="col-md-12">
-            
+
                 <div class="tile-stats tile-blue">
                     <div class="icon"><i class="entypo-chart-bar"></i></div>
-                                        <div class="num" data-start="0" data-end="0" 
+                                        <div class="num" data-start="0" data-end="0"
                     		data-postfix="" data-duration="500" data-delay="0">0</div>
-                    
+
                     <h3>Sự tham dự</h3>
                    <p>Tổng số công việc trong ngày</p>
                 </div>
-                
+
             </div>
     	</div>
     </div>
-	
+
 </div>
 
 
 
     <script>
   $(document).ready(function() {
-	  
+
 	  var calendar = $('#notice_calendar');
-				
+
 				$('#notice_calendar').fullCalendar({
 					header: {
 						left: 'title',
 						right: 'today prev,next'
 					},
-					
+
 					//defaultView: 'basicWeek',
-					
+
 					editable: false,
 					firstDay: 1,
 					height: 530,
 					droppable: false,
-					
+
 					events: [
 												{
 							title: "Mở đăng ký B10, B8",
 							start: new Date(2017, 11, 06),
-							end:	new Date(2017, 11, 06) 
+							end:	new Date(2017, 11, 06)
 						},
 												{
 							title: "Mở đăng ký B10, B8",
 							start: new Date(2017, 11, 07),
-							end:	new Date(2017, 11, 07) 
+							end:	new Date(2017, 11, 07)
 						},
 												{
 							title: "Mở đăng ký B10, B8",
 							start: new Date(2017, 11, 08),
-							end:	new Date(2017, 11, 08) 
+							end:	new Date(2017, 11, 08)
 						},
 												{
 							title: "Mở đăng ký B10, B8, B9, B7",
 							start: new Date(2017, 11, 09),
-							end:	new Date(2017, 11, 09) 
+							end:	new Date(2017, 11, 09)
 						},
 												{
 							title: "Mở đăng ký B9, B7",
 							start: new Date(2017, 11, 10),
-							end:	new Date(2017, 11, 10) 
+							end:	new Date(2017, 11, 10)
 						},
 												{
 							title: "Mở đăng ký B9, B7",
 							start: new Date(2017, 11, 11),
-							end:	new Date(2017, 11, 11) 
+							end:	new Date(2017, 11, 11)
 						},
 												{
 							title: "Mở đăng ký B9, B7, B3, B5, B13, B6, B5b, B13b",
 							start: new Date(2017, 11, 12),
-							end:	new Date(2017, 11, 12) 
+							end:	new Date(2017, 11, 12)
 						},
 												{
 							title: "Mở đăng ký B3, B5, B13, B6, B5b, B13b",
 							start: new Date(2017, 11, 13),
-							end:	new Date(2017, 11, 13) 
+							end:	new Date(2017, 11, 13)
 						},
 												{
 							title: "Mở đăng ký B3, B5, B13, B6, B5b, B13b",
 							start: new Date(2017, 11, 14),
-							end:	new Date(2017, 11, 14) 
+							end:	new Date(2017, 11, 14)
 						},
 												{
 							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
 							start: new Date(2017, 11, 15),
-							end:	new Date(2017, 11, 15) 
+							end:	new Date(2017, 11, 15)
 						},
 												{
 							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
 							start: new Date(2017, 11, 16),
-							end:	new Date(2017, 11, 16) 
+							end:	new Date(2017, 11, 16)
 						},
 												{
 							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
 							start: new Date(2017, 11, 17),
-							end:	new Date(2017, 11, 17) 
+							end:	new Date(2017, 11, 17)
 						},
 												{
 							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
 							start: new Date(2017, 11, 18),
-							end:	new Date(2017, 11, 18) 
+							end:	new Date(2017, 11, 18)
 						},
 												{
 							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
 							start: new Date(2017, 11, 19),
-							end:	new Date(2017, 11, 19) 
+							end:	new Date(2017, 11, 19)
 						},
 												{
 							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
 							start: new Date(2017, 11, 20),
-							end:	new Date(2017, 11, 20) 
+							end:	new Date(2017, 11, 20)
 						},
 												{
 							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
 							start: new Date(2017, 11, 21),
-							end:	new Date(2017, 11, 21) 
+							end:	new Date(2017, 11, 21)
 						},
 												{
 							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
 							start: new Date(2017, 11, 22),
-							end:	new Date(2017, 11, 22) 
+							end:	new Date(2017, 11, 22)
 						},
 												{
 							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
 							start: new Date(2017, 11, 23),
-							end:	new Date(2017, 11, 23) 
+							end:	new Date(2017, 11, 23)
 						},
 												{
 							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
 							start: new Date(2017, 11, 24),
-							end:	new Date(2017, 11, 24) 
+							end:	new Date(2017, 11, 24)
 						},
 												{
 							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
 							start: new Date(2017, 11, 25),
-							end:	new Date(2017, 11, 25) 
+							end:	new Date(2017, 11, 25)
 						},
 												{
 							title: "Điều chỉnh giá điện các loại hình dịch vụ trong KTX",
 							start: new Date(2018, 0, 01),
-							end:	new Date(2018, 0, 01) 
+							end:	new Date(2018, 0, 01)
 						},
-												
+
 					]
 				});
 	});
   </script>
 
-  
+
 
 			<!-- Footer -->
 <footer th:replace="layout/public::footer"></footer>
 
 		</div>
-		
+
 	</div>
         <script type="text/javascript">
 	function showAjaxModal(url)
 	{
 		// SHOWING AJAX PRELOADER IMAGE
-		jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="assets/images/preloader.gif" /></div>');
-		
+		jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="../../static/public/images/preloader.gif" src="@{public/images/preloader.gif}" /></div>');
+
 		// LOADING THE AJAX MODAL
 		jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
-		
+
 		// SHOW AJAX RESPONSE ON REQUEST SUCCESS
 		$.ajax({
 			url: url,
@@ -323,33 +324,33 @@
 		});
 	}
 	</script>
-    
+
     <!-- (Ajax Modal)-->
     <div class="modal fade" id="modal_ajax">
         <div class="modal-dialog">
             <div class="modal-content">
-                
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">CSAM - HUST</h4>
                 </div>
-                
+
                 <div class="modal-body" style="height:500px; overflow:auto;">
-                
-                    
-                    
+
+
+
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-    
-    
-    
-    
+
+
+
+
     <script type="text/javascript">
 	function confirm_modal(delete_url)
 	{
@@ -357,18 +358,18 @@
 		document.getElementById('delete_link').setAttribute('href' , delete_url);
 	}
 	</script>
-    
+
     <!-- (Normal Modal)-->
     <div class="modal fade" id="modal-4">
         <div class="modal-dialog">
             <div class="modal-content" style="margin-top:100px;">
-                
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?</h4>
                 </div>
-                
-                
+
+
                 <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
                     <a href="#" class="btn btn-danger" id="delete_link">Xóa</a>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>
@@ -376,6 +377,7 @@
             </div>
         </div>
     </div>
-<div th:replace="layout/public::link"></div>
+<div th:replace="layout/public::link">
+</div>
 </body>
 </html>
