@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<body class="page-body skin-red">
+<div class="page-container 		">
+    <div th:replace="layout/public::leftbar"></div>
+    <div class="main-content">
+        <h3 style="">
+            <i class="entypo-right-circled"></i>
+            Thông tin phòng           </h3>
+
+        <!--<div class="row">-->
+
+
+        <style>
+            .iconNha {
+                margin-bottom: 10px;
+                margin-right: 10px;
+                height: 30px;
+            }
+
+            .divNha {
+                padding: 5px;
+                border-bottom: solid 1px silver;
+            }
+
+            .divNha:hover {
+                background-color: #f1f1f1;
+            }
+
+            .divPhong {
+                background-color: #7dd1d4;
+                width: 100%;
+                height: 100%;
+                padding: 2px;
+                border-radius: 3px;
+            }
+
+            .divPhong:hover {
+                background-color: green;
+                cursor: pointer;
+            }
+            .modal-backdrop
+            {
+                opacity:0.5 !important;
+            }
+        </style>
+        <div class="content" th:fragment="listRoom">
+            <div class="row" style="color:#6684d2;border-bottom:solid 4px #6684d2"><center><h3>THÔNG TIN PHÒNG TỔNG QUÁT</h3></center></div>
+            <div class="row">
+                <div class="divNha">
+                    <th:block th:if="${#lists.isEmpty(roomAreas)}">
+                        <h3>Không có phòng nào!</h3>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(roomAreas)}">
+                        <div>
+                            <span>
+                                <img src="../../static/public/listRoom/images/home.png" th:src="@{/public/listRoom/images/home.png}" class="iconNha" style="float: left">
+                                <h3 th:text="${roomAreas.get(0).areaName}"></h3>
+                            </span>
+                        </div>
+                        <div class="row" style="padding-left:12px; width:100%; height:100%;">
+                            <th:block th:each="room ,iterStat: ${roomAreas}">
+                                <th:block th:if="${room.functionId} == 1">
+                                    <div class="col-sm-1" style="padding:2px; height:100%;" th:with="bgStatus = ${room.status} == 1 ? '#d2d2d2' : '#7dd1d4'" th:style="|background-color:  ${bgStatus} |">
+                                        <div class="divPhong" th:onclick="'showAjaxModal(' + ${room.id} + ');'">
+                                            <div>
+                                                <h4 style="margin-top:3px;padding-left:2px;" th:text="${{room.name}}"></h4>
+                                                <span th:text="${room.studentPresent} + '/' + ${room.numberBed}" class="badge" style="margin:3px;"></span>
+                                            </div>
+
+                                            <th:block th:if="${room.studentPresent} > 0" th:with="stdPre = ${room.studentPresent} < ${room.numberBed} ? ${room.studentPresent} : ${room.numberBed}">
+                                                <th:block th:each="i : ${#numbers.sequence(1, stdPre)}" th:with="gender = ${room.gender} == 0 ? 'nu' : 'nam'">
+                                                    <img th:src="@{${'/public/listRoom/images/' + gender + '.png'}}" alt="nu" width="17">
+                                                </th:block>
+                                            </th:block>
+
+                                            <th:block th:if="${room.studentPresent} < ${room.numberBed}" th:with="bedEmpty = ${room.numberBed} - ${room.studentPresent}">
+                                                <th:block th:each="i : ${#numbers.sequence(1, bedEmpty)}" th:with="gender = ${room.gender} == 0 ? 'nu' : 'nam'">
+                                                    <img th:src="@{${'/public/listRoom/images/' + gender + 'Trong.png'}}" alt="nu" width="17">
+                                                </th:block>
+                                            </th:block>
+
+                                            <th:block th:if="${room.studentPresent} > ${room.numberBed}" th:with="regOver = ${room.studentPresent} - ${room.numberBed}">
+                                                <th:block th:each="i : ${#numbers.sequence(1, regOver)}" th:with="gender = ${room.gender} == 0 ? 'nu' : 'nam'">
+                                                    <img th:src="@{${'/public/listRoom/images/' + gender + 'QuaTai.png'}}" alt="nu" width="17">
+                                                </th:block>
+                                            </th:block>
+
+                                        </div>
+                                    </div>
+                                </th:block>
+
+                                <th:block th:if="${room.functionId} == 2">
+                                    <div class="col-sm-1" style="padding:2px; height:100%;" th:with="bgStatus = ${room.status} == 1 ? '#d2d2d2' : '#7dd1d4'" th:style="|background-color:  ${bgStatus} |">
+                                        <div class="divPhong" style="background-color:#7dd1d4;">
+                                            <h4 style="margin-top:3px;padding-left:2px;" th:text="${{room.name}}"></h4>
+                                            <center>
+                                                <img th:src="@{/public/listRoom/images/phongTuHoc.png}" alt="Phòng tự học" height="40">
+                                            </center>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+        </div>
+
+        <div th:fragment="detailRoom">
+            <th:block th:if="${not #lists.isEmpty(roomDes)}">
+                <div class="alert cssload-container-over" style="display:none;"></div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 th:text="'THÔNG TIN PHÒNG ' + ${roomDes.get(0).name} + '-' + ${roomDes.get(0).areaName}" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-12"><center><h4>THÔNG TIN PHÒNG</h4></center></div>
+                            </div>
+
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td><b>Địa chỉ:</b></td>
+                                    <td th:text="${roomDes.get(0).name} + ' - ' + ${roomDes.get(0).areaName}"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Số giường:</b></td>
+                                    <td style="background:#0094ff" th:with="numberBegs = ${roomDes.get(0).numberBed}">
+                                        <th:block th:each="i : ${#numbers.sequence(1, numberBegs)}" th:with="gender = ${roomDes.get(0).gender} == 0 ? 'nu' : 'nam'">
+                                            <img th:src="@{${'/public/listRoom/images/' + gender + 'Trong.png'}}" alt="nu" width="20">
+                                        </th:block>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Số lượng SV:</b></td>
+                                    <td>
+                                        <th:block th:if="${roomDes.get(0).studentPresent} > 0" th:with="stdPre = ${roomDes.get(0).studentPresent} < ${roomDes.get(0).numberBed} ? ${roomDes.get(0).studentPresent} : ${roomDes.get(0).numberBed}">
+                                            <th:block th:each="i : ${#numbers.sequence(1, stdPre)}" th:with="gender = ${roomDes.get(0).gender} == 0 ? 'nu' : 'nam'">
+                                                <img th:src="@{${'/public/listRoom/images/' + gender + '.png'}}" alt="nu" width="17">
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:if="${roomDes.get(0).studentPresent} < ${roomDes.get(0).numberBed}" th:with="bedEmpty = ${roomDes.get(0).numberBed} - ${roomDes.get(0).studentPresent}">
+                                            <th:block th:each="i : ${#numbers.sequence(1, bedEmpty)}" th:with="gender = ${roomDes.get(0).gender} == 0 ? 'nu' : 'nam'">
+                                                <img style="background:#0094ff; margin-right: -3px;" th:src="@{${'/public/listRoom/images/' + gender + 'Trong.png'}}" alt="nu" width="17">
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:if="${roomDes.get(0).studentPresent} > ${roomDes.get(0).numberBed}" th:with="regOver = ${roomDes.get(0).studentPresent} - ${roomDes.get(0).numberBed}">
+                                            <th:block th:each="i : ${#numbers.sequence(1, regOver)}" th:with="gender = ${roomDes.get(0).gender} == 0 ? 'nu' : 'nam'">
+                                                <img th:src="@{${'/public/listRoom/images/' + gender + 'QuaTai.png'}}" alt="nu" width="17">
+                                            </th:block>
+                                        </th:block>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Số lượng ĐK:</b></td>
+                                    <td>
+                                        <th:block th:if="${roomDes.get(0).studentRegister} > 0" th:with="stdPre = ${roomDes.get(0).studentRegister} < ${roomDes.get(0).numberBed} ? ${roomDes.get(0).studentRegister} : ${roomDes.get(0).numberBed}">
+                                            <th:block th:each="i : ${#numbers.sequence(1, stdPre)}" th:with="gender = ${roomDes.get(0).gender} == 0 ? 'nu' : 'nam'">
+                                                <img th:src="@{${'/public/listRoom/images/' + gender + '.png'}}" alt="nu" width="17">
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:if="${roomDes.get(0).studentRegister} < ${roomDes.get(0).numberBed}" th:with="bedEmpty = ${roomDes.get(0).numberBed} - ${roomDes.get(0).studentRegister}">
+                                            <th:block th:each="i : ${#numbers.sequence(1, bedEmpty)}" th:with="gender = ${roomDes.get(0).gender} == 0 ? 'nu' : 'nam'">
+                                                <img style="background:#0094ff; margin-right: -3px;" th:src="@{${'/public/listRoom/images/' + gender + 'Trong.png'}}" alt="nu" width="17">
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:if="${roomDes.get(0).studentRegister} > ${roomDes.get(0).numberBed}" th:with="regOver = ${roomDes.get(0).studentRegister} - ${roomDes.get(0).numberBed}">
+                                            <th:block th:each="i : ${#numbers.sequence(1, regOver)}" th:with="gender = ${roomDes.get(0).gender} == 0 ? 'nu' : 'nam'">
+                                                <img th:src="@{${'/public/listRoom/images/' + gender + 'QuaTai.png'}}" alt="nu" width="17">
+                                            </th:block>
+                                        </th:block>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Giá phòng:</b></td>
+                                    <td th:text="${#numbers.formatDecimal(roomDes.get(0).costValue, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                                </tr>
+                                </tbody></table>
+
+                            <div class="row">
+                                <div class="col-sm-12"><center><h4>DANH SÁCH SINH VIÊN ĐANG THUÊ</h4></center></div>
+                            </div>
+                            <div>
+                                <table class="table">
+                                    <tbody>
+                                    <th:block th:if="${#lists.isEmpty(usersInRoom)}">
+                                        <h4>Không có sinh viên nào!</h4>
+                                    </th:block>
+                                    <th:block th:if="${not #lists.isEmpty(usersInRoom)}">
+                                        <th:block th:each="sb ,iterStat: ${usersInRoom)}">
+                                            <tr>
+                                                <td th:text="${sb.userDetail.fullName}"></td>
+                                            </tr>
+                                        </th:block>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="dangKy_283">
+                                <table class="table">
+                                </table></div>
+                        </div>
+                        <div class="col-sm-6" style="border-left: solid 1px black">
+                            <div class="row">
+                                <div class="col-sm-12"><center><h4>ĐIỆN NƯỚC</h4></center></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12" style="margin-bottom:10px;" th:with="lastMonth = ${#temporals.format(localDate, 'MM')} - 1, yearPresent = ${#temporals.format(localDate, 'YYYY')}" >
+                                    <span>Tháng:</span>
+                                    <select th:id="'month_' + ${roomDes.get(0).id}" name="months">
+                                        <option th:each="i : ${#numbers.sequence(1, 12)}" th:value="${i}" th:text="${i}"
+                                                th:selected="${i == lastMonth}"></option>
+                                    </select>
+                                    <span>Năm:</span>
+                                    <th:block th:with="startOptionYear = ${yearPresent} - 4">
+                                        <select th:id="'year_' + ${roomDes.get(0).id}" name="years">
+                                            <option th:each="i : ${#numbers.sequence(startOptionYear, yearPresent)}" th:value="${i}" th:text="${i}"
+                                                    th:selected="${i == yearPresent}"></option>
+                                        </select>
+                                    </th:block>
+                                    <input type="button" style="margin-left:10px;" value="Xem" th:onclick="'getSubsistence(' + ${roomDes.get(0).id} + ');'">
+                                </div>
+                            </div>
+
+                            <div th:id="'tableSubsistenceOfRoom_' + ${roomDes.get(0).id}">
+
+                                <table class="table table-bordered" th:fragment="subsistenceOfRoom">
+                                    <th:block th:if="${#lists.isEmpty(subsistence)}">
+                                        <h4>Không có dữ liệu!</h4>
+                                    </th:block>
+                                    <th:block th:unless="${#lists.isEmpty(subsistence)}">
+                                        <tbody th:with="numConsumeElec = ${subsistence.get(0).newNumberElec} - ${subsistence.get(0).oldNumberElec}, numConsumeWater = ${subsistence.get(0).newNumberWater} - ${subsistence.get(0).oldNumberWater}">
+                                            <tr>
+                                                <td></td>
+                                                <th>Tiền điện</th>
+                                                <th>Tiền nước</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Số cũ</th>
+                                                <td th:text="${{subsistence.get(0).oldNumberElec}}"></td>
+                                                <td th:text="${{subsistence.get(0).oldNumberWater}}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Số mới</th>
+                                                <td th:text="${{subsistence.get(0).newNumberElec}}"></td>
+                                                <td th:text="${{subsistence.get(0).newNumberWater}}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Số tiêu thụ</th>
+                                                <td th:text="${#numbers.formatDecimal(numConsumeElec, 0, 'COMMA', 3, 'POINT')}"></td>
+                                                <td th:text="${#numbers.formatDecimal(numConsumeWater, 0, 'COMMA', 3, 'POINT')}"></td>
+                                            </tr>
+                                            <tr th:with="priceElec = ${numConsumeElec} * ${subsistence.get(0).costElec}, priceWater = ${numConsumeWater} * ${subsistence.get(0).costWater}">
+                                                <th>Thành tiền</th>
+                                                <td th:text="${#numbers.formatDecimal(priceElec, 0, 'COMMA', 3, 'POINT')} + ' VND'"></td>
+                                                <td th:text="${#numbers.formatDecimal(priceWater, 0, 'COMMA', 3, 'POINT')} + ' VND'"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Tổng tiền</th>
+                                                <td th:text="${#numbers.formatDecimal(subsistence.get(0).total, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                                                <td th:with="status= ${subsistence.get(0).status} == 0 ? '' : 'checked'"><input type="checkbox" th:checked="${status}" disabled="" style="margin-left:10px;" readonly="">Đã nộp
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </th:block>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+            </th:block>
+        </div>
+
+    </div>
+    <!-- Footer -->
+    <footer th:replace="layout/public::footer"></footer>
+
+</div>
+
+</div>
+
+
+<div th:replace="layout/public::link"></div>
+</body>
+</html>

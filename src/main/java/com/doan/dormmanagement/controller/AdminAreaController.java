@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-
 @Controller
 @RequestMapping("/admin/area")
 public class AdminAreaController {
@@ -54,14 +56,5 @@ public class AdminAreaController {
         }
 
         return "redirect:/admin/area";
-    }
-
-    @PostMapping("/change-status")
-    @ResponseBody
-    public String changeStatus(@RequestParam("areaId") Integer id, @RequestParam("stt") Integer stt) {
-        if (areaService.changeStatus(id, stt)) {
-            return "OK";
-        }
-        return null;
     }
 }

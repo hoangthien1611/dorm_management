@@ -58,19 +58,19 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="area,iterStat:${areas}">
                                             <td scope="row" th:text="${iterStat.count}"></td>
                                             <td th:text="${area.id}" class="id hide"></td>
                                             <td th:text="${area.name}" class="name"></td>
                                             <td th:text="${area.numberFloor}" class="floor"></td>
-                                            <td th:class="${'stt change-stt-' + area.id}">
+                                            <td class="stt">
                                                 <span th:text="${area.status}" class="hide"></span>
                                                 <th:block th:if="${area.status == 1}">
-                                                    <button type="button" class="btn btn-success btn-xs" th:onclick="'javascript:changeStatus('+ ${area.id} +', 0);'">Active
+                                                    <button type="button" class="btn btn-success btn-xs">Đang hoạt
+                                                        động
                                                     </button>
                                                 </th:block>
                                                 <th:block th:if="${area.status == 0}">
-                                                    <button type="button" class="btn btn-dark btn-xs" th:onclick="'javascript:changeStatus('+ ${area.id} +', 1);'">Inactive
+                                                    <button type="button" class="btn btn-dark btn-xs">Đang bảo trì
                                                     </button>
                                                 </th:block>
                                             </td>
@@ -83,6 +83,8 @@
                                                         data-target="#areaModal"><i class="fa fa-pencil"></i>
                                                     Edit
                                                 </button>
+                                                <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                                    Delete </a>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -139,8 +141,8 @@
                                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                                         <select class="form-control" name="status"
                                                                                 id="status">
-                                                                            <option value="1">Active</option>
-                                                                            <option value="0">Inactive</option>
+                                                                            <option value="1">Đang hoạt động</option>
+                                                                            <option value="0">Đang bảo trì</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>

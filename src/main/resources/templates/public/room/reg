@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<body class="page-body skin-red">
+<div class="page-container 		">
+    <div th:replace="layout/public::leftbar"></div>
+    <div class="main-content">
+        <h3 style="">
+            <i class="entypo-right-circled"></i>
+            Thông tin phòng           </h3>
+
+        <!--<div class="row">-->
+
+
+        <style>
+            .iconNha {
+                margin-bottom: 10px;
+                margin-right: 10px;
+                height: 30px;
+            }
+
+            .divNha {
+                padding: 5px;
+                border-bottom: solid 1px silver;
+            }
+
+            .divNha:hover {
+                background-color: #f1f1f1;
+            }
+
+            .divPhong {
+                background-color: #7dd1d4;
+                width: 100%;
+                height: 100%;
+                padding: 2px;
+                border-radius: 3px;
+            }
+
+            .divPhong:hover {
+                background-color: green;
+                cursor: pointer;
+            }
+            .modal-backdrop
+            {
+                opacity:0.5 !important;
+            }
+        </style>
+        <div class="content"  th:fragment="listRoom">
+            <div class="row" style="color:#6684d2;border-bottom:solid 4px #6684d2"><center><h3>THÔNG TIN PHÒNG TỔNG QUÁT</h3></center></div>
+            <div class="row">
+                <div class="divNha">
+                    <th:block th:if="${#lists.isEmpty(roomAreas)}">
+                        <h3>Không có phòng nào!</h3>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(roomAreas)}">
+                        <div>
+                            <img src="../../static/public/listRoom/images/home.png" th:src="@{/public/listRoom/images/home.png}" class="iconNha" style="float: left">
+                            <h3 th:text="${roomAreas.get(0).name_area}"></h3>
+                        </div>
+                        <div class="row" style="padding-left:12px; width:100%; height:100%;">
+                            <th:block th:each="sb ,iterStat: ${roomAreas}">
+                                <th:block th:if="${sb.functionId} == 1">
+                                    <div class="col-sm-1" style="padding:2px; height:100%;">
+                                        <div class="divPhong" data-toggle="modal" th:data-target="'#myModalDetailRoom-' + ${sb.id}">
+                                            <div>
+                                                <h4 style="margin-top:3px;padding-left:2px;" th:text="${{sb.name}}"></h4>
+                                                <span th:text="${sb.studentPresent} + '/' + ${sb.numberBed}" class="badge" style="margin:3px;"></span>
+                                            </div>
+
+                                            <th:block th:if="${sb.studentPresent} > 0" th:with="stdPre = ${sb.studentPresent} < ${sb.numberBed} ? ${sb.studentPresent} : ${sb.numberBed}">
+                                                <th:block th:each="i : ${#numbers.sequence(1, stdPre)}" th:with="gender = ${sb.gender} == 0 ? 'nu' : 'nam'">
+                                                    <img th:src="@{${'/public/listRoom/images/' + gender + '.png'}}" alt="nu" width="17">
+                                                </th:block>
+                                            </th:block>
+
+                                            <th:block th:if="${sb.studentPresent} < ${sb.numberBed}" th:with="bedEmpty = ${sb.numberBed} - ${sb.studentPresent}">
+                                                <th:block th:each="i : ${#numbers.sequence(1, bedEmpty)}" th:with="gender = ${sb.gender} == 0 ? 'nu' : 'nam'">
+                                                    <img th:src="@{${'/public/listRoom/images/' + gender + 'Trong.png'}}" alt="nu" width="17">
+                                                </th:block>
+                                            </th:block>
+
+                                            <th:block th:if="${sb.studentPresent} > ${sb.numberBed}" th:with="regOver = ${sb.studentPresent} - ${sb.numberBed}">
+                                                <th:block th:each="i : ${#numbers.sequence(1, regOver)}" th:with="gender = ${sb.gender} == 0 ? 'nu' : 'nam'">
+                                                    <img th:src="@{${'/public/listRoom/images/' + gender + 'QuaTai.png'}}" alt="nu" width="17">
+                                                </th:block>
+                                            </th:block>
+
+                                        </div>
+                                    </div>
+
+
+                                </th:block>
+
+
+                                <!-----------------------------POPUP------------->
+                                <div class="modal fade" th:id="'myModalDetailRoom-' + ${sb.id}" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="alert cssload-container-over" style="display:none;"></div>
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                                <h4 th:text="'THÔNG TIN PHÒNG ' + ${sb.name} + '-' ${sb.name_area}" class="modal-title"></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><center><h4>THÔNG TIN PHÒNG</h4></center></div>
+                                                        </div>
+
+                                                        <table class="table">
+                                                            <tbody><tr>
+                                                                <td><b>Địa chỉ:</b></td>
+                                                                <td th:text="${sb.name} + '-' ${sb.name_area}"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Số giường:</b></td>
+                                                                <td style="background:#0094ff" th:width="numberBegs = ${sb.numberBed}">
+                                                                    <th:block th:each="i : ${#numbers.sequence(1, numberBegs)}" th:with="gender = ${sb.gender} == 0 ? 'nu' : 'nam'">
+                                                                            <img th:src="@{${'/public/listRoom/images/' + gender + 'Trong.png'}}" alt="nu" width="20">
+                                                                    </th:block>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Số lượng SV:</b></td>
+                                                                <td>
+                                                                    <th:block th:if="${sb.studentPresent} > 0" th:with="stdPre = ${sb.studentPresent} < ${sb.numberBed} ? ${sb.studentPresent} : ${sb.numberBed}">
+                                                                        <th:block th:each="i : ${#numbers.sequence(1, stdPre)}" th:with="gender = ${sb.gender} == 0 ? 'nu' : 'nam'">
+                                                                            <img th:src="@{${'/public/listRoom/images/' + gender + '.png'}}" alt="nu" width="17">
+                                                                        </th:block>
+                                                                    </th:block>
+                                                                    <th:block th:if="${sb.studentPresent} > ${sb.numberBed}" th:with="regOver = ${sb.studentPresent} - ${sb.numberBed}">
+                                                                        <th:block th:each="i : ${#numbers.sequence(1, regOver)}" th:with="gender = ${sb.gender} == 0 ? 'nu' : 'nam'">
+                                                                            <img th:src="@{${'/public/listRoom/images/' + gender + 'QuaTai.png'}}" alt="nu" width="17">
+                                                                        </th:block>
+                                                                    </th:block>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Số lượng ĐK:</b></td>
+                                                                <td th:width="studentRegister = ${sb.studentRegister}">
+                                                                    <th:block th:each="i : ${#numbers.sequence(1, studentRegister)}" th:with="gender = ${sb.gender} == 0 ? 'nu' : 'nam'">
+                                                                        <img th:src="@{${'/public/listRoom/images/' + gender + '.png'}}" alt="nu" width="17">
+                                                                    </th:block>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Giá phòng:</b></td>
+                                                                <td>140 000 VNĐ</td>
+                                                            </tr>
+                                                            </tbody></table>
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><center><h4>DANH SÁCH SINH VIÊN</h4></center></div>
+                                                        </div>
+                                                        <div id="sinhVienThue_283">
+                                                            <table class="table">
+                                                                <tbody><tr>
+                                                                    <td>Đặng Khánh  Linh</td>
+                                                                    <td>16KX1</td>
+                                                                    <td>Đang thuê</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Nguyễn Thị Hoàng  Anh</td>
+                                                                    <td>15H2A</td>
+                                                                    <td>Đang thuê</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Đặng Thị Hồng  Quỳnh</td>
+                                                                    <td>16H2CLC</td>
+                                                                    <td>Đang thuê</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Nguyễn Thị Phụng  Tuyên</td>
+                                                                    <td>16QLMT</td>
+                                                                    <td>Đang thuê</td>
+                                                                </tr>
+                                                                </tbody></table></div>
+                                                        <div id="dangKy_283">
+                                                            <table class="table">
+                                                            </table></div>
+                                                    </div>
+                                                    <div class="col-sm-6" style="border-left: solid 1px black">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><center><h4>ĐIỆN NƯỚC</h4></center></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12" style="margin-bottom:10px;">
+                                                                <span>Tháng:</span>
+                                                                <select id="thang_283">
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9" selected="selected">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                </select>
+                                                                <span>Năm:</span>
+                                                                <select id="nam_283">
+                                                                    <option value="2018" selected="selected">2018</option>
+                                                                    <option value="2017">2017</option>
+                                                                    <option value="2016">2016</option>
+                                                                    <option value="2015">2015</option>
+                                                                </select>
+                                                                <input type="button" style="margin-left:10px;" value="Xem" onclick="XemDienNuoc(283);">
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="bangPhiDN_283">
+                                                            <table class="table table-bordered">
+                                                                <tbody><tr>
+                                                                    <td></td>
+                                                                    <th>Tiền điện</th>
+                                                                    <th>Tiền nước</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Số cũ</th>
+                                                                    <td>17671</td>
+                                                                    <td>4662</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Số mới</th>
+                                                                    <td>17841</td>
+                                                                    <td>4694</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Số tiêu thụ</th>
+                                                                    <td>170</td>
+                                                                    <td>32</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Thành tiền</th>
+                                                                    <td>293 600 VNĐ</td>
+                                                                    <td>139 800 VNĐ</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Tổng tiền</th>
+                                                                    <td colspan="2">
+                                                                        433 400 VNĐ
+                                                                        <input type="checkbox" checked="checked" disabled="" style="margin-left:10px;" readonly="">Đã nộp
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody></table>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><center><h4>DANH SÁCH TÀI SẢN</h4></center></div>
+                                                        </div>
+
+                                                        <table class=" table table-bordered" style="width:100%">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Tên tài sản</th>
+                                                                <th>SL</th>
+                                                                <th>Đơn giá (VNĐ)</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>Gường tầng sắt có thùng</td>
+                                                                <td>4</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Ván nằm gỗ ép</td>
+                                                                <td>8</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Bàn gỗ 1,8m</td>
+                                                                <td>2</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Ghế băng gỗ 1,8m</td>
+                                                                <td>2</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Quạt trần TQ</td>
+                                                                <td>2</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Đèn Neeon 1,2m</td>
+                                                                <td>2</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Đèn Neeon 0,6m</td>
+                                                                <td>2</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Công tắc</td>
+                                                                <td>6</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Ổ cắm</td>
+                                                                <td>4</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Chậu LAVABO</td>
+                                                                <td>1</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Rôminê phi 21</td>
+                                                                <td>2</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Đồng hồ điện</td>
+                                                                <td>1</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Đồng hồ nước</td>
+                                                                <td>1</td>
+                                                                <td><span>100 000</span></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-------------------------------------------------------------------------->
+
+                                <th:block th:if="${sb.functionId} == 2">
+                                    <div class="col-sm-1" style="padding:2px; height:100%;">
+                                        <div class="divPhong" style="background-color:#7dd1d4;">
+                                            <h4 style="margin-top:3px;padding-left:2px;" th:text="${{sb.name}}"></h4>
+                                            <center>
+                                                <img th:src="@{/public/listRoom/images/phongTuHoc.png}" alt="Phòng tự học" height="40">
+                                            </center>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <script>
+            // function OpenPopup(idPhong) {
+            //     $("#phong_" + idPhong).modal("show");
+            //     $("#sinhVienThue_" + idPhong).html("<center><img src='../../static/public/listRoom/images/loading.gif' width='20' /></center>");
+                // $.ajax({
+                //     type: "GET",
+                //     url: "/ThongTinPhong/GetSinhVienThuePhong?idPhong=" + idPhong,
+                //     success: function (data) {
+                //         $("#sinhVienThue_" + idPhong).html(data.toString());
+                //     }
+                // });
+                // $.ajax({
+                //     type: "GET",
+                //     url: "/ThongTinPhong/GetSinhVienDangKy?idPhong=" + idPhong,
+                //     success: function (data) {
+                //         $("#dangKy_" + idPhong).html(data.toString());
+                //     }
+                // });
+            // }
+            function XemDienNuoc(idPhong) {
+                $("#bangPhiDN_" + idPhong).html("<center><img src='/Images/loading.gif' width='20' /></center>");
+                var thang = document.getElementById("thang_" + idPhong).value;
+                var nam = document.getElementById("nam_" + idPhong).value;
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: "GetDienNuoc?idPhong=" + idPhong +"&&thang=" + thang + "&&nam=" + nam,
+                    dataType: "json",
+                    success: function (data) {
+                        $("#bangPhiDN_" + idPhong).html(data);
+                    }
+                });
+            }
+        </script>
+        <!-- Footer -->
+        <footer th:replace="layout/public::footer"></footer>
+
+    </div>
+
+</div>
+<script type="text/javascript">
+    function showAjaxModal(url) {
+        // SHOWING AJAX PRELOADER IMAGE
+        jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="assets/images/preloader.gif" /></div>');
+
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function (response) {
+                jQuery('#modal_ajax .modal-body').html(response);
+            }
+        });
+    }
+</script>
+
+<!--&lt;!&ndash; (Ajax Modal)&ndash;&gt;-->
+<!--<div class="modal fade" id="modal_ajax">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                <!--<h4 class="modal-title">Dorm management</h4>-->
+            <!--</div>-->
+
+            <!--<div class="modal-body" style="height:500px; overflow:auto;">-->
+
+
+            <!--</div>-->
+
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<!--<script type="text/javascript">-->
+    <!--function confirm_modal(delete_url) {-->
+        <!--jQuery('#modal-4').modal('show', {backdrop: 'static'});-->
+        <!--document.getElementById('delete_link').setAttribute('href', delete_url);-->
+    <!--}-->
+<!--</script>-->
+
+<!--&lt;!&ndash; (Normal Modal)&ndash;&gt;-->
+<!--<div class="modal fade" id="modal-4">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content" style="margin-top:100px;">-->
+
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                <!--<h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?</h4>-->
+            <!--</div>-->
+
+
+            <!--<div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">-->
+                <!--<a href="#" class="btn btn-danger" id="delete_link">Xóa</a>-->
+                <!--<button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div th:replace="layout/public::link"></div>
+</body>
+</html>

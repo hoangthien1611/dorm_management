@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link th:href="@{/public/css/loginDorm.css}" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files --> 
+<!-- web font --> 
+<link href="//fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Arsenal:400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
+</head>
+<body>
+	<!-- main --> 
+	<div class="main-agileinfo slider ">
+		<div class="items-group">
+			<div class="item agileits-w3layouts">
+				<div class="block text main-agileits"> 
+					<span class="circleLight"></span> 
+					<!-- login form -->
+
+					<div class="login-form loginw3-agile"> 
+						<div class="agile-row">
+							<h1>Đăng nhập</h1>
+							<th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'danger' : 'success'}">
+								<div th:class="${'alert alert-' + type}" style="margin-left: 200px">
+									<strong th:text="${msg.message}"></strong>
+								</div>
+							</th:block>
+							<div class="clearfix"></div>
+							<div class="login-agileits-top"> 	
+								<form th:action="@{/dorm/login}" method="post">
+									<p>Mã số sinh viên </p>
+									<input type="text" class="name" name="userName" required="required"/>
+									<p>Mật khẩu</p>
+									<input type="password" class="password" name="password" required="required"/>
+									<label class="anim">
+										<input type="checkbox" class="checkbox">
+										<span> Remember me ?</span> 
+									</label> 
+									<input type="submit" name="submit" value="Login">
+								</form>
+								<button class="anim" style="border: 1px solid #3800e9; outline: none; cursor: pointer; padding: .6em 1em; width: 80%;">
+									Đăng ký tài khoản</button>
+							</div> 
+							
+						</div>  
+					</div>   
+				</div>
+				<div class="w3lsfooteragileits">
+					<footer th:replace="layout/public::footer"></footer>
+				</div> 
+			</div>   
+		</div>
+	</div>	 
+	<!-- //main --> 
+</body>
+</html>
