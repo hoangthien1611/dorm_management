@@ -9,7 +9,7 @@
 
 			<div class="row">
 	<div class="col-md-12 col-sm-12 clearfix" style="text-align:center;">
-		<h2 style="font-weight:200; margin:0px;">CSAM - HUST</h2>
+		<h2 style="font-weight:200; margin:0px;">DUT's dormitory</h2>
     </div>
 	<!-- Raw Links -->
 	<div class="col-md-12 col-sm-12 clearfix ">
@@ -38,6 +38,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
                         	<i class="entypo-user"></i>
 													nguyentam                    </a>
+            <h4 th:text="${session.userName}"></h4>
 
 								<ul class="dropdown-menu pull-left">
 					<li>
@@ -82,13 +83,10 @@
 
            <h3 style="">
            	<i class="entypo-right-circled"></i>
-				Bảng điều khiển của sinh viên           </h3>
+				Thông tin phòng           </h3>
 
 			<div class="row">
-    <h3 class="col-md-8" style="color: red">
-        Tài khoản của bạn chưa được xác thực. Lý do:     </h3>
-    <h4 class="col-md-8">HƯỚNG DẪN: Bạn cần lưu ý rằng Tài khoản của bạn cần được cập nhật đầy đủ thông tin cá nhân và chụp Thẻ sinh viên để chứng thực tài khoản, phục vụ cho việc xử lý Đơn đăng ký sau này</h4>
-	<div class="col-md-8">
+    <div class="col-md-8">
     	<div class="row">
             <!-- CALENDAR-->
             <div class="col-md-12 col-xs-12">
@@ -297,8 +295,6 @@
 	});
   </script>
 
-
-
 			<!-- Footer -->
 <footer th:replace="layout/public::footer"></footer>
 
@@ -332,7 +328,7 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">CSAM - HUST</h4>
+                    <h4 class="modal-title">DUT's dormitory</h4>
                 </div>
 
                 <div class="modal-body" style="height:500px; overflow:auto;">

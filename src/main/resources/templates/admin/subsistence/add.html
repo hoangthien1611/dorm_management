@@ -24,21 +24,16 @@
             <div class="x_panel">
               <div class="x_title">
                 <h2>Thêm Phí điện nước</h2>
-                  <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
-                      <div th:class="${'alert alert-' + type}" style="margin-left: 200px">
-                          <strong th:text="${msg.message}"></strong>
-                      </div>
-                  </th:block>
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">
                 <br />
-                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" th:action="@{/admin/subsistence/add}" method="post">
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" th:action="@{/admin/area/add}" method="post">
                   <div class="form-group">
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Khu nhà
                     </label>
                     <div class="col-md-3 col-sm-3 col-xs-12">
-                      <select class="form-control" id="select-area" name="areaId">
+                      <select class="form-control" id="select-area">
                         <option th:each="area,iterStat:${areas}" th:text="${area.name}"
                                 th:value="${area.id}"></option>
                       </select>
@@ -46,9 +41,9 @@
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Phòng
                     </label>
                     <div class="col-md-3 col-sm-3 col-xs-12">
-                      <select class="form-control" id="select-room" name="roomId">
-                        <option th:each="room,iterStat:${rooms}" th:text="${room.name}"
-                                th:value="${room.id}"></option>
+                      <select class="form-control" id="select-room">
+                        <option th:each="area,iterStat:${areas}" th:text="${area.name}"
+                                th:value="${area.id}"></option>
                       </select>
                     </div>
                   </div>
@@ -115,6 +110,5 @@
   </div>
 </div>
 <div th:replace="layout/admin::script-area"></div>
-<script src="../../../static/admin/js/my-custom/subsistence.js" th:src="@{/admin/js/my-custom/subsistence.js}"></script>
 </body>
 </html>

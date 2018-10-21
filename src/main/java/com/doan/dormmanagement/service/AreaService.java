@@ -10,6 +10,4 @@ public interface AreaService {
     boolean editArea(Area a);
 
     boolean addArea(Area a);
-
-    boolean changeStatus(Integer areaId, Integer status);
 }

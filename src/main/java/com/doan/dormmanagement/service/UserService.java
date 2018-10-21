@@ -5,7 +5,8 @@ import com.doan.dormmanagement.model.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUsers();
 
-    List<User> getAllUsersByRoomId(Integer roomId);
+    boolean getLogin(User a);
+    List<User> getAllUsers();
+    List<User> getUsersbyRoomId(int roomId);
 }

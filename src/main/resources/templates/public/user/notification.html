@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<style>
+    .active{
+        background: #d2d2d2;
+    }
+</style>
+<body class="page-body skin-red">
+    <div class="page-container      ">
+        <div th:replace="layout/public::leftbar"></div>
+        <div class="main-content" style="min-height: 828px;">
+
+            <div th:replace="layout/public::headerBar"></div>
+            <div th:fragment="list_notify">
+                <h3 style="">
+                    <i class="entypo-right-circled"></i>
+                    Thông báo          </h3>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <!------CONTROL TABS START------->
+                        <ul class="nav nav-tabs bordered">
+                            <li class="active">
+                                <a href="#list" data-toggle="tab"><i class="entypo-menu"></i>
+                                    Danh sách thông báo               </a></li>
+                        </ul>
+                        <!------CONTROL TABS END------->
+
+
+                        <div class="tab-content">
+                            <!----TABLE LISTING STARTS--->
+                            <div class="tab-pane box active" id="list">
+                                <div id="table_export_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                                    <th:block th:if="${#lists.isEmpty(nots)}">
+                                        <h3>Không có thông báo nào!</h3>
+                                    </th:block>
+                                    <th:block th:unless="${#lists.isEmpty(nots)}">
+                                        <table cellpadding="0" cellspacing="0" border="0" class="table table-bordered datatable dataTable" id="table_export" aria-describedby="table_export_info" style="color: #0f0f0f">
+                                            <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="table_export" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 15px;"><div>#</div>
+                                                </th>
+                                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="table_export" rowspan="1" colspan="1" aria-label="Tiêu đề: activate to sort column ascending" style="width: 393px;"><div>Tiêu đề</div>
+                                                </th>
+                                                </th>
+                                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="table_export" rowspan="1" colspan="1" aria-label="Ngày: activate to sort column ascending" style="width: 103px;"><div>Ngày</div>
+                                                </th>
+                                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="table_export" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 160px;"><div>Xem chi tiết</div></th>
+                                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="table_export" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 160px;"><div><input type='checkbox' value=''> Xóa tất cả</div></th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                            <th:block th:each="sb ,iterStat: ${nots}">
+                                                <tr th:id="${sb.id}" class="odd" th:with="bgStatus = ${sb.status} == 1 ? '#d2d2d2' : '#a3daf1'" th:style="|background-color:  ${bgStatus} |">
+                                                    <td class="  sorting_1" th:text="${iterStat.count}"></td>
+                                                    <td class=" " th:utext="${sb.title}"></td>
+                                                    <td class=" " th:text="${#dates.format(sb.time, 'dd-MM-yyyy HH:mm:ss')}">></td>
+                                                    <td class=" ">
+                                                        <a href="#" class="btn btn-default" th:onclick="'showAjaxModal(' + ${sb.id} + ');'">Xem thông báo</a>
+                                                    </td>
+                                                    <td><input type='checkbox' value=''></td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+                                        </table>
+
+                                    </th:block>
+                                </div>
+                            </div>
+                            <!----TABLE LISTING ENDS--->
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+            <!-- Footer -->
+            <footer th:replace="layout/public::footer"></footer>
+
+    </div>
+
+
+<script type="text/javascript">
+    function showAjaxModal(id) {
+        $('#' + id ).css('background-color', '#d2d2d2');
+
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            type: "GET",
+            url: "/dorm/notification/detail/" + id,
+        })
+        .done(function(response) {
+            console.log(response);
+            jQuery('#modal_ajax .modal-content').html(response);
+        })
+        .fail(function (json) {
+            var msg = json.responseJSON.message;
+            alert(msg);
+        });
+    }
+</script>
+
+
+<!-- (Ajax Modal)-->
+<div class="modal fade" id="modal_ajax">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div th:fragment="notifyDetail">
+
+                <th:block th:if="${#lists.isEmpty(notDes)}">
+                    <h3>Không có thông báo nào!</h3>
+                </th:block>
+                <th:block th:unless="${#lists.isEmpty(notDes)}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" th:text="${notDes.get(0).title}">Thông báo</h3>
+                        <i class="entypo-calendar"></i>
+                        <span>Ngày tạo: <p th:text="${#dates.format(notDes.get(0).time, 'dd-MM-yyyy HH:mm:ss')}"></p></span>
+                    </div>
+
+                    <div class="modal-body" style="height:300px; overflow:auto;">
+                        <h3>Nội dung thông báo</h3>
+                        <h4 th:utext="${{notDes.get(0).content}}"></h4>
+                    </div>
+                </th:block>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function confirm_modal(delete_url) {
+        jQuery('#modal-4').modal('show', {backdrop: 'static'});
+        document.getElementById('delete_link').setAttribute('href', delete_url);
+    }
+</script>
+
+<!-- (Normal Modal)-->
+<div class="modal fade" id="modal-4">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top:100px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?</h4>
+            </div>
+
+
+            <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
+                <a href="#" class="btn btn-danger" id="delete_link">Xóa</a>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout/public::link"></div>
+</body>
+</html>
