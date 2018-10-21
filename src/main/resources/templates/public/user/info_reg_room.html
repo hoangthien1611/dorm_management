@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<body class="page-body skin-red">
+<div class="page-container      ">
+    <div th:replace="layout/public::leftbar"></div>
+    <div class="main-content" style="min-height: 828px;">
+
+        <div th:replace="layout/public::headerBar"></div>
+        <div class="right_col" role="main" th:fragment="info-reg-room" id="info-reg-room">
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Thông tin đăng ký phòng</h3>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
+                                        <div th:class="${'alert alert-' + type}">
+                                            <strong th:text="${msg.message}"></strong>
+                                        </div>
+                                    </th:block>
+                                    <div id="notice-message"></div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content"  th:fragment="user_reg_room" >
+
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th class="hide">ID</th>
+                                                <th>Nhà</th>
+                                                <th>Tầng</th>
+                                                <th>Phòng</th>
+                                                <th>Số lượng ĐK</th>
+                                                <th>Thời gian ĐK</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-body">
+                                            <th:block th:if="${#lists.isEmpty(registers)}">
+                                                <tr><td colspan="9" class="text-center"><h3>Không có dữ liệu!</h3></td></tr>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.isEmpty(registers)}">
+                                                <tr th:each="reg,iterStat:${registers}">
+                                                    <td scope="row" th:text="${iterStat.count}"></td>
+                                                    <td th:text="${reg.id}" class="reg-id hide"></td>
+                                                    <td th:text="${reg.areaName}" class="are-name"></td>
+                                                    <td th:text="${reg.floorName}" class="floor-name"></td>
+                                                    <td th:text="${reg.roomName}" class="room-name"></td>
+                                                    <td th:text="${reg.number}" class="number"></td>
+                                                    <td th:text="${reg.timeRegisterCustom}" class="time-register"></td>
+                                                    <td class="stt">
+                                                        <span th:text="${reg.status}" class="hide"></span>
+                                                        <th:block th:if="${reg.status == 1}">
+                                                            <button type="button" class="btn btn-success btn-xs">Đã phê duyệt
+                                                            </button>
+                                                        </th:block>
+                                                        <th:block th:if="${reg.status == 0}">
+                                                            <button type="button" class="btn btn-danger btn-xs">Chờ phê duyệt
+                                                            </button>
+                                                        </th:block>
+                                                    </td>
+                                                    <td>
+                                                        <th:block th:if="${reg.status == 0}">
+                                                            <a th:href="@{'/dorm/register-room/delete/' + ${reg.id}}" onclick="confirm('Bạn có chắc chắn muốn hủy đăng ký?')" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                                                Delete </a>
+                                                        </th:block>
+                                                    </td>
+                                                    <td th:text="${reg.semesterId}" class="semester-id hide"></td>
+                                                    <td th:text="${reg.roomId}" class="room-id hide"></td>
+                                                    <td th:text="${reg.userId}" class="user-id hide"></td>
+                                                    <td th:text="${reg.year}" class="year hide"></td>
+                                                    <td th:text="${reg.timeCensorCustom}" class="time-censor hide"></td>
+                                                    <td th:text="${reg.semesterName}" class="semester hide"></td>
+                                                </tr>
+                                            </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="layout/public::footer"></footer>
+</div>
+<script type="text/javascript">
+    function showAjaxModal(id) {
+        // SHOWING AJAX PRELOADER IMAGE
+        // jQuery('#modal_ajax .modal-content').html('<div style="text-align:center;margin-top:200px;"><img src="/static/public/listRoom/images/loading.gif" /></div>');
+        //
+        // // LOADING THE AJAX MODAL
+        // jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+        //
+        // // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        // $.ajax({
+        //     type: "GET",
+        //     url: "/dorm/notification/detail/" + id,
+        // })
+        // .done(function(response) {
+        //     console.log(response);
+        //     jQuery('#modal_ajax .modal-content').html(response);
+        // })
+        // .fail(function (json) {
+        //     var msg = json.responseJSON.message;
+        //     alert(msg);
+        // });
+    }
+</script>
+
+
+<!-- (Ajax Modal)-->
+<!--<div class="modal fade" id="modal_ajax">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+            <!--<div th:fragment="notifyDetail">-->
+
+                <!--<th:block th:if="${#lists.isEmpty(notDes)}">-->
+                    <!--<h3>Không có thông báo nào!</h3>-->
+                <!--</th:block>-->
+                <!--<th:block th:unless="${#lists.isEmpty(notDes)}">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h3 class="modal-title" th:text="${notDes.get(0).title}">Thông báo</h3>-->
+                        <!--<i class="entypo-calendar"></i>-->
+                        <!--<span>Ngày tạo: <p th:text="${#dates.format(notDes.get(0).time, 'dd-MM-yyyy HH:mm:ss')}"></p></span>-->
+                    <!--</div>-->
+
+                    <!--<div class="modal-body" style="height:300px; overflow:auto;">-->
+                        <!--<h3>Nội dung thông báo</h3>-->
+                        <!--<h4 th:utext="${{notDes.get(0).content}}"></h4>-->
+                    <!--</div>-->
+                <!--</th:block>-->
+
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<script type="text/javascript">
+    function confirm_modal(delete_url) {
+        jQuery('#modal-4').modal('show', {backdrop: 'static'});
+        document.getElementById('delete_link').setAttribute('href', delete_url);
+    }
+</script>
+
+<!-- (Normal Modal)-->
+<div class="modal fade" id="modal-4">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top:100px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?</h4>
+            </div>
+
+
+            <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
+                <a href="#" class="btn btn-danger" id="delete_link">Xóa</a>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../../static/public/js/my-custom/registerRoom.js" th:src="@{/public/js/my-custom/registerRoom.js}"></script>
+<div th:replace="layout/public::link"></div>
+</body>
+</html>

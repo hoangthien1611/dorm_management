@@ -5,13 +5,11 @@ import com.doan.dormmanagement.model.Room;
 import java.util.List;
 
 public interface RoomService {
-    List<Room> getRoomsByAreaId(int areaId);
+    List<Room> getRoomsByRoomId(int roomId);
 
     List<Room> getRoomsByFloorId(int floorId);
 
+    List<Room> getRoomsByAreaId(int areaId);
+
     boolean addRoom(Room room);
-
-    boolean editRoom(Room room);
-
-    boolean changeStatus(int roomId, int stt);
 }

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<body class="page-body skin-red">
+<div class="page-container      ">
+    <div th:replace="layout/public::leftbar"></div>
+    <div class="main-content" style="min-height: 828px;">
+
+        <div th:replace="layout/public::headerBar"></div>
+        <div class="right_col" role="main" th:fragment="list_room" id="list-room">
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Danh sách phòng</h3>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title" th:fragment="message">
+                                    <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
+                                        <div th:class="${'alert alert-' + type}">
+                                            <strong th:text="${msg.message}"></strong>
+                                        </div>
+                                    </th:block>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div id="notice-message"></div>
+                                <div class="x_content" th:with="year = ${timeRegister.semester.getId()} == 1 ? (${timeCurrent[1]} + '-' + (${timeCurrent[1]} + 1)) : ((${timeCurrent[1]} - 1) + '-' + ${timeCurrent[1]})">
+                                    <form data-parsley-validate class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-1 col-sm-2 col-xs-12">Khu nhà
+                                            </label>
+                                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                                <select class="form-control" id="select-area">
+                                                    <option th:each="area,iterStat:${areas}" th:text="${area.name}"
+                                                            th:value="${area.id}"></option>
+                                                </select>
+                                            </div>
+                                            <label class="control-label col-md-1 col-sm-2 col-xs-12">Tầng
+                                            </label>
+                                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                                <select class="form-control" id="select-floor">
+                                                    <option value="0">Tất cả</option>
+                                                    <option th:each="floor,iterStat:${floors}" th:value="${floor.id}"
+                                                            th:text="${floor.name}">Chọn</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 col-sm-3 col-xs-12">
+                                                <h4 th:text="'Đăng ký cho ' + ${timeRegister.semester.getName()} + ' / Năm: ' + ${year}"></h4>
+                                                <h4 th:text="'Thời gian: Tháng ' + ${timeRegister.semester.getMonthBegin()} + ' đến ' + ${timeRegister.semester.getMonthEnd()}"></h4>
+                                            </div>
+                                            <input class="hidden" id="semester-id" th:value="${timeRegister.semester.getId()}">
+                                            <input class="hidden" id="semester-year" th:value="${year}">
+                                        </div>
+                                    </form>
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Phòng</th>
+                                            <th>Khu nhà</th>
+                                            <th>Số giường tối đa</th>
+                                            <th>Giá phòng/giường</th>
+                                            <th>Số giường trống</th>
+                                            <th>Chọn số lượng đăng ký</th>
+                                            <th width="22%">Đăng ký</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="table-body">
+                                        <th:block th:if="${#lists.isEmpty(rooms)}">
+                                            <tr><td colspan="8" class="text-center"><h3>Không có dữ liệu!</h3></td></tr>
+                                        </th:block>
+                                        <th:block th:unless="${#lists.isEmpty(rooms)}">
+                                            <tr th:each="room,iterStat:${rooms}">
+                                                <th:block th:if="${room.status} == 1 and ${room.functionId} == 1 and ${room.gender} == 1">
+                                                    <th scope="row" th:text="${iterStat.count}">1</th>
+                                                    <td th:text="${room.name}" class="name"></td>
+                                                    <td th:text="${room.areaName}" class="area"></td>
+                                                    <td th:text="${room.numberBed}" class="max"></td>
+                                                    <td th:text="${#numbers.formatDecimal(room.costValue, 0, 'COMMA', 0, 'POINT')} + ' VND'" class="cost"></td>
+                                                    <th:block th:with="numberBedEmpty = ${room.studentRegister} > ${room.numberBed} ? 0 : (${room.studentRegister} == null ? ${room.numberBed} : (${room.numberBed} - ${room.studentRegister}))">
+                                                        <td th:text="${numberBedEmpty}" class="present"></td>
+                                                        <th:block th:if="${numberBedEmpty} > 0">
+                                                            <td>
+                                                                <select class="form-control" data-number-register="">
+                                                                    <option th:each="i : ${#numbers.sequence(1, numberBedEmpty)}" th:attr="data-number-register=${i}" th:value="${i}" th:text="${i}">Chọn</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <!--<a href="javascript: void(0);" onclick="addRegisterRoom(10);">demo</a>-->
+                                                                <button class="btn btn-info btn-xs btn-edit btn-reg-room"><i class="fa fa-plus fa-fw"></i></i>
+                                                                    Đăng ký
+                                                                </button>
+                                                            </td>
+                                                        </th:block>
+                                                        <th:block th:if="${numberBedEmpty} <= 0">
+                                                            <td colspan="2">Hết giường trống!</td>
+                                                        </th:block>
+                                                    </th:block>
+                                                    <td class="room_id hide" th:attr="data-room-id=${room.id}" th:text="${room.id}"></td>
+                                                    <td class="year hide" th:attr="data-year=${year}" th:text="${year}"></td>
+                                                    <td class="user_id hide" th:attr="data-user-id=${session.authUserId}" th:text="3"></td>
+                                                    <td class="time_register hide" th:attr="data-time-register=${currentTimeStamp}" th:text="${currentTimeStamp}"></td>
+                                                    <td class="semester_id hide" th:attr="data-semester-id=${timeRegister.semester.getId()}" th:text="${timeRegister.semester.getId()}"></td>
+                                                </th:block>
+                                                <!--<th:block th:with="roomNotLive = ${room.status} == 0 ? 'Phòng đang khóa không thể đăng ký!' : (${room.functionId} != 1 ? 'Phòng không dùng để ở!' : '')">-->
+                                                    <!--<th scope="row" th:text="${iterStat.count}">1</th>-->
+                                                    <!--<td th:text="${room.name}" class="name"></td>-->
+                                                    <!--<td th:text="${room.areaName}" class="area"></td>-->
+                                                    <!--<td colspan="5" th:text="${roomNotLive}"></td>-->
+                                                <!--</th:block>-->
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="layout/public::footer"></footer>
+
+</div>
+<script src="../../../static/public/js/my-custom/registerRoom.js" th:src="@{/public/js/my-custom/registerRoom.js}"></script>
+<div th:replace="layout/public::link"></div>
+</body>
+</html>

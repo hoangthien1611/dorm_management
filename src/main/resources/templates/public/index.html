@@ -6,61 +6,6 @@
 <div class="page-container 		" >
     <div th:replace="layout/public::leftbar"></div>
 	<div class="main-content">
-
-			<div class="row">
-	<div class="col-md-12 col-sm-12 clearfix" style="text-align:center;">
-		<h2 style="font-weight:200; margin:0px;">CSAM - HUST</h2>
-    </div>
-	<!-- Raw Links -->
-	<div class="col-md-12 col-sm-12 clearfix ">
-
-        <ul class="list-inline links-list pull-left">
-        <!-- Language Selector -->
-        	<div id="session_static">
-	           <li>
-	           		<h4>
-	           			<a href="#" style="color: #696969;"
-	           				>
-	           				Kỳ ở hiện tại : 20181 <i class="entypo-down-dir"></i>
-	           			</a>
-	           		</h4>
-	           </li>
-           </div>
-        </ul>
-
-
-		<ul class="list-inline links-list pull-right">
-
-		<li class="dropdown language-selector">
-			<a href="http://ktx.hust.edu.vn/csam/index.php?home" target="_blank">
-				<i class="entypo-globe"></i> Website
-			</a>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-                        	<i class="entypo-user"></i>
-													nguyentam                    </a>
-
-								<ul class="dropdown-menu pull-left">
-					<li>
-						<a href="http://ktx.hust.edu.vn/csam/index.php?student/manage_profile">
-                        	<i class="entypo-info"></i>
-							<span>Sửa hồ sơ</span>
-						</a>
-					</li>
-					<li>
-						<a href="http://ktx.hust.edu.vn/csam/index.php?student/manage_profile">
-                        	<i class="entypo-key"></i>
-							<span>Thay đổi mật khẩu</span>
-						</a>
-					</li>
-				</ul>
-											</li>
-
-			<li>
-				<a href="http://ktx.hust.edu.vn/csam/index.php?login/logout">
-					Đăng xuất<i class="entypo-logout right"></i>
-				</a>
-			</li>
-		</ul>
 	</div>
 
 </div>
@@ -82,13 +27,18 @@
 
            <h3 style="">
            	<i class="entypo-right-circled"></i>
-				Bảng điều khiển của sinh viên           </h3>
+				Thông tin phòng           </h3>
+                <div class="x_title" th:fragment="message">
+                    <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
+                        <div th:class="${'alert alert-' + type}" style="margin-left: 200px">
+                            <strong th:text="${msg.message}"></strong>
+                        </div>
+                    </th:block>
+                    <div class="clearfix"></div>
+                </div>
 
 			<div class="row">
-    <h3 class="col-md-8" style="color: red">
-        Tài khoản của bạn chưa được xác thực. Lý do:     </h3>
-    <h4 class="col-md-8">HƯỚNG DẪN: Bạn cần lưu ý rằng Tài khoản của bạn cần được cập nhật đầy đủ thông tin cá nhân và chụp Thẻ sinh viên để chứng thực tài khoản, phục vụ cho việc xử lý Đơn đăng ký sau này</h4>
-	<div class="col-md-8">
+    <div class="col-md-8">
     	<div class="row">
             <!-- CALENDAR-->
             <div class="col-md-12 col-xs-12">
@@ -185,119 +135,12 @@
 					height: 530,
 					droppable: false,
 
-					events: [
-												{
-							title: "Mở đăng ký B10, B8",
-							start: new Date(2017, 11, 06),
-							end:	new Date(2017, 11, 06)
-						},
-												{
-							title: "Mở đăng ký B10, B8",
-							start: new Date(2017, 11, 07),
-							end:	new Date(2017, 11, 07)
-						},
-												{
-							title: "Mở đăng ký B10, B8",
-							start: new Date(2017, 11, 08),
-							end:	new Date(2017, 11, 08)
-						},
-												{
-							title: "Mở đăng ký B10, B8, B9, B7",
-							start: new Date(2017, 11, 09),
-							end:	new Date(2017, 11, 09)
-						},
-												{
-							title: "Mở đăng ký B9, B7",
-							start: new Date(2017, 11, 10),
-							end:	new Date(2017, 11, 10)
-						},
-												{
-							title: "Mở đăng ký B9, B7",
-							start: new Date(2017, 11, 11),
-							end:	new Date(2017, 11, 11)
-						},
-												{
-							title: "Mở đăng ký B9, B7, B3, B5, B13, B6, B5b, B13b",
-							start: new Date(2017, 11, 12),
-							end:	new Date(2017, 11, 12)
-						},
-												{
-							title: "Mở đăng ký B3, B5, B13, B6, B5b, B13b",
-							start: new Date(2017, 11, 13),
-							end:	new Date(2017, 11, 13)
-						},
-												{
-							title: "Mở đăng ký B3, B5, B13, B6, B5b, B13b",
-							start: new Date(2017, 11, 14),
-							end:	new Date(2017, 11, 14)
-						},
-												{
-							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
-							start: new Date(2017, 11, 15),
-							end:	new Date(2017, 11, 15)
-						},
-												{
-							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
-							start: new Date(2017, 11, 16),
-							end:	new Date(2017, 11, 16)
-						},
-												{
-							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
-							start: new Date(2017, 11, 17),
-							end:	new Date(2017, 11, 17)
-						},
-												{
-							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
-							start: new Date(2017, 11, 18),
-							end:	new Date(2017, 11, 18)
-						},
-												{
-							title: "Gia hạn đăng ký cho sinh viên nội trú (đang ở)",
-							start: new Date(2017, 11, 19),
-							end:	new Date(2017, 11, 19)
-						},
-												{
-							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
-							start: new Date(2017, 11, 20),
-							end:	new Date(2017, 11, 20)
-						},
-												{
-							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
-							start: new Date(2017, 11, 21),
-							end:	new Date(2017, 11, 21)
-						},
-												{
-							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
-							start: new Date(2017, 11, 22),
-							end:	new Date(2017, 11, 22)
-						},
-												{
-							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
-							start: new Date(2017, 11, 23),
-							end:	new Date(2017, 11, 23)
-						},
-												{
-							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
-							start: new Date(2017, 11, 24),
-							end:	new Date(2017, 11, 24)
-						},
-												{
-							title: "Mở đăng ký cho sinh viên ngoại trú vào ở",
-							start: new Date(2017, 11, 25),
-							end:	new Date(2017, 11, 25)
-						},
-												{
-							title: "Điều chỉnh giá điện các loại hình dịch vụ trong KTX",
-							start: new Date(2018, 0, 01),
-							end:	new Date(2018, 0, 01)
-						},
+
 
 					]
 				});
 	});
   </script>
-
-
 
 			<!-- Footer -->
 <footer th:replace="layout/public::footer"></footer>
@@ -332,7 +175,7 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">CSAM - HUST</h4>
+                    <h4 class="modal-title">DUT's dormitory</h4>
                 </div>
 
                 <div class="modal-body" style="height:500px; overflow:auto;">

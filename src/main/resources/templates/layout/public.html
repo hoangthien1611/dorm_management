@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <head th:fragment="header">
-        <title>Bảng điều khiển của sinh viên | CSAM - HUST</title>
+        <title>DUT's dormitory</title>
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content="Team X"/>
         <meta name="author" content="Team X"/>
+
+        <!--css for list room, list area-->
+        <script src="../../static/public/listRoom/js/jquery-1.9.1.min.js" th:src="@{/public/listRoom/js/jquery-1.9.1.min.js}"></script>
+        <link href="../../static/public/listRoom/css/bootstrap.min.css" rel="stylesheet" th:href="@{/public/listRoom/css/bootstrap.min.css}">
+        <link href="../../static/public/listRoom/css/normalize.css" rel="stylesheet" th:href="@{/public/listRoom/css/normalize.css}">
+        <link href="../../static/public/listRoom/css/styleTrangSinhVien.css" rel="stylesheet" th:href="@{/public/listRoom/css/styleTrangSinhVien.css}">
+        <link href="../../static/public/listRoom/css/font-awesome.min.css" rel="stylesheet" th:href="@{/public/listRoom/css/font-awesome.min.css}">
+        <link href="../../static/public/listRoom/css/jquery.mmenu.all.css" rel="stylesheet" th:href="@{/public/listRoom/css/jquery.mmenu.all.css}">
+        <!------------->
 
         <link rel="stylesheet" href="../../static/public/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css" th:href="@{/public/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css}">
         <link rel="stylesheet" href="../../static/public/css/font-icons/entypo/css/entypo.css" th:href="@{/public/css/font-icons/entypo/css/entypo.css}">
@@ -16,9 +28,6 @@
         <link rel="stylesheet" href="../../static/public/css/neon-core.css" th:href="@{/public/css/neon-core.css}">
         <link rel="stylesheet" href="../../static/public/css/neon-theme.css" th:href="@{/public/css/neon-theme.css}">
         <link rel="stylesheet" href="../../static/public/css/neon-forms.css" th:href="@{/public/css/neon-forms.css}">
-
-
-
         <link rel="stylesheet" href="../../static/public/css/custom.css" th:href="@{/public/css/custom.css}">
         <link rel="stylesheet" href="../../static/public/css/skins/red.css" th:href="@{/public/css/skins/red.css}">
 
@@ -67,28 +76,26 @@
         </script>
     </head>
     <body class="page-body skin-red">
-        <div class="page-container 		">
+        <div class="page-container 		" th:with="userId = ${session.authUserId}">
             <div class="sidebar-menu" th:fragment="leftbar">
                 <div class="logo-env">
 
                     <!-- logo -->
                     <div class="logo" style="">
-                        <a href="http://ktx.hust.edu.vn/csam/">
+                        <a th:href="@{/dorm}">
                             <img src="../../static/public/images/logo.png" th:src="@{/public/images/logo.png}" style="max-height:60px;"/>
                         </a>
                     </div>
-
                     <!-- logo collapse icon -->
                     <div class="sidebar-collapse" style="">
-                        <a href="#" class="sidebar-collapse-icon with-animation">
-
+                        <a href="" class="sidebar-collapse-icon with-animation">
                             <i class="entypo-menu"></i>
                         </a>
                     </div>
 
                     <!-- open/close menu icon (do not remove if you want to enable menu on mobile devices) -->
                     <div class="sidebar-mobile-menu visible-xs">
-                        <a href="#" class="with-animation">
+                        <a href="" class="with-animation">
                             <i class="entypo-menu"></i>
                         </a>
                     </div>
@@ -102,34 +109,41 @@
 
                     <!-- DASHBOARD -->
                     <li class="active ">
-                        <a href="http://ktx.hust.edu.vn/csam/index.php?student/dashboard">
+                        <a th:href="@{/dorm}">
                             <i class="entypo-gauge"></i>
                             <span>Trang chủ</span>
                         </a>
                     </li>
 
-
-                    <!-- DORMITORY -->
+                    <li class=" ">
+                        <a th:href="@{/dorm/area}">
+                            <i class="entypo-home"></i>
+                            <span>Thông tin phòng</span>
+                        </a>
+                    </li>
+                    <th:block th:if="${#authentication.name} != null ">
+                        <!-- DORMITORY -->
                     <li class=" ">
                         <a href="#">
-                            <i class="entypo-home"></i>
+                            <i class="entypo-doc-text-inv"></i>
                             <span>Đăng ký phòng ở</span>
                         </a>
                         <ul>
                             <li class=" ">
-                                <a href="http://ktx.hust.edu.vn/csam/index.php?student/dormitory">
+                                <a th:href="@{/dorm/register-room/list-room}">
                                     <i class="entypo-dot"></i>
                                     <span>Đăng ký phòng</span>
                                 </a>
                             </li>
                             <li class=" ">
-                                <a href="http://ktx.hust.edu.vn/csam/index.php?student/dormitory_request">
+                                <!--<a th:href="@{/dorm/register-room/info-reg-room/3}">-->
+                                <a th:href="@{/dorm/register-room/info-reg-room/} + ${userId}">
                                     <i class="entypo-dot"></i>
                                     <span>Xem đăng ký</span>
                                 </a>
                             </li>
                             <li class=" ">
-                                <a href="http://ktx.hust.edu.vn/csam/index.php?student/dormitory_friends">
+                                <a th:href="@{/dorm/register-room/list-friends-room}">
                                     <i class="entypo-dot"></i>
                                     <span>Danh sách bạn cùng phòng</span>
                                 </a>
@@ -137,34 +151,161 @@
                         </ul>
                     </li>
 
-                    <!-- TEACHER -->
-                    <li class=" ">
-                        <a href="http://localhost/ktx_hn/dorm/managerial_staff.php">
-                            <i class="entypo-users"></i>
-                            <span>Cán bộ</span>
-                        </a>
-                    </li>
-
 
                     <!-- PAYMENT -->
                     <li class=" ">
-                        <a href="http://ktx.hust.edu.vn/csam/index.php?student/invoice">
+                        <a th:href="@{/dorm/notification/user/} + ${userId}">
                             <i class="entypo-credit-card"></i>
-                            <span>Thanh toán</span>
+                            <span>Thông báo</span>
                         </a>
                     </li>
-
+                        
+                    </th:block>
+                    <th:block th:if="${#authentication.name} == null ">
+                        <li class=" ">
+                            <a th:href="@{/dorm/register-acc}">
+                                <i class="entypo-lock"></i>
+                                <span>Đăng ký tài khoản</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a th:href="@{/dorm/login}">
+                                <i class="entypo-lock"></i>
+                                <span>Đăng nhập</span>
+                            </a>
+                        </li>
+                    </th:block>
                     <!-- ACCOUNT -->
-                    <li class=" ">
-                        <a href="http://localhost/ktx_hn/dorm/profile_user.php">
-                            <i class="entypo-lock"></i>
-                            <span>Tài khoản</span>
-                        </a>
-                    </li>
+
                 </ul>
             </div>
             <div class="main-content">
-                Content
+                <div th:fragment="headerBar">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 clearfix" style="text-align:center;">
+                            <h2 style="font-weight:200; margin:0px;">DUT's dormitory</h2>
+                        </div>
+                        <!-- Raw Links -->
+                        <div class="col-md-12 col-sm-12 clearfix ">
+
+                            <ul class="list-inline links-list pull-right">
+
+                                <li class="dropdown language-selector">
+                                    <a th:href="@{/dorm}" target="_blank">
+                                        <i class="entypo-globe"></i> Website
+                                    </a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true" th:text="${#authentication.name}">
+                                        <i class="entypo-user"></i>
+                                                 nguyentam14t1           </a>
+
+                                    <ul class="dropdown-menu pull-left">
+                                        <li>
+                                            <a href="http://ktx.hust.edu.vn/csam/index.php?student/manage_profile">
+                                                <i class="entypo-info"></i>
+                                                <span>Sửa hồ sơ</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="http://ktx.hust.edu.vn/csam/index.php?student/manage_profile">
+                                                <i class="entypo-key"></i>
+                                                <span>Thay đổi mật khẩu</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/dorm/logout}">
+                                        Đăng xuất<i class="entypo-logout right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <hr style="margin-top:0px;" />
+
+                    <script type="text/javascript">
+                        function get_session_changer()
+                        {
+                            $.ajax({
+                                url: 'http://ktx.hust.edu.vn/csam/index.php?admin/get_session_changer/',
+                                success: function(response)
+                                {
+                                    jQuery('#session_static').html(response);
+                                }
+                            });
+                        }
+                    </script>
+                </div>
+                <div class="right_col" role="main" th:fragment="content-page" id="content-page">
+                </div>
+                <div id="area-load-data">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <!-- CALENDAR-->
+                            <div class="col-md-12 col-xs-12">
+                                <div class="panel panel-primary " data-collapsed="0">
+                                    <div class="panel-heading">
+                                        <div class="panel-title">
+                                            <i class="fa fa-calendar"></i>
+                                            Lịch sự kiện                        </div>
+                                    </div>
+                                    <div class="panel-body" style="padding:0px;">
+                                        <div class="calendar-env">
+                                            <div class="calendar-body">
+                                                <div id="notice_calendar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="tile-stats tile-red">
+                                    <div class="icon"><i class="fa fa-group"></i></div>
+                                    <div class="num" data-start="0" data-end="38"
+                                         data-postfix="" data-duration="15" data-delay="0">0</div>
+
+                                    <h3>Sinh viên</h3>
+                                    <p>Tổng số tài khoản sinh viên</p>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="tile-stats tile-green">
+                                    <div class="icon"><i class="entypo-users"></i></div>
+                                    <div class="num" data-start="0" data-end="21"
+                                         data-postfix="" data-duration="10" data-delay="0">0</div>
+
+                                    <h3>Cán bộ</h3>
+                                    <p>Tổng số tài khoản cán bộ</p>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="tile-stats tile-aqua">
+                                    <div class="icon"><i class="entypo-user"></i></div>
+                                    <div class="num" data-start="0" data-end="18"
+                                         data-postfix="" data-duration="500" data-delay="0">0</div>
+
+                                    <h3>Đăng ký</h3>
+                                    <p>Tổng số đăng ký trong kỳ</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Footer -->
                 <footer class="main" th:fragment="footer">
@@ -174,74 +315,31 @@
             </div>
 
         </div>
-        <script type="text/javascript">
-            function showAjaxModal(url) {
-                // SHOWING AJAX PRELOADER IMAGE
-                jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="../../static/public/images/preloader.gif" src="@{/public/images/preloader.gif}" /></div>');
+        <script>
+            $(document).ready(function() {
 
-                // LOADING THE AJAX MODAL
-                jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+                var calendar = $('#notice_calendar');
 
-                // SHOW AJAX RESPONSE ON REQUEST SUCCESS
-                $.ajax({
-                    url: url,
-                    success: function (response) {
-                        jQuery('#modal_ajax .modal-body').html(response);
-                    }
-                });
-            }
+                $('#notice_calendar').fullCalendar({
+                    header: {
+                        left: 'title',
+                        right: 'today prev,next'
+                    },
+
+                    //defaultView: 'basicWeek',
+
+                    editable: false,
+                    firstDay: 1,
+                    height: 530,
+                    droppable: false,
+
+
+
+            ]
+            });
+            });
         </script>
-
-        <!-- (Ajax Modal)-->
-        <div class="modal fade" id="modal_ajax">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">CSAM - HUST</h4>
-                    </div>
-
-                    <div class="modal-body" style="height:500px; overflow:auto;">
-
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <script type="text/javascript">
-            function confirm_modal(delete_url) {
-                jQuery('#modal-4').modal('show', {backdrop: 'static'});
-                document.getElementById('delete_link').setAttribute('href', delete_url);
-            }
-        </script>
-
-        <!-- (Normal Modal)-->
-        <div class="modal fade" id="modal-4">
-            <div class="modal-dialog">
-                <div class="modal-content" style="margin-top:100px;">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?
-                        </h4>
-                    </div>
-
-
-                    <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
-                        <a href="#" class="btn btn-danger" id="delete_link">Xóa</a>
-                        <button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!--<script src="../../../static/public/js/my-custom/page.js" th:src="@{/public/js/my-custom/page.js}"></script>-->
         <div th:fragment="link">
             <link rel="stylesheet" src="../../static/public/js/datatables/responsive/css/datatables.responsive.css"  th:href="@{/public/js/datatables/responsive/css/datatables.responsive.css}">
             <link rel="stylesheet" src="../../static/public/js/select2/select2-bootstrap.css"  th:href="@{/public/js/select2/select2-bootstrap.css}">
@@ -284,6 +382,7 @@
 
 
             <!-----  DATA TABLE EXPORT CONFIGURATIONS ---->
+
             <script type="text/javascript">
 
                 jQuery(document).ready(function ($) {
@@ -299,4 +398,3 @@
             </script>
         </div>
     </body>
-</html>

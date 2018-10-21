@@ -2,8 +2,8 @@ package com.doan.dormmanagement.service;
 
 import com.doan.dormmanagement.common.BaseAPI;
 import com.doan.dormmanagement.common.Headers;
-import com.doan.dormmanagement.dto.AreaDataResponse;
 import com.doan.dormmanagement.model.Area;
+import com.doan.dormmanagement.dto.AreaDataResponse;
 import com.doan.dormmanagement.dto.DataResponse;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -45,16 +45,6 @@ public class AreaServiceImpl implements AreaService {
 
         ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.PUT, entity, DataResponse.class);
         if (response.getStatusCode() == HttpStatus.CREATED && response.getBody().getCode() == 200) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean changeStatus(Integer areaId, Integer status) {
-        String url = BaseAPI.BASE_API_PREFIX + "areas/change-status/" + areaId + "/" + status;
-        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
-        if (data.getCode() == 200 && data.getData() != null) {
             return true;
         }
         return false;

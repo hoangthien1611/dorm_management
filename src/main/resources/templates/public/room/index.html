@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<body class="page-body skin-red">
+<div class="page-container 		">
+    <div th:replace="layout/public::leftbar"></div>
+    <div class="main-content">
+        <div th:replace="layout/public::headerBar"></div>
+        <!--<div class="row">-->
+
+        <style>
+            .iconNha {
+                margin-bottom: 10px;
+                margin-right: 10px;
+                height: 30px;
+            }
+
+            .divNha {
+                padding: 5px;
+                border-bottom: solid 1px silver;
+            }
+
+            .divNha:hover {
+                background-color: #f1f1f1;
+            }
+
+            .divPhong {
+                background-color: #7dd1d4;
+                width: 100%;
+                height: 100%;
+                padding: 2px;
+                border-radius: 3px;
+            }
+
+            .divPhong:hover {
+                background-color: green;
+                cursor: pointer;
+            }
+        </style>
+        <div class="content"  th:fragment="listArea">
+            <div class="row" style="color:#6684d2;border-bottom:solid 4px #6684d2"><center><h3>THÔNG TIN KHU NHÀ</h3></center></div>
+            <div class="row">
+                <div>
+                    <div class="divNha">
+                        <th:block th:if="${#lists.isEmpty(areas)}">
+                            <h3>Không có khu nhà nào!</h3>
+                        </th:block>
+                        <th:block th:unless="${#lists.isEmpty(areas)}">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th:block th:each="sb ,iterStat: ${areas}" class="table table-bordered datatable" th:onclick="'getAllRoomsByAreaId(' + ${sb.id} + ');'">
+                                        <th th:id="${sb.id}">
+                                            <span>
+                                                <img src="../../static/public/images/area.png" th:src="@{/public/images/area.png}" style="max-height:60px;"/>
+                                                <h3 th:text="${sb.name}"></h3>
+                                            </span>
+                                        </th>
+                                    </th:block>
+                                </tr>
+
+                                <tr>
+                                    <th:block th:each="sb ,iterStat: ${areas}" class="table table-bordered datatable" >
+                                        <td><a href="javascript: void(0);" th:onclick="'getAllRoomsByAreaId(' + ${sb.id} + ');'">Xem chi tiết</a></td>
+                                    </th:block>
+                                </tr>
+                            </table>
+                        </th:block>
+
+                        <div id="list-all-rooms">
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+        <footer th:replace="layout/public::footer"></footer>
+
+    </div>
+
+</div>
+<script src="../../../static/public/js/my-custom/room.js" th:src="@{/public/js/my-custom/room.js}"></script>
+
+<script type="text/javascript">
+    function showAjaxModal(id) {
+        // SHOWING AJAX PRELOADER IMAGE
+        // jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="assets/images/preloader.gif" /></div>');
+
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            type: "GET",
+            url: "/dorm/room/detail/" + id,
+        })
+        .done(function(response) {
+            console.log(response);
+            jQuery('#modal_ajax .modal-content').html(response);
+        })
+        .fail(function (json) {
+            var msg = json.responseJSON.message;
+            alert(msg);
+        });
+    }
+</script>
+
+<!-- (Ajax Modal)-->
+<!-----------------------------POPUP------------->
+<div class="modal fade" id="modal_ajax" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------------------------------->
+
+
+<script type="text/javascript">
+    function confirm_modal(delete_url) {
+        jQuery('#modal-4').modal('show', {backdrop: 'static'});
+        document.getElementById('delete_link').setAttribute('href', delete_url);
+    }
+</script>
+
+<!-- (Normal Modal)-->
+<div class="modal fade" id="modal-4">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top:100px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?</h4>
+            </div>
+
+
+            <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
+                <a href="#" class="btn btn-danger" id="delete_link">Xóa</a>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout/public::link"></div>
+</body>
+</html>

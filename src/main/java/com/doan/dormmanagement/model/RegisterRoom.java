@@ -4,55 +4,45 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterRoom implements Serializable {
-
-    private Integer id;
-
     private Integer userId;
 
-    private String fullName;
-
-    private Integer gender;
-
     private Integer number;
-
-    private String className;
-
-    private String studentCode;
 
     private String year;
 
     private Integer status;
 
-    private Timestamp timeCensor;
+    private String timeCensor;
 
-    private Timestamp timeRegister;
+    private String timeRegister;
 
     private Integer semesterId;
 
-    private String semesterName;
-
     private Integer roomId;
 
-    private String roomName;
-
-    private Integer floorId;
-
-    private String floorName;
-
-    private Integer areaId;
-
-    private String areaName;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+//    private String timeRegisterCustom;
+//
+//    private String timeCensorCustom;
+//
+//    public String getTimeRegisterCustom() {
+//        return TimeString.convertTimeStampToTimeString(timeRegister);
+//    }
+//
+//    public void setTimeRegisterCustom(String timeRegisterCustom) {
+//        this.timeRegisterCustom = timeRegisterCustom;
+//    }
+//
+//    public String getTimeCensorCustom() {
+//        return TimeString.convertTimeStampToTimeString(timeCensor);
+//    }
+//
+//    public void setTimeCensorCustom(String timeCensorCustom) {
+//        this.timeCensorCustom = timeCensorCustom;
+//    }
 
     public Integer getUserId() {
         return userId;
@@ -62,44 +52,12 @@ public class RegisterRoom implements Serializable {
         this.userId = userId;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
     public Integer getNumber() {
         return number;
     }
 
     public void setNumber(Integer number) {
         this.number = number;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getStudentCode() {
-        return studentCode;
-    }
-
-    public void setStudentCode(String studentCode) {
-        this.studentCode = studentCode;
     }
 
     public String getYear() {
@@ -118,19 +76,19 @@ public class RegisterRoom implements Serializable {
         this.status = status;
     }
 
-    public Timestamp getTimeCensor() {
+    public String getTimeCensor() {
         return timeCensor;
     }
 
-    public void setTimeCensor(Timestamp timeCensor) {
+    public void setTimeCensor(String timeCensor) {
         this.timeCensor = timeCensor;
     }
 
-    public Timestamp getTimeRegister() {
+    public String getTimeRegister() {
         return timeRegister;
     }
 
-    public void setTimeRegister(Timestamp timeRegister) {
+    public void setTimeRegister(String timeRegister) {
         this.timeRegister = timeRegister;
     }
 
@@ -142,59 +100,11 @@ public class RegisterRoom implements Serializable {
         this.semesterId = semesterId;
     }
 
-    public String getSemesterName() {
-        return semesterName;
-    }
-
-    public void setSemesterName(String semesterName) {
-        this.semesterName = semesterName;
-    }
-
     public Integer getRoomId() {
         return roomId;
     }
 
     public void setRoomId(Integer roomId) {
         this.roomId = roomId;
-    }
-
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
-
-    public Integer getFloorId() {
-        return floorId;
-    }
-
-    public void setFloorId(Integer floorId) {
-        this.floorId = floorId;
-    }
-
-    public String getFloorName() {
-        return floorName;
-    }
-
-    public void setFloorName(String floorName) {
-        this.floorName = floorName;
-    }
-
-    public Integer getAreaId() {
-        return areaId;
-    }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
-    }
-
-    public String getAreaName() {
-        return areaName;
-    }
-
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
     }
 }

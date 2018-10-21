@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Sign up</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link th:href="@{/public/css/loginDorm.css}" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files --> 
+<!-- web font --> 
+<link href="//fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Arsenal:400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
+</head>
+<body>
+	<!-- main --> 
+	<div class="main-agileinfo slider ">
+		<div class="items-group">
+			<div class="item agileits-w3layouts">
+				<div class="block text main-agileits"> 
+					<span class="circleLight"></span> 
+					<!-- login form -->
+
+					<div class="login-form loginw3-agile"> 
+						<div class="agile-row" th:fragment="form-sign-up">
+							<h1>Đăng ký</h1>
+							<th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'danger' : 'success'}">
+								<div th:class="${'alert alert-' + type}" style="margin-left: 200px">
+									<strong th:text="${msg.message}"></strong>
+								</div>
+							</th:block>
+							<div class="clearfix"></div>
+							<div class="login-agileits-top"> 	
+								<form action="javascript:void(0);" method="post" th:action="@{/dorm/register-acc}" id="form-sign-up">
+									<p>Mã số sinh viên </p>
+									<input type="text" class="name" name="code-id" id="code-id" required="required" onchange="validateFormRegisterAcc();"/>
+									<div style="color: red" id="code-id-error"></div>
+									<p>Tên tài khoản</p>
+									<input type="text" class="name" name="user-name" id="user-name" required="required" onchange="validateFormRegisterAcc();"/>
+									<div style="color: red" id="username-error"></div>
+									<p>Họ và tên</p>
+									<input type="text" class="name" name="full-name" id="full-name" required="required" onchange="validateFormRegisterAcc();"/>
+									<div style="color: red" id="fullname-error"></div>
+									<p>Lớp</p>
+									<input type="text" class="name" name="class-name" id="class-name" required="required" onchange="validateFormRegisterAcc();"/>
+									<div style="color: red" id="class-name-error"></div>
+									<p>Số điện thoại</p>
+									<input type="text" class="name" name="phone" id="phone" onchange="validateFormRegisterAcc();"/>
+									<div style="color: red" id="phone-error"></div>
+									<p>Địa chỉ</p>
+									<input type="text" class="name" name="address" id="address"/>
+									<p>Mật khẩu</p>
+                                    <input type="password" class="password" name="password" id="password" required="required" onchange="validateFormRegisterAcc();"/>
+									<div style="color: red" id="pass-error"></div>
+									<p>Xác nhận mật khẩu</p>
+									<input type="password" class="password" name="confirm-password" id="confirm-password" required="required" onchange="validateFormRegisterAcc();"/>
+									<div style="color: red" id="confirm-pass-error"></div>
+									<label class="anim">
+                                    </label>
+									<input type="submit" name="submit" value="Đăng ký" onsubmit="validateFormRegisterAcc();">
+									<div class="form-control">
+										<label class="anim">
+											<a th:href="@{/dorm/register-acc}" name="submit" class="button" style="border: 1px solid #e920ef; border-radius: 3px; outline: none; cursor: pointer; padding: .6em 1em; margin-left: 155px; background-color: #e920ef;"> Thoát</a>
+										</label>
+									</div>
+								</form>
+							</div> 
+						</div>
+					</div>   
+				</div>
+				<div class="w3lsfooteragileits">
+					<footer th:replace="layout/public::footer"></footer>
+				</div> 
+			</div>   
+		</div>
+	</div>	 
+	<!-- //main --> 
+</body>
+</html>
+<script>
+	function validateFormRegisterAcc() {
+
+    }
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#form-sign-up").validate({
+            ignore: [],
+            debug: false,
+            rules: {
+                code-id: {
+                    required: true,
+                    number: true,
+                    maxlength: 9,
+                    minlength: 9
+                },
+                user-name: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 40
+                },
+                class-name: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 15
+                },
+                phone: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                password : {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 30
+                },
+                confirm-password : {
+                    minlength: 10,
+                    maxlength: 30,
+                    equalTo : "#password"
+                }
+            },
+            messages: {
+                user-name: {
+                    required: "Vui lòng nhập vào tên của điện thoại"
+                },
+                code-id: {
+                    required: "Vui lòng nhập vào giá",
+                    min: "Giá của điện thoại lớn hơn hoặc bằng 0"
+                },
+                class-name: {
+                    required: "Vui lòng nhập vào dung lượng pin",
+                    min: "Dung lượn pin lớn hơn 0"
+                },
+                phone: {
+                    required: "Vui lòng nhập vào kích thước màn hình",
+                    min: "Kích thước màn hình lớn hơn 0"
+                },
+                password: {
+                    required: "Vui lòng chọn hình ảnh của điện thoại",
+                    accept: "Vui lòng chọn hình ảnh"
+                }
+            }
+            submitHandler: function(form) {
+                $.ajax({
+                    url: "processo.php",
+                    type: "POST",
+                    data: new FormData($(form)),
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        $('#loading').hide();
+                        $("#message").html(data);
+                    }
+                });
+                return false;
+            },
+        });
+    });
+</script>
+
+<script>
+    var reg = /[0-9]{0,4}(x|X)[0-9]{0,4}$/;
+
+    function vali(){
+        var resorelution = document.getElementById('resorelution').value;
+        if (!reg_resor.test(resorelution)) {
+            $("#resorelution_error").html("Độ phân giải phải đúng định dạng ----X---- hoặc ----x----, '-' là số");
+            document.form_mobile_add.action = "javascript:void(0)";
+        } else {
+            $("#resorelution_error").html("");
+            document.form_mobile_add.action = "action_add.php";
+        }
+    }
+
+    function check_exist_name() {
+        mobile_name = $("#mobile_name").val();
+        $.ajax({
+            type:'POST',
+            url:'<?= $base_url?>admin/mobile-phone/check_exist_name_add.php',
+            data: {
+                amobile_name : mobile_name
+            },
+            success: function(data){
+                if(data == 1) {
+                    $("#mobile_name_error").html("Tên điện thoại đã tồn tại");
+                    document.form_mobile_add.action = "javascript:void(0)";
+                } else {
+                    $("#mobile_name_error").html("");
+                    document.form_mobile_add.action = "action_add.php";
+                }
+            },
+            error: function () { alert('False!'); }
+        });
+    }
+</script>

@@ -4253,7 +4253,3 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     background-color: #ffff !important;
 }
 /** /bootstrap-datetimepicker **/
-.mycheckbox{display: inline-block;*display: inline;vertical-align: middle;margin: 0;padding: 0;width: 20px;height: 20px;background: url(green.png) no-repeat;border: none;cursor: pointer;}
-
-.mycheckbox {background-position: 0 0;}  .mycheckbox.checked {background-position: -22px 0;}  .mycheckbox.disabled {background-position: -44px 0;cursor: default;}  .mycheckbox.checked.disabled {background-position: -66px 0;}
-
