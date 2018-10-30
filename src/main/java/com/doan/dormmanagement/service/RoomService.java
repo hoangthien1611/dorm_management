@@ -5,5 +5,7 @@ import com.doan.dormmanagement.model.Room;
 import java.util.List;
 
 public interface RoomService {
-    List<Room> getAllRooms(int areaId);
+    List<Room> getRoomsByAreaId(int areaId);
+
+    boolean addRoom(Room room);
 }

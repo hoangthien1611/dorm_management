@@ -31,6 +31,66 @@ public class Room implements Serializable {
 
     private Integer studentRegister;
 
+    private String name_floor;
+
+    private String name_function;
+
+    private String name_area;
+
+    private String name_cost;
+
+    private Float value_cost;
+
+    private Integer level_cost;
+
+    public String getName_floor() {
+        return name_floor;
+    }
+
+    public void setName_floor(String name_floor) {
+        this.name_floor = name_floor;
+    }
+
+    public String getName_function() {
+        return name_function;
+    }
+
+    public void setName_function(String name_function) {
+        this.name_function = name_function;
+    }
+
+    public String getName_area() {
+        return name_area;
+    }
+
+    public void setName_area(String name_area) {
+        this.name_area = name_area;
+    }
+
+    public String getName_cost() {
+        return name_cost;
+    }
+
+    public void setName_cost(String name_cost) {
+        this.name_cost = name_cost;
+    }
+
+    public Float getValue_cost() {
+        return value_cost;
+    }
+
+    public void setValue_cost(Float value_cost) {
+        this.value_cost = value_cost;
+    }
+
+    public Integer getLevel_cost() {
+        return level_cost;
+    }
+
+    public void setLevel_cost(Integer level_cost) {
+        this.level_cost = level_cost;
+    }
+
     public Integer getId() {
         return id;
     }

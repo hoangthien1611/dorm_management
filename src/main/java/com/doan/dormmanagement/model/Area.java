@@ -2,13 +2,18 @@ package com.doan.dormmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Area implements Serializable {
     private Integer id;
+    @NotNull
     private String name;
+    @NotNull
+    @Min(1)
     private Integer numberFloor;
     private Integer status;
 

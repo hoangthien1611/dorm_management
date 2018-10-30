@@ -33,9 +33,9 @@ public class AdminAreaController {
         if (br.hasErrors()) {
             ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
         } else if (areaService.editArea(area)) {
-            ra.addFlashAttribute("msg", new Message(1, "Cập nhật thành công!"));
+            ra.addFlashAttribute("msg", new Message(1, "Cập nhật " + area.getName() + " thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Cập nhật thất bại!"));
+            ra.addFlashAttribute("msg", new Message(0, "Cập nhật " + area.getName() + " thất bại!"));
         }
 
         return "redirect:/admin/area";
@@ -51,9 +51,9 @@ public class AdminAreaController {
         if (br.hasErrors()) {
             ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
         } else if (areaService.addArea(area)) {
-            ra.addFlashAttribute("msg", new Message(1, "Thêm thành công!"));
+            ra.addFlashAttribute("msg", new Message(1, "Thêm khu nhà thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Thêm thất bại!"));
+            ra.addFlashAttribute("msg", new Message(0, "Thêm khu nhà thất bại!"));
         }
 
         return "redirect:/admin/area";
