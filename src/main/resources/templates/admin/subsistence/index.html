@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/admin::header"></head>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div th:replace="layout/admin::sidebar"></div>
+        <!-- top navigation -->
+        <div th:replace="layout/admin::top-nav"></div>
+        <!-- /top navigation -->
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Users
+                            <small>Some examples to get you started</small>
+                        </h3>
+                    </div>
+                    <div class="title_right">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                              </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Danh sách Phí điện nước các phòng</h2>
+                                <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
+                                <div th:class="${'alert alert-' + type}" style="margin-left: 300px">
+                                    <strong th:text="${msg.message}"></strong>
+                                </div>
+                                </th:block>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <th:block th:if="${#lists.isEmpty(feeList)}">
+                                    <h3>Không có dữ liệu!</h3>
+                                </th:block>
+                                <th:block th:unless="${#lists.isEmpty(feeList)}">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th class="hide">ID</th>
+                                            <th>Phòng</th>
+                                            <th>Khu nhà</th>
+                                            <th>Thời gian</th>
+                                            <th>Tiền điện</th>
+                                            <th>Tiền nước</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Trạng thái</th>
+                                            <th>Hành động</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="fee,iterStat:${feeList}">
+                                            <td scope="row" th:text="${iterStat.count}"></td>
+                                            <td th:text="${fee.id}" class="id hide"></td>
+                                            <td th:text="${fee.roomName}" class="room-name"></td>
+                                            <td th:text="${fee.areaName}" class="area-name"></td>
+                                            <td th:text="${fee.month + '/' + fee.year}" class="time"></td>
+                                            <td th:text="${(fee.newNumberElec - fee.oldNumberElec)*fee.costElec + ' VND'}" class="elec"></td>
+                                            <td th:text="${(fee.newNumberWater - fee.oldNumberWater)*fee.costWater + ' VND'}" class="water"></td>
+                                            <td th:text="${fee.total + ' VND'}" class="total"></td>
+                                            <td class="stt">
+                                                <span th:text="${fee.status}" class="hide"></span>
+                                                <th:block th:if="${fee.status == 1}">
+                                                    <button type="button" class="btn btn-success btn-xs">Đã nộp
+                                                    </button>
+                                                </th:block>
+                                                <th:block th:if="${fee.status == 0}">
+                                                    <button type="button" class="btn btn-dark btn-xs">Chưa nộp
+                                                    </button>
+                                                </th:block>
+                                            </td>
+                                            <td>
+                                                <button href="#" class="btn btn-primary btn-xs btn-view"
+                                                        data-toggle="modal"
+                                                        data-target="#viewModal"><i class="fa fa-folder"></i> View
+                                                </button>
+                                                <button href="#" class="btn btn-info btn-xs btn-edit"
+                                                        data-toggle="modal"
+                                                        data-target="#editModal"><i class="fa fa-pencil"></i> Edit
+                                                </button>
+                                                <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                                    Delete </a>
+                                            </td>
+                                            <td th:text="${fee.oldNumberElec}" class="oldElec hide"></td>
+                                            <td th:text="${fee.newNumberElec}" class="newElec hide"></td>
+                                            <td th:text="${fee.oldNumberWater}" class="oldWater hide"></td>
+                                            <td th:text="${fee.newNumberWater}" class="newWater hide"></td>
+                                            <td th:text="${fee.roomId}" class="roomId hide"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div id="viewModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                    <h4 class="modal-title title-view">THÔNG TIN PHÍ ĐIỆN NƯỚC</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-12">
+
+                                                            <table class="table table-bordered">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Tiền điện</th>
+                                                                    <th>Tiền nước</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Số cũ</th>
+                                                                    <td id="oldElec">123</td>
+                                                                    <td id="oldWater">12</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Số mới</th>
+                                                                    <td id="newElec">133</td>
+                                                                    <td id="newWater">15</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Số tiêu thụ</th>
+                                                                    <td id="elecUsed">10</td>
+                                                                    <td id="waterUsed">3</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Thành tiền</th>
+                                                                    <td id="elec">123 VND</td>
+                                                                    <td id="water">12 VND</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Tổng tiền</th>
+                                                                    <td id="total" style="border-right: none" class="text-center">
+                                                                        123 VND
+                                                                    </td>
+                                                                    <td style="border-left: none">
+                                                                        <input type="checkbox" style="margin-left: 10px" id="isPaid" disabled>
+                                                                        Đã nộp
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">
+                                                        Đóng
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="editModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                    <h4 class="modal-title title-edit">CẬP NHẬT THÔNG TIN ĐIỆN NƯỚC</h4>
+                                                </div>
+                                                <form id="demo-form2" data-parsley-validate
+                                                      class="form-horizontal" th:action="@{/admin/subsistence/edit}" method="post">
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-12 col-md-12">
+                                                                <input type="text" id="roomId" name="roomId"
+                                                                       class="form-control col-md-7 col-xs-12 hide">
+                                                                <input type="text" id="month" name="month"
+                                                                       class="form-control col-md-7 col-xs-12 hide">
+                                                                <input type="text" id="year" name="year"
+                                                                       class="form-control col-md-7 col-xs-12 hide">
+                                                                <table class="table">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>
+                                                                            <input type="text" id="id" name="id"
+                                                                                   class="form-control hide">
+                                                                        </th>
+                                                                        <th>Tiền điện</th>
+                                                                        <th>Tiền nước</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Số cũ</th>
+                                                                        <td>
+                                                                            <input type="number" id="oldElecEdit" name="oldNumberElec"
+                                                                               class="form-control">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="number" id="oldWaterEdit" name="oldNumberWater"
+                                                                                   class="form-control">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Số mới</th>
+                                                                        <td>
+                                                                            <input type="number" id="newElecEdit" name="newNumberElec"
+                                                                                   class="form-control">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="number" id="newWaterEdit" name="newNumberWater"
+                                                                                   class="form-control">
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">
+                                                            Đóng
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary antosubmit">Lưu
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+    <!-- footer content -->
+    <footer th:replace="layout/admin::footer"></footer>
+    <!-- /footer content -->
+</div>
+</div>
+<div th:replace="layout/admin::script-area"></div>
+<script src="../../../static/admin/js/my-custom/area.js" th:src="@{/admin/js/my-custom/subsistence.js}"></script>
+</body>
+</html>

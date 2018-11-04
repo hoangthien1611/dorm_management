@@ -2,6 +2,8 @@ package com.doan.dormmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,19 +16,79 @@ public class SubsistenceFee implements Serializable {
 
     private Float total;
 
-    private Integer type;
+    private Integer levelWater;
 
-    private Integer level;
+    private Integer levelElec;
 
     private  Integer status;
+    @NotNull
+    @Min(1)
+    private Integer newNumberWater;
+    @NotNull
+    @Min(1)
+    private Integer newNumberElec;
+    @NotNull
+    @Min(1)
+    private Integer oldNumberWater;
+    @NotNull
+    @Min(1)
+    private Integer oldNumberElec;
 
-    private Integer newNumber;
+    private Float costWater;
 
-    private Integer oldNumber;
-
-    private Integer costId;
+    private Float costElec;
 
     private Integer roomId;
+
+    private String roomName;
+
+    private Integer floorId;
+
+    private String floorName;
+
+    private Integer areaId;
+
+    private String areaName;
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public Integer getFloorId() {
+        return floorId;
+    }
+
+    public void setFloorId(Integer floorId) {
+        this.floorId = floorId;
+    }
+
+    public String getFloorName() {
+        return floorName;
+    }
+
+    public void setFloorName(String floorName) {
+        this.floorName = floorName;
+    }
+
+    public Integer getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(Integer areaId) {
+        this.areaId = areaId;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
 
     public Integer getId() {
         return id;
@@ -60,20 +122,20 @@ public class SubsistenceFee implements Serializable {
         this.total = total;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getLevelWater() {
+        return levelWater;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setLevelWater(Integer levelWater) {
+        this.levelWater = levelWater;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getLevelElec() {
+        return levelElec;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setLevelElec(Integer levelElec) {
+        this.levelElec = levelElec;
     }
 
     public Integer getStatus() {
@@ -84,28 +146,52 @@ public class SubsistenceFee implements Serializable {
         this.status = status;
     }
 
-    public Integer getNewNumber() {
-        return newNumber;
+    public Integer getNewNumberWater() {
+        return newNumberWater;
     }
 
-    public void setNewNumber(Integer newNumber) {
-        this.newNumber = newNumber;
+    public void setNewNumberWater(Integer newNumberWater) {
+        this.newNumberWater = newNumberWater;
     }
 
-    public Integer getOldNumber() {
-        return oldNumber;
+    public Integer getNewNumberElec() {
+        return newNumberElec;
     }
 
-    public void setOldNumber(Integer oldNumber) {
-        this.oldNumber = oldNumber;
+    public void setNewNumberElec(Integer newNumberElec) {
+        this.newNumberElec = newNumberElec;
     }
 
-    public Integer getCostId() {
-        return costId;
+    public Integer getOldNumberWater() {
+        return oldNumberWater;
     }
 
-    public void setCostId(Integer costId) {
-        this.costId = costId;
+    public void setOldNumberWater(Integer oldNumberWater) {
+        this.oldNumberWater = oldNumberWater;
+    }
+
+    public Integer getOldNumberElec() {
+        return oldNumberElec;
+    }
+
+    public void setOldNumberElec(Integer oldNumberElec) {
+        this.oldNumberElec = oldNumberElec;
+    }
+
+    public Float getCostWater() {
+        return costWater;
+    }
+
+    public void setCostWater(Float costWater) {
+        this.costWater = costWater;
+    }
+
+    public Float getCostElec() {
+        return costElec;
+    }
+
+    public void setCostElec(Float costElec) {
+        this.costElec = costElec;
     }
 
     public Integer getRoomId() {

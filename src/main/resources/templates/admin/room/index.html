@@ -55,24 +55,24 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <th:block th:if="${#lists.isEmpty(rooms)}">
-                                    <h3>Không có dữ liệu!</h3>
-                                </th:block>
-                                <th:block th:unless="${#lists.isEmpty(rooms)}">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>STT</th>
-                                            <th>Phòng</th>
-                                            <th>Khu nhà</th>
-                                            <th>Số người hiện tại</th>
-                                            <th>Số người tối đa</th>
-                                            <th>Giới tính</th>
-                                            <th>Trạng thái</th>
-                                            <th width="22%">Hành động</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="table-body">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Phòng</th>
+                                        <th>Khu nhà</th>
+                                        <th>Số người hiện tại</th>
+                                        <th>Số người tối đa</th>
+                                        <th>Giới tính</th>
+                                        <th>Trạng thái</th>
+                                        <th width="22%">Hành động</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    <th:block th:if="${#lists.isEmpty(rooms)}">
+                                        <tr><td colspan="8" class="text-center"><h3>Không có dữ liệu!</h3></td></tr>
+                                    </th:block>
+                                    <th:block th:unless="${#lists.isEmpty(rooms)}">
                                         <tr th:each="room,iterStat:${rooms}">
                                             <th scope="row" th:text="${iterStat.count}">1</th>
                                             <td th:text="${room.name}" class="name"></td>
@@ -106,10 +106,11 @@
                                             <td class="id hide" th:text="${room.id}"></td>
                                             <td class="bed hide" th:text="${room.numberBed}"></td>
                                             <td class="cost_bed hide" th:text="${room.value_cost}"></td>
+                                            <td class="function_name hide" th:text="${room.name_function}"></td>
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                </th:block>
+                                    </th:block>
+                                    </tbody>
+                                </table>
                                 <!-- Modal View -->
                                 <div id="roomInfoMd" class="modal fade" role="dialog">
                                     <div class="modal-dialog modal-lg">
@@ -132,6 +133,10 @@
                                                             <tr>
                                                                 <th>Địa chỉ:</th>
                                                                 <td id="address-view"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Chức năng phòng:</th>
+                                                                <td id="function-view"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Số giường:</th>

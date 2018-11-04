@@ -17,21 +17,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/admin/subsistence_fee")
+@RequestMapping("/admin/subsistence")
 public class AdminSubsistenceFeeController {
 
     @Autowired
     private SubsistenceFeeService subsistenceFeeService;
 
+    @Autowired
+    private AreaService areaService;
+
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("feeList", subsistenceFeeService.getAllSubsistenceFee());
-        return "admin/fee/index";
+        model.addAttribute("feeList", subsistenceFeeService.getAllByMonthAndYear(9,2018));
+        return "admin/subsistence/index";
     }
 
     @GetMapping("/add")
-    public String add() {
-        return "admin/fee/add";
+    public String add(Model model) {
+        model.addAttribute("areas", areaService.getAllAreas());
+        return "admin/subsistence/add";
     }
 
     @GetMapping("/room/{id}")
@@ -47,6 +51,17 @@ public class AdminSubsistenceFeeController {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
 
+    @PostMapping("/edit")
+    public String edit(@Valid @ModelAttribute SubsistenceFee subsistenceFee, BindingResult br, RedirectAttributes ra) {
+        if (br.hasErrors()) {
+            ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
+        } else if (subsistenceFeeService.editSubsistenceFee(subsistenceFee)) {
+            ra.addFlashAttribute("msg", new Message(1, "Cập nhật thành công!"));
+        } else {
+            ra.addFlashAttribute("msg", new Message(0, "Cập nhật thất bại!"));
+        }
+        return "redirect:/admin/subsistence";
     }
 }

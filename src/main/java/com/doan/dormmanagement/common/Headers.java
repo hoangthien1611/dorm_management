@@ -10,7 +10,7 @@ public class Headers {
 
     public static HttpHeaders getHeaders() {
         if (headers == null) {
-            HttpHeaders headers = new HttpHeaders();
+            headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         }

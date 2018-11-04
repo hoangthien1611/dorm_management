@@ -8,9 +8,11 @@ $(document).ready(function () {
         var max = $(this).closest('tr').children('td.max').text();
         var present = $(this).closest('tr').children('td.present').text();
         var cost_bed = $(this).closest('tr').children('td.cost_bed').text();
+        var function_name = $(this).closest('tr').children('td.function_name').text();
         // var stt = $(this).closest('tr').children('td.stt').find('span').text();
 
         $('#address-view').html(name + ' ' + area);
+        $('#function-view').html(function_name);
         $('#bed-view').html(numberBed);
         $('#max-view').html(max);
         $('#present-view').html(present);
@@ -19,7 +21,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/admin/subsistence_fee/room/' + id,
+            url: '/admin/subsistence/room/' + id,
             success: function (result) {
                 console.log(result);
             }
@@ -34,6 +36,7 @@ $(document).ready(function () {
             dataType : 'json',
             url : '/admin/room/area/' + value,
             success: function(result) {
+                console.log(result);
                 var html = '';
                 if (result != null && result.length > 0) {
                     result.forEach(function (item, index) {
@@ -56,6 +59,7 @@ $(document).ready(function () {
                             + '<td class="id hide">' + item.id + '</td>'
                             + '<td class="bed hide">' + item.numberBed + '</td>'
                             + '<td class="cost_bed hide">' + item.value_cost + '</td>'
+                            + '<td class="function_name hide">' + item.name_function + '</td>'
                             '</tr>';
                     });
                 } else {
