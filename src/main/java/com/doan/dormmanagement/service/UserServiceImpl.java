@@ -15,7 +15,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         DataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "user", DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            List<User> users = (List<User>) data.getData();
+            return users;
+        }
 
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsersByRoomId(Integer roomId) {
+        DataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "user/room/" + roomId, DataResponse.class);
         if (data.getCode() == 200 && data.getData() != null) {
             List<User> users = (List<User>) data.getData();
             return users;

@@ -12,5 +12,5 @@ $(document).ready(function () {
         $('#status').val(stt);
     });
 
-    $('.alert').fadeOut(3000);
+    $('.alert').fadeOut(5000);
 });

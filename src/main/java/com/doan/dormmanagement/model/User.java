@@ -21,6 +21,16 @@ public class User implements Serializable {
 
     private UserDetail userDetail;
 
+    private StudentCode studentCode;
+
+    public StudentCode getStudentCode() {
+        return studentCode;
+    }
+
+    public void setStudentCode(StudentCode studentCode) {
+        this.studentCode = studentCode;
+    }
+
     public Integer getId() {
         return id;
     }

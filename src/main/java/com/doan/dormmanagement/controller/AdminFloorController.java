@@ -1,10 +1,9 @@
 package com.doan.dormmanagement.controller;
 
-import com.doan.dormmanagement.model.User;
-import com.doan.dormmanagement.service.UserService;
+import com.doan.dormmanagement.model.Floor;
+import com.doan.dormmanagement.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,32 +14,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/admin/user")
-public class AdminUserController {
+@RequestMapping("/admin/floor")
+public class AdminFloorController {
 
     @Autowired
-    private UserService userService;
+    private FloorService floorService;
 
-    @GetMapping
-    public String index(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "admin/user/index";
-    }
-
-    @GetMapping("/add")
-    public String add() {
-        return "admin/user/add";
-    }
-
-    @GetMapping("/room/{roomId}")
+    @GetMapping("/area/{areaId}")
     @ResponseBody
-    public List<User> getUsersByRoomId(@PathVariable("roomId") Optional<String> id) {
+    public List<Floor> getFloorsByAreaId(@PathVariable("areaId") Optional<String> id) {
         try {
             if (id.isPresent()) {
-                Integer roomId = Integer.parseInt(id.get());
-                List<User> list = userService.getAllUsersByRoomId(roomId);
+                Integer areaId = Integer.parseInt(id.get());
+                List<Floor> list = floorService.getAllFloorsByAreaId(areaId);
                 return list != null ? list : new ArrayList<>();
             }
+
             return new ArrayList<>();
         } catch (NumberFormatException e) {
             return new ArrayList<>();

@@ -2,13 +2,15 @@ package com.doan.dormmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Room implements Serializable {
     private Integer id;
-
+    @NotNull
     private String name;
 
     private Integer areaId;
@@ -18,13 +20,15 @@ public class Room implements Serializable {
     private Integer costId;
 
     private Integer functionId;
-
+    @NotNull
+    @Min(1)
     private Integer numberBed;
 
     private Integer gender;
 
     private Integer status;
-
+    @NotNull
+    @Min(1)
     private Integer studentMax;
 
     private Integer studentPresent;
