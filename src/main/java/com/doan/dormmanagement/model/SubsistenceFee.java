@@ -21,6 +21,10 @@ public class SubsistenceFee implements Serializable {
 
     private Float total;
 
+    private Float totalWater;
+
+    private  Float totalElec;
+
     private Integer levelWater;
 
     private Integer levelElec;
@@ -54,6 +58,22 @@ public class SubsistenceFee implements Serializable {
     private Integer areaId;
 
     private String areaName;
+
+    public Float getTotalWater() {
+        return totalWater;
+    }
+
+    public void setTotalWater(Float totalWater) {
+        this.totalWater = totalWater;
+    }
+
+    public Float getTotalElec() {
+        return totalElec;
+    }
+
+    public void setTotalElec(Float totalElec) {
+        this.totalElec = totalElec;
+    }
 
     public String getRoomName() {
         return roomName;

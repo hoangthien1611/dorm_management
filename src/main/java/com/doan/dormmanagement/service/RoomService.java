@@ -12,4 +12,6 @@ public interface RoomService {
     boolean addRoom(Room room);
 
     boolean editRoom(Room room);
+
+    boolean changeStatus(int roomId, int stt);
 }

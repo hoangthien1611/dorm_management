@@ -84,19 +84,18 @@
                                         <tr th:each="room,iterStat:${rooms}">
                                             <th scope="row" th:text="${iterStat.count}">1</th>
                                             <td th:text="${room.name}" class="name"></td>
-                                            <td th:text="${room.name_area}" class="area"></td>
+                                            <td th:text="${room.areaName}" class="area"></td>
                                             <td th:text="${room.studentPresent == null ? 0 : room.studentPresent}" class="present"></td>
                                             <td th:text="${room.studentMax}" class="max"></td>
                                             <td th:text="${room.gender == 1 ? 'Nam' : 'Nữ'}" class="gender"></td>
-                                            <td class="stt">
+                                            <td th:class="${'stt change-stt-' + room.id}">
                                                 <span th:text="${room.status}" class="hide"></span>
                                                 <th:block th:if="${room.status == 1}">
-                                                    <button type="button" class="btn btn-success btn-xs">Đang hoạt
-                                                        động
+                                                    <button type="button" class="btn btn-success btn-xs" th:onclick="'javascript:changeStatus('+ ${room.id} +', 0);'">Đang hoạt động
                                                     </button>
                                                 </th:block>
                                                 <th:block th:if="${room.status == 0}">
-                                                    <button type="button" class="btn btn-dark btn-xs">Đang bảo trì
+                                                    <button type="button" class="btn btn-dark btn-xs" th:onclick="'javascript:changeStatus('+ ${room.id} +', 1);'">Đang bảo trì
                                                     </button>
                                                 </th:block>
                                             </td>
@@ -108,15 +107,13 @@
                                                         data-target="#modalEdit"><i class="fa fa-pencil"></i>
                                                     Edit
                                                 </button>
-                                                <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
-                                                    Delete </a>
                                             </td>
                                             <td class="id hide" th:text="${room.id}"></td>
                                             <td class="bed hide" th:text="${room.numberBed}"></td>
                                             <td class="register hide" th:text="${room.studentRegister}"></td>
-                                            <td class="cost_bed hide" th:text="${room.value_cost}"></td>
-                                            <td class="name_floor hide" th:text="${room.name_floor}"></td>
-                                            <td class="function_name hide" th:text="${room.name_function}"></td>
+                                            <td class="cost_bed hide" th:text="${room.costValue}"></td>
+                                            <td class="name_floor hide" th:text="${room.floorName}"></td>
+                                            <td class="function_name hide" th:text="${room.functionName}"></td>
                                         </tr>
                                     </th:block>
                                     </tbody>

@@ -112,4 +112,13 @@ public class AdminRoomController {
         }
         return "redirect:/admin/room";
     }
+
+    @PostMapping("/change-status")
+    @ResponseBody
+    public String changeStatus(@RequestParam("roomId") Integer id, @RequestParam("stt") Integer stt) {
+        if (roomService.changeStatus(id, stt)) {
+            return  "{\"msg\": \"OK\"}";
+        }
+        return null;
+    }
 }

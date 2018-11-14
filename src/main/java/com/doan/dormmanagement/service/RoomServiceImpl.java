@@ -59,4 +59,14 @@ public class RoomServiceImpl implements RoomService {
         return false;
     }
 
+    @Override
+    public boolean changeStatus(int roomId, int stt) {
+        String url = BaseAPI.BASE_API_PREFIX + "room/change-status-one/" + roomId + "/" + stt;
+        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            return true;
+        }
+        return false;
+    }
+
 }

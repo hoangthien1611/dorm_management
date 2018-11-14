@@ -1,3 +1,32 @@
+function changeStatus(roomId, stt) {
+    var btn = '<span class="hide">' + (stt == 0 ? 1 : 0) + '</span>';
+    if (stt == 1) {
+        btn += '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus('+ roomId +',0)">'
+            + 'Đang hoạt động'
+            + ' </button>';
+    } else {
+        btn += '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus('+ roomId +',1)">'
+            + 'Đang bảo trì'
+            + ' </button>';
+    }
+
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: '/admin/room/change-status',
+        data: {
+            roomId: roomId,
+            stt: stt
+        },
+        success: function (data) {
+            $('.change-stt-' + roomId).html(btn);
+        },
+        error: function () {
+            alert('Đã có lỗi xảy ra!');
+        }
+    });
+}
+
 $(document).ready(function () {
 
     $(document).on("click", ".btn-view", function () {
@@ -165,25 +194,24 @@ $(document).ready(function () {
                         html += '<tr>'
                             + '<th scope="row">'+ (index + 1) +'</th>'
                             + '<td class="name">' + item.name + '</td>'
-                            + '<td class="area">' + item.name_area + '</td>'
+                            + '<td class="area">' + item.areaName + '</td>'
                             + '<td class="present">' + item.studentPresent + '</td>'
                             + '<td class="max">' + item.studentMax + '</td>'
                             + '<td class="gender">' + (item.gender == 1 ? 'Nam' : 'Nữ') + '</td>'
-                            + '<td class="stt">'
+                            + '<td class="stt change-stt-' + item.id + '">'
                             + '<span class="hide">' + item.status + '</span>'
-                            + (item.status == 1 ? '<button type="button" class="btn btn-success btn-xs">Đang hoạt động</button>' : '<button type="button" class="btn btn-dark btn-xs">Đang bảo trì</button>')
+                            + (item.status == 1 ? '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus('+ item.id +',0)">Đang hoạt động</button>' : '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus('+ item.id +',1)">Đang bảo trì</button>')
                             + '</td>'
                             + '<td>'
                             + '<button class="btn btn-primary btn-xs btn-view" data-toggle="modal" data-target="#roomInfoMd"><i class="fa fa-folder"></i> View </button>'
                             + ' <button class="btn btn-info btn-xs btn-edit" data-toggle="modal" data-target="#modalEdit"><i class="fa fa-pencil"></i> Edit </button>'
-                            + ' <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>'
                             + '</td>'
                             + '<td class="id hide">' + item.id + '</td>'
                             + '<td class="bed hide">' + item.numberBed + '</td>'
                             + '<td class="register hide">' + item.studentRegister + '</td>'
-                            + '<td class="cost_bed hide">' + item.value_cost + '</td>'
-                            + '<td class="name_floor hide">' + item.name_floor + '</td>'
-                            + '<td class="function_name hide">' + item.name_function + '</td>'
+                            + '<td class="cost_bed hide">' + item.costValue + '</td>'
+                            + '<td class="name_floor hide">' + item.floorName + '</td>'
+                            + '<td class="function_name hide">' + item.functionName + '</td>'
                         '</tr>';
                     });
                 } else {

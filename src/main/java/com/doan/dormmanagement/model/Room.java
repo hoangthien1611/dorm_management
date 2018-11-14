@@ -35,65 +35,17 @@ public class Room implements Serializable {
 
     private Integer studentRegister;
 
-    private String name_floor;
+    private String floorName;
 
-    private String name_function;
+    private String functionName;
 
-    private String name_area;
+    private String areaName;
 
-    private String name_cost;
+    private String costName;
 
-    private Float value_cost;
+    private Float costValue;
 
-    private Integer level_cost;
-
-    public String getName_floor() {
-        return name_floor;
-    }
-
-    public void setName_floor(String name_floor) {
-        this.name_floor = name_floor;
-    }
-
-    public String getName_function() {
-        return name_function;
-    }
-
-    public void setName_function(String name_function) {
-        this.name_function = name_function;
-    }
-
-    public String getName_area() {
-        return name_area;
-    }
-
-    public void setName_area(String name_area) {
-        this.name_area = name_area;
-    }
-
-    public String getName_cost() {
-        return name_cost;
-    }
-
-    public void setName_cost(String name_cost) {
-        this.name_cost = name_cost;
-    }
-
-    public Float getValue_cost() {
-        return value_cost;
-    }
-
-    public void setValue_cost(Float value_cost) {
-        this.value_cost = value_cost;
-    }
-
-    public Integer getLevel_cost() {
-        return level_cost;
-    }
-
-    public void setLevel_cost(Integer level_cost) {
-        this.level_cost = level_cost;
-    }
+    private Integer costLevel;
 
     public Integer getId() {
         return id;
@@ -189,5 +141,53 @@ public class Room implements Serializable {
 
     public void setStudentRegister(Integer studentRegister) {
         this.studentRegister = studentRegister;
+    }
+
+    public String getFloorName() {
+        return floorName;
+    }
+
+    public void setFloorName(String floorName) {
+        this.floorName = floorName;
+    }
+
+    public String getFunctionName() {
+        return functionName;
+    }
+
+    public void setFunctionName(String functionName) {
+        this.functionName = functionName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getCostName() {
+        return costName;
+    }
+
+    public void setCostName(String costName) {
+        this.costName = costName;
+    }
+
+    public Float getCostValue() {
+        return costValue;
+    }
+
+    public void setCostValue(Float costValue) {
+        this.costValue = costValue;
+    }
+
+    public Integer getCostLevel() {
+        return costLevel;
+    }
+
+    public void setCostLevel(Integer costLevel) {
+        this.costLevel = costLevel;
     }
 }
