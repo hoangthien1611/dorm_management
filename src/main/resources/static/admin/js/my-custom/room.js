@@ -1,25 +1,28 @@
 function changeStatus(roomId, stt) {
-    var btn = '<span class="hide">' + (stt == 0 ? 1 : 0) + '</span>';
+    var btn = '<span class="hide">' + stt + '</span>';
     if (stt == 1) {
-        btn += '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus('+ roomId +',0)">'
-            + 'Đang hoạt động'
+        btn += '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus(' + roomId + ',0)">'
+            + 'Active'
             + ' </button>';
     } else {
-        btn += '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus('+ roomId +',1)">'
-            + 'Đang bảo trì'
+        btn += '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus(' + roomId + ',1)">'
+            + 'Inactive'
             + ' </button>';
     }
 
     $.ajax({
         type: 'post',
-        dataType: 'json',
         url: '/admin/room/change-status',
         data: {
             roomId: roomId,
             stt: stt
         },
         success: function (data) {
-            $('.change-stt-' + roomId).html(btn);
+            if (data != null) {
+                $('.change-stt-' + roomId).html(btn);
+            } else {
+                alert('Cập nhật trạng thái thất bại!');
+            }
         },
         error: function () {
             alert('Đã có lỗi xảy ra!');
@@ -172,13 +175,11 @@ $(document).ready(function () {
         console.log('Area: ' + areaId);
         var floorId = this.value;
         var uri = '/admin/room/floor/' + floorId;
+
         if (floorId == 0) {
             uri = '/admin/room/area/' + areaId;
-            showRooms(uri);
-        } else {
-            showRooms(uri);
         }
-
+        showRooms(uri);
     });
 
     function showRooms(uri) {
@@ -200,7 +201,7 @@ $(document).ready(function () {
                             + '<td class="gender">' + (item.gender == 1 ? 'Nam' : 'Nữ') + '</td>'
                             + '<td class="stt change-stt-' + item.id + '">'
                             + '<span class="hide">' + item.status + '</span>'
-                            + (item.status == 1 ? '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus('+ item.id +',0)">Đang hoạt động</button>' : '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus('+ item.id +',1)">Đang bảo trì</button>')
+                            + (item.status == 1 ? '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus('+ item.id +',0)">Active</button>' : '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus('+ item.id +',1)">Inactive</button>')
                             + '</td>'
                             + '<td>'
                             + '<button class="btn btn-primary btn-xs btn-view" data-toggle="modal" data-target="#roomInfoMd"><i class="fa fa-folder"></i> View </button>'

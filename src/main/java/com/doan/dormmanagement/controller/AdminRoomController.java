@@ -1,6 +1,8 @@
 package com.doan.dormmanagement.controller;
 
+import com.doan.dormmanagement.common.Constant;
 import com.doan.dormmanagement.dto.Message;
+import com.doan.dormmanagement.model.Area;
 import com.doan.dormmanagement.model.Room;
 import com.doan.dormmanagement.service.*;
 import com.doan.dormmanagement.utility.TimeString;
@@ -37,13 +39,15 @@ public class AdminRoomController {
 
     @GetMapping
     public String index(Model model) {
+        List<Area> areas = areaService.getAllAreas();
+        int firstAreaId = areas.size() > 0 ? areas.get(0).getId() : 0;
         int[] time = TimeString.getPreviousMonth();
-        model.addAttribute("areas", areaService.getAllAreas());
-        model.addAttribute("floors", floorService.getAllFloorsByAreaId(1));
-        model.addAttribute("rooms", roomService.getRoomsByAreaId(1));
+        model.addAttribute("areas", areas);
+        model.addAttribute("floors", floorService.getAllFloorsByAreaId(firstAreaId));
+        model.addAttribute("rooms", roomService.getRoomsByAreaId(firstAreaId));
         model.addAttribute("yearMonth", TimeString.convertYearMonthtoString(time[1], time[0]));
         model.addAttribute("listFunction", roomFunctionService.getAllRoomFunction());
-        model.addAttribute("costs", costService.getAllByType(1));
+        model.addAttribute("costs", costService.getAllByType(Constant.COST_RENT_ROOM_PER_PERSON));
         return "admin/room/index";
     }
 
@@ -117,7 +121,7 @@ public class AdminRoomController {
     @ResponseBody
     public String changeStatus(@RequestParam("roomId") Integer id, @RequestParam("stt") Integer stt) {
         if (roomService.changeStatus(id, stt)) {
-            return  "{\"msg\": \"OK\"}";
+            return  "OK";
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package com.doan.dormmanagement.controller;
 
 import com.doan.dormmanagement.dto.Message;
+import com.doan.dormmanagement.model.Area;
 import com.doan.dormmanagement.model.SubsistenceFee;
 import com.doan.dormmanagement.service.AreaService;
 import com.doan.dormmanagement.service.RoomService;
@@ -33,9 +34,10 @@ public class AdminSubsistenceFeeController {
 
     @GetMapping
     public String index(Model model) {
-        int firstAreaId = 1;
+        List<Area> areas = areaService.getAllAreas();
+        int firstAreaId = areas.size() > 0 ? areas.get(0).getId() : 0;
         int[] time = TimeString.getPreviousMonth();
-        model.addAttribute("areas", areaService.getAllAreas());
+        model.addAttribute("areas", areas);
         model.addAttribute("feeList", subsistenceFeeService.getAllByMonthAndYearAndArea(time[0], time[1], firstAreaId));
         model.addAttribute("yearMonth", TimeString.convertYearMonthtoString(time[1], time[0]));
         return "admin/subsistence/index";

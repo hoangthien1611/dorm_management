@@ -91,11 +91,11 @@
                                             <td th:class="${'stt change-stt-' + room.id}">
                                                 <span th:text="${room.status}" class="hide"></span>
                                                 <th:block th:if="${room.status == 1}">
-                                                    <button type="button" class="btn btn-success btn-xs" th:onclick="'javascript:changeStatus('+ ${room.id} +', 0);'">Đang hoạt động
+                                                    <button type="button" class="btn btn-success btn-xs" th:onclick="'javascript:changeStatus('+ ${room.id} +', 0);'">Active
                                                     </button>
                                                 </th:block>
                                                 <th:block th:if="${room.status == 0}">
-                                                    <button type="button" class="btn btn-dark btn-xs" th:onclick="'javascript:changeStatus('+ ${room.id} +', 1);'">Đang bảo trì
+                                                    <button type="button" class="btn btn-dark btn-xs" th:onclick="'javascript:changeStatus('+ ${room.id} +', 1);'">Inactive
                                                     </button>
                                                 </th:block>
                                             </td>
@@ -374,8 +374,8 @@
                                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                                 <select class="form-control" name="status"
                                                                         id="statusEdit">
-                                                                    <option value="0">Đang bảo trì</option>
-                                                                    <option value="1">Đang hoạt động</option>
+                                                                    <option value="0">Inactive</option>
+                                                                    <option value="1">Active</option>
                                                                 </select>
                                                             </div>
                                                         </div>
