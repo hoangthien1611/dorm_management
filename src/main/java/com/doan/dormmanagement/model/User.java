@@ -21,15 +21,34 @@ public class User implements Serializable {
 
     private UserDetail userDetail;
 
-    private StudentCode studentCode;
-
-    public StudentCode getStudentCode() {
-        return studentCode;
-    }
-
-    public void setStudentCode(StudentCode studentCode) {
-        this.studentCode = studentCode;
-    }
+//
+//    public List<StudentCode> getStudentCodes() {
+//        return studentCodes;
+//    }
+//
+//    public void setStudentCodes(List<StudentCode> studentCodes) {
+//        this.studentCodes = studentCodes;
+//    }
+//
+//    private List<StudentCode> studentCodes;
+//
+//    private List<Notification> notifications;
+//
+//    public List<Notification> getNotifications() {
+//        return notifications;
+//    }
+//
+//    public void setNotifications(List<Notification> notifications) {
+//        this.notifications = notifications;
+//    }
+//
+//    public List<StudentCode> getStudentCode() {
+//        return studentCodes;
+//    }
+//
+//    public void setStudentCode(List<StudentCode> studentCode) {
+//        this.studentCodes = studentCode;
+//    }
 
     public Integer getId() {
         return id;

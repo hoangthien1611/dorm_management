@@ -5,5 +5,5 @@ import com.doan.dormmanagement.model.Floor;
 import java.util.List;
 
 public interface FloorService {
-    List<Floor> getAllFloorsByAreaId(Integer areaId);
+    List<Floor> getAllFloorInAreas(int areaId);
 }

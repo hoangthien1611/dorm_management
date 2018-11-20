@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<body class="page-body skin-red">
+<div class="page-container      ">
+    <div th:replace="layout/public::leftbar"></div>
+    <div class="main-content" style="min-height: 828px;">
+
+        <div th:replace="layout/public::headerBar"></div>
+        <div th:fragment="profile_user">
+
+            <h3 style="">
+                <i class="entypo-right-circled"></i>
+                Quản lý hồ sơ </h3>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!------CONTROL TABS START------>
+                    <ul class="nav nav-tabs bordered">
+
+                        <li class="active">
+                            <a href="#list" data-toggle="tab"><i class="entypo-user"></i>
+                                Quản lý hồ sơ </a></li>
+                    </ul>
+                    <!------CONTROL TABS END------>
+
+
+                    <div class="tab-content">
+                        <!----EDITING FORM STARTS-->
+                        <div class="tab-pane box active" id="list" style="padding: 5px">
+                            <div class="box-content">
+                                <form action="http://ktx.hust.edu.vn/csam/index.php?student/manage_profile/update_profile_info"
+                                      class="form-horizontal form-groups-bordered validate" target="_top"
+                                      enctype="multipart/form-data" method="post" accept-charset="utf-8">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Tên</label>
+                                        <div class="col-sm-5">
+                                            <label class=" control-label">nguyentam</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">E-mail</label>
+                                        <div class="col-sm-5">
+                                            <label class=" control-label">ntmtam14t1@gmail.com</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Mã số sinh viên</label>
+                                        <div class="col-sm-5">
+                                            <label class=" control-label">1107002140</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Trạng thái</label>
+                                        <div class="col-sm-5">
+                                            <label class=" control-label">Tài khoản đang chờ xác thực, vui lòng cập nhật đầy
+                                                đủ thông tin cá nhân và chụp Thẻ sinh viên</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Số điện thoại</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" name="phone" value="" required/>
+                                        </div>
+                                        <label class="col-sm-2 control-label">Ngày sinh</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control datepicker " name="birthday"
+                                                   data-format="dd/mm/yyyy"
+                                                   value=""
+                                                   data-start-view="2" required/>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Giới tính</label>
+                                        <div class="col-sm-3">
+                                            <select name="sex" class="form-control required">
+                                                <option value="">Chọn</option>
+                                                <option value="male">Nam</option>
+                                                <option value="female">Nữ</option>
+                                            </select>
+                                        </div>
+                                        <label for="field-2" class="col-sm-2 control-label">Dân tộc</label>
+                                        <div class="col-sm-3">
+                                            <select name="ethnic" class="form-control required">
+                                                <option value="">Chọn</option>
+                                                <option value="Kinh">Kinh</option>
+                                                <option value="Tày">Tày</option>
+                                                <option value="Thái">Thái</option>
+                                                <option value="Hoa">Hoa</option>
+                                                <option value="Khơ-me">Khơ-me</option>
+                                                <option value="Người nước ngoài">Người nước ngoài</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="field-2" class="col-sm-2 control-label">Đối tượng ưu tiên</label>
+                                        <div class="col-sm-3">
+                                            <select name="priority" class="form-control required">
+                                                <option value="">Chọn</option>
+                                                <option value="0">0-Không có</option>
+                                                <option value="1">1-AH; TB; BB</option>
+                                                <option value="2">2-CCBCM</option>
+                                                <option value="3">3-CAH</option>
+                                                <option value="4">4-CAH</option>
+                                                <option value="5">5-CLS</option>
+                                                <option value="6">6-CTB</option>
+                                                <option value="7">7-CBB</option>
+                                                <option value="8">8-CNTB</option>
+                                                <option value="9">9-CĐHH</option>
+                                                <option value="10">10-MC</option>
+                                                <option value="11">11-DT-ĐBKK</option>
+                                                <option value="12">12-TT</option>
+                                                <option value="13">13-CT</option>
+                                                <option value="14">14-HN-DT</option>
+                                                <option value="15">15-XĐBKK-DT</option>
+                                                <option value="16">16-TNLĐ</option>
+                                            </select>
+                                            <br>
+                                            <a href="uploads/syllabus/KTX_Huong-dan-dien-Doi-tuong-chinh-sach.pdf">Hướng dẫn
+                                                điền Đối tượng chính sách</a>
+                                        </div>
+                                        <label for="field-2" class="col-sm-2 control-label">Tôn giáo</label>
+                                        <div class="col-sm-3">
+                                            <select name="religion" class="form-control required">
+                                                <option value="">Chọn</option>
+                                                <option value="Không">Không</option>
+                                                <option value="Phật giáo">Phật giáo</option>
+                                                <option value="Công giáo">Công giáo</option>
+                                                <option value="Cao Đài">Cao Đài</option>
+                                                <option value="Hòa Hảo">Hòa Hảo</option>
+                                                <option value="Tin Lành">Tin Lành</option>
+                                                <option value="Hồi Giáo">Hồi Giáo</option>
+                                                <option value="Bà La Môn">Bà La Môn</option>
+                                                <option value="Khác">Khác</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="field-2" class="col-sm-2 control-label">Viện/Trường</label>
+                                        <div class="col-sm-3">
+                                            <select name="school" class="form-control required">
+                                                <option value="">Chọn</option>
+                                                <option value="Viện Cơ khí">Viện Cơ khí</option>
+                                                <option value="Viện Cơ khí Động lực">Viện Cơ khí Động lực</option>
+                                                <option value="Viện Công nghệ Sinh học và Công nghệ Thực phẩm">Viện Công
+                                                    nghệ Sinh học và Công nghệ Thực phẩm
+                                                </option>
+                                                <option value="Viện Công nghệ Thông tin và Truyền thông">Viện Công nghệ
+                                                    Thông tin và Truyền thông
+                                                </option>
+                                                <option value="Viện Dệt may - Da giầy và Thời trang">Viện Dệt may - Da giầy
+                                                    và Thời trang
+                                                </option>
+                                                <option value="Viện Khoa học và Công nghệ Môi trường">Viện Khoa học và Công
+                                                    nghệ Môi trường
+                                                </option>
+                                                <option value="Viện Khoa học và Công nghệ nhiệt lạnh">Viện Khoa học và Công
+                                                    nghệ nhiệt lạnh
+                                                </option>
+                                                <option value="Viện Khoa học và Kỹ thuật Vật liệu">Viện Khoa học và Kỹ thuật
+                                                    Vật liệu
+                                                </option>
+                                                <option value="Viện Kinh tế và Quản lý">Viện Kinh tế và Quản lý</option>
+                                                <option value="Viện Kỹ thuật hạt nhân và Vật lý môi trường">Viện Kỹ thuật
+                                                    hạt nhân và Vật lý môi trường
+                                                </option>
+                                                <option value="Viện Kỹ thuật Hóa học">Viện Kỹ thuật Hóa học</option>
+                                                <option value="Viện Kỹ thuật Điều khiển và Tự động hóa">Viện Kỹ thuật Điều
+                                                    khiển và Tự động hóa
+                                                </option>
+                                                <option value="Viện Ngoại ngữ">Viện Ngoại ngữ</option>
+                                                <option value="Viện Sư phạm Kỹ thuật">Viện Sư phạm Kỹ thuật</option>
+                                                <option value="Viện Toán ứng dụng và Tin học">Viện Toán ứng dụng và Tin
+                                                    học
+                                                </option>
+                                                <option value="Viện Vật lý Kỹ thuật">Viện Vật lý Kỹ thuật</option>
+                                                <option value="Viện Điện">Viện Điện</option>
+                                                <option value="Viện Điện tử - Viễn thông">Viện Điện tử - Viễn thông</option>
+                                                <option value="Viện Đào tạo Quốc tế">Viện Đào tạo Quốc tế</option>
+                                                <option value="Cao đẳng nghề">Cao đẳng nghề</option>
+                                                <option value="Khác">Khác</option>
+
+                                            </select>
+                                        </div>
+                                        <label for="field-2" class="col-sm-2 control-label">Lớp</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control control-label" name="class"
+                                                   value=""
+                                                   data-start-view="2" required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="field-2" class="col-sm-2 control-label">Loại hình đào tạo</label>
+                                        <div class="col-sm-3">
+                                            <select name="type_edu" class="form-control required">
+                                                <option value="">Chọn</option>
+                                                <option value="Đại học">Đại học</option>
+                                                <option value="Cao đẳng nghề">Cao đẳng nghề</option>
+                                                <option value="Cao học, NCS">Cao học, NCS</option>
+                                                <option value="Khác">Khác</option>
+                                            </select>
+                                        </div>
+                                        <label for="field-2" class="col-sm-2 control-label">Khóa</label>
+                                        <div class="col-sm-3">
+                                            <select name="course" class="form-control required">
+                                                <option value="">Chọn</option>
+                                                <option value="K63">K63</option>
+                                                <option value="K62">K62</option>
+                                                <option value="K61">K61</option>
+                                                <option value="K60">K60</option>
+                                                <option value="K59">K59</option>
+                                                <option value="K58">K58</option>
+                                                <option value="K57">K57</option>
+                                                <option value="K56">K56</option>
+                                                <option value="K55">K55</option>
+                                                <option value="CDN">Cao đẳng nghề</option>
+                                                <option value="CH-NCS">Cao học, NCS</option>
+                                                <option value="Khác">Khác</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="field-1" class="col-sm-3 control-label">Chụp Thẻ sinh viên</label>
+
+                                        <div class="col-sm-5">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="fileinput-new thumbnail" style="width: 100px; height: 100px;"
+                                                     data-trigger="fileinput">
+                                                    <img src="http://ktx.hust.edu.vn/csam/uploads/user.jpg" alt="...">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail"
+                                                     style="max-width: 200px; max-height: 150px"></div>
+                                                <div>
+                                            <span class="btn btn-white btn-file">
+                                                <span class="fileinput-new">Chụp Thẻ sinh viên</span>
+                                                <span class="fileinput-exists">Thay đổi</span>
+                                                <input type="file" name="userfile" accept="image/*">
+                                            </span>
+                                                    <a href="#" class="btn btn-orange fileinput-exists"
+                                                       data-dismiss="fileinput">Loại bỏ</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-5">
+                                            <button type="submit" class="btn btn-info">Cập nhật hồ sơ</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!----EDITING FORM ENDS-->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!------CONTROL TABS START------>
+                    <ul class="nav nav-tabs bordered">
+
+                        <li class="active">
+                            <a href="#list" data-toggle="tab"><i class="entypo-lock"></i>
+                                Thay đổi mật khẩu </a></li>
+                    </ul>
+                    <!------CONTROL TABS END------>
+
+
+                    <div class="tab-content">
+                        <!----EDITING FORM STARTS---->
+                        <div class="tab-pane box active" id="list" style="padding: 5px">
+                            <div class="box-content padded">
+                                <form action="http://ktx.hust.edu.vn/csam/index.php?student/manage_profile/change_password"
+                                      class="form-horizontal form-groups-bordered validate" target="_top" method="post"
+                                      accept-charset="utf-8">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Mật khẩu hiện tại</label>
+                                        <div class="col-sm-5">
+                                            <input type="password" class="form-control" name="password" value="" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Mật khẩu mới</label>
+                                        <div class="col-sm-5">
+                                            <input type="password" class="form-control" name="new_password" value=""
+                                                   required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Xác nhận mật khẩu mới</label>
+                                        <div class="col-sm-5">
+                                            <input type="password" class="form-control" name="confirm_new_password" value=""
+                                                   required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-5">
+                                            <button type="submit" class="btn btn-info">Cập nhật hồ sơ</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!----EDITING FORM ENDS-->
+
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                var class_id = '';
+                var starting_hour = '';
+                var starting_minute = '';
+                var ending_hour = '';
+                var ending_minute = '';
+                jQuery(document).ready(function ($) {
+                    $('#add_class_routine').attr('disabled', 'disabled')
+                });
+
+                function get_district_section(class_id) {
+                    $.ajax({
+                        url: 'http://ktx.hust.edu.vn/csam/index.php?student/get_district_section/' + class_id,
+                        success: function (response) {
+                            jQuery('#section_district_selection_holder').html(response);
+                        }
+                    });
+                }
+
+                function check_validation() {
+                    console.log('class_id: ' + class_id + ' starting_hour:' + starting_hour + ' starting_minute: ' + starting_minute + ' ending_hour: ' + ending_hour + ' ending_minute: ' + ending_minute);
+                    if (class_id !== '' && starting_hour !== '' && starting_minute !== '' && ending_hour !== '' && ending_minute !== '') {
+                        $('#add_class_routine').removeAttr('disabled');
+                    }
+                }
+
+                $('#class_id').change(function () {
+                    class_id = $('#class_id').val();
+                    check_validation();
+                });
+                $('#starting_hour').change(function () {
+                    starting_hour = $('#starting_hour').val();
+                    check_validation();
+                });
+                $('#starting_minute').change(function () {
+                    starting_minute = $('#starting_minute').val();
+                    check_validation();
+                });
+                $('#ending_hour').change(function () {
+                    ending_hour = $('#ending_hour').val();
+                    check_validation();
+                });
+                $('#ending_minute').change(function () {
+                    ending_minute = $('#ending_minute').val();
+                    check_validation();
+                });
+
+
+            </script>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="layout/public::footer"></footer>
+
+</div>
+
+
+<script type="text/javascript">
+    function showAjaxModal(id) {
+        // SHOWING AJAX PRELOADER IMAGE
+        // jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="../../static/public/images/preloader.gif" /></div>');
+
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function (response) {
+                jQuery('#modal_ajax .modal-content').html(response);
+            }
+        });
+    }
+</script>
+
+
+<!-- (Ajax Modal)-->
+<div class="modal fade" id="modal_ajax">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+
+            <div class="modal-body" style="height:500px; overflow:auto;">
+                <p>Nội dung thông báo</p>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function confirm_modal(delete_url) {
+        jQuery('#modal-4').modal('show', {backdrop: 'static'});
+        document.getElementById('delete_link').setAttribute('href', delete_url);
+    }
+</script>
+
+<!-- (Normal Modal)-->
+<div class="modal fade" id="modal-4">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top:100px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?</h4>
+            </div>
+
+
+            <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
+                <a href="#" class="btn btn-danger" id="delete_link">Xóa</a>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout/public::link"></div>
+</body>
+</html>

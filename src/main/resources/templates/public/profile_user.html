@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/public::header"></head>
 <body class="page-body skin-red">
@@ -8,7 +7,7 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 clearfix" style="text-align:center;">
-                <h2 style="font-weight:200; margin:0px;">CSAM - HUST</h2>
+                <h2 style="font-weight:200; margin:0px;">DUT's dormitory</h2>
             </div>
             <!-- Raw Links -->
             <div class="col-md-12 col-sm-12 clearfix ">
@@ -344,118 +343,6 @@
                 <ul class="nav nav-tabs bordered">
 
                     <li class="active">
-                        <a href="#list" data-toggle="tab"><i class="entypo-user"></i>
-                            Quản lý gia đình </a></li>
-                </ul>
-                <!------CONTROL TABS END------>
-
-
-                <div class="tab-content">
-                    <!----EDITING FORM STARTS-->
-                    <div class="tab-pane box active" id="list" style="padding: 5px">
-                        <div class="box-content">
-                            <form action="http://ktx.hust.edu.vn/csam/index.php?student/manage_profile/update_family_info"
-                                  class="form-horizontal form-groups-bordered validate" target="_top"
-                                  enctype="multipart/form-data" method="post" accept-charset="utf-8">
-
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">Tỉnh</label>
-                                            <div class="col-sm-5">
-                                                <select name="fa_province" id="fa_province"
-                                                        class="form-control required" style="width:100%;"
-                                                        onchange="return get_district_section(this.value)">
-                                                    <option value="">Chọn tỉnh</option>
-                                                    <option value="01">Thành phố Hà Nội</option>
-                                                    <option value="02">Tỉnh Hà Giang</option>
-                                                    <option value="04">Tỉnh Cao Bằng</option>
-                                                    <option value="06">Tỉnh Bắc Kạn</option>
-                                                    <option value="08">Tỉnh Tuyên Quang</option>
-                                                    <option value="10">Tỉnh Lào Cai</option>
-                                                    <option value="11">Tỉnh Điện Biên</option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div id="section_district_selection_holder"></div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="col-sm-2 control-label">Địa chỉ</label>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" name="fa_address" value=""
-                                                   required/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Họ tên bố/mẹ/người giám hộ</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_father_name" value=""
-                                               required/>
-                                    </div>
-                                    <label class="col-sm-2 control-label">Tuổi</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_father_year" value=""/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Số ĐT</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_father_num" value=""/>
-                                    </div>
-                                    <label class="col-sm-2 control-label">Nghề nghiệp</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_father_job" value=""/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Họ tên bố/mẹ/người giám hộ</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_mother_name" value=""
-                                               required/>
-                                    </div>
-                                    <label class="col-sm-2 control-label">Tuổi</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_mother_year" value=""/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Số ĐT</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_mother_num" value=""/>
-                                    </div>
-                                    <label class="col-sm-2 control-label">Nghề nghiệp</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="fa_mother_job" value=""/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-3 col-sm-5">
-                                        <button type="submit" class="btn btn-info">Cập nhật gia đình</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!----EDITING FORM ENDS-->
-
-                </div>
-            </div>
-        </div>
-        <!--password-->
-        <div class="row">
-            <div class="col-md-12">
-
-                <!------CONTROL TABS START------>
-                <ul class="nav nav-tabs bordered">
-
-                    <li class="active">
                         <a href="#list" data-toggle="tab"><i class="entypo-lock"></i>
                             Thay đổi mật khẩu </a></li>
                 </ul>
@@ -584,7 +471,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">CSAM - HUST</h4>
+                <h4 class="modal-title">DUT's dormitory</h4>
             </div>
 
             <div class="modal-body" style="height:500px; overflow:auto;">

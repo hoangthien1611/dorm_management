@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/public::header"></head>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    /* Zebra striping */
+    tr:nth-of-type(odd) {
+        background: #eee;
+    }
+    th {
+        background: #000d06;
+        color: white;
+        font-weight: bold;
+    }
+    td, th {
+        width: 100px;
+        padding: 6px;
+        border: 1px solid #000d06;
+        text-align: left;
+    }
+</style>
+<body class="page-body skin-red">
+<div class="page-container 		">
+    <div th:replace="layout/public::leftbar"></div>
+    <div class="main-content">
+
+        <div th:replace="layout/public::headerBar"></div>
+
+        <div th:fragment="reg_room">
+            <h3>
+                <i class="entypo-right-circled"></i>
+                Đăng ký phòng </h3>
+
+            <div class="container">
+                <form>
+                    <div class="row justify-content-between">
+                        <div class="row col-lg-4">
+                            <label class="col-4" for="sel1">Chọn nhà</label>
+                            <th:block th:if="${#lists.isEmpty(areas)}">
+                                <h4>Không có nhà nào!</h4>
+                            </th:block>
+                            <th:block th:unless="${#lists.isEmpty(areas)}">
+                                <select class="form-control" id="select-area">
+                                    <option selected="selected" value="0">---Chọn khu nhà---</option>
+                                    <option th:each="area,iterStat:${areas}" th:text="${area.name}"
+                                            th:value="${area.id}">
+                                    </option>
+                                </select>
+                            </th:block>
+                            <br>
+                        </div>
+                        <div class="row col-lg-4">
+                            <label class="col-4" for="sel1">Chọn tầng</label>
+                            <th:block th:if="${#lists.isEmpty(floorsInArea)}">
+                                <h4>Không có tầng nào!</h4>
+                            </th:block>
+                            <th:block th:unless="${#lists.isEmpty(floorsInArea)}">
+                                <select class="form-control" id="select-floor">
+                                    <option selected="selected" value="0">---Chọn khu nhà---</option>
+                                    <option th:each="floor,iterStat:${floorsInArea}" th:text="${floor.name}"
+                                            th:value="${floor.id}">
+                                    </option>
+                                </select>
+                            </th:block>
+                            <br>
+                        </div>
+                    </div>
+
+                    <!--<button th:onclick='getRoomByAreaId();'>xem</button>-->
+                    <!--<input type="button" style="margin-left:10px;" value="Xem" th:onclick="getRoomByAreaId();">-->
+                    <table class="table table-bordered datatable" id="table_export">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div>Nhà</div>
+                                </th>
+                                <th>
+                                    <div>Tầng</div>
+                                </th>
+                                <th>
+                                    <div>Phòng</div>
+                                </th>
+                                <th>
+                                    <div>Số giường</div>
+                                </th>
+                                <th>
+                                    <div>SL đã đăng ký</div>
+                                </th>
+                                <th>
+                                    <div>Giá phòng</div>
+                                </th>
+                                <th width="70">
+                                    <div>Chọn</div>
+                                </th>
+                                <th>
+                                    <div>SL đăng ký của bạn</div>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="list_rooms">
+                        <th:block th:if="${#lists.isEmpty(roomsInArea)}">
+                            <h4>Không có dữ liệu!</h4>
+                        </th:block>
+                        <th:block th:unless="${#lists.isEmpty(roomsInArea)}">
+                            <th:block th:each="sb ,iterStat: ${roomsInArea)}">
+                                <tr>
+                                    <td th:text="${sb.areaName}"></td>
+                                    <td th:text="${sb.floorName}"></td>
+                                    <td th:text="${sb.roomName}"></td>
+                                    <td th:text="${sb.numberBed}"></td>
+                                    <td th:text="${sb.studentRegister}"></td>
+                                    <td th:text="${sb.costValue}"></td>
+                                    <td th:text="${sb.numberBed}"></td>
+                                    <td>
+                                        <label class="checkbox-inline"><input type="checkbox" value=""></label>
+                                    </td>
+                                    <td th:with="maxReg = ${sb.numberBed} - ${sb.studentRegister}">
+                                        <select class="form-control" id="select-num-reg">
+                                            <option th:each="id,iterStat:${maxReg}" th:text="${id}"
+                                                    th:value="${id}">
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </th:block>
+
+                        </th:block>
+
+                        </tbody>
+                    </table>
+
+                </form>
+            </div>
+
+            <!-----  DATA TABLE EXPORT CONFIGURATIONS ---->
+            <script type="text/javascript">
+
+                jQuery(document).ready(function ($) {
+
+
+                    var datatable = $("#table_export").dataTable();
+
+                    $(".dataTables_wrapper select").select2({
+                        minimumResultsForSearch: -1
+                    });
+                });
+
+            </script>
+        </div>
+
+        <!-- Footer -->
+        <footer th:replace="layout/public::footer"></footer>
+
+    </div>
+
+</div>
+<script type="text/javascript">
+    $("#select-area").change(function () {
+        var areaId = document.getElementById("select-area").value;
+        alert(areaId);
+        $.ajax({
+            type: "GET",
+            url: "/dorm/room/register-room/" + areaId,
+            success: function (data) {
+                var $country = $('#select-floor');
+                $country.empty();
+                $('#city').empty();
+                for (var i = 0; i < data.length; i++) {
+                    $country.append('<option id=' + data[i].id + ' value=' + data[i].name + '>' + data[i].name + '</option>');
+                }
+
+                //manually trigger a change event for the contry so that the change handler will get triggered
+                $country.change();
+            }
+        });
+    });
+    function getRoomByAreaId() {
+        var areaId = document.getElementById("select-area").value;
+        $.ajax({
+            type: "GET",
+            url: "/dorm/room/register-room/" + areaId,
+            success: function (data) {
+                console.log(data);
+                $("#list_rooms").html(data);
+            }
+        });
+    }
+</script>
+
+<!-- (Ajax Modal)-->
+<div class="modal fade" id="modal_ajax">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Dorm management</h4>
+            </div>
+
+            <div class="modal-body" style="height:500px; overflow:auto;">
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function confirm_modal(delete_url) {
+        jQuery('#modal-4').modal('show', {backdrop: 'static'});
+        document.getElementById('delete_link').setAttribute('href', delete_url);
+    }
+</script>
+
+<!-- (Normal Modal)-->
+<div class="modal fade" id="modal-4">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top:100px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Are you sure to delete this information ?</h4>
+            </div>
+
+
+            <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
+                <a href="#" class="btn btn-danger" id="delete_link">Xóa</a>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout/public::link"></div>
+</body>
+</html>
