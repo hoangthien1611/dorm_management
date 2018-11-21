@@ -85,21 +85,23 @@ public class AdminRoomController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("areas", areaService.getAllAreas());
-        model.addAttribute("floors", floorService.getAllFloorsByAreaId(1));
+        List<Area> areas = areaService.getAllAreas();
+        int firstAreaId = areas.size() > 0 ? areas.get(0).getId() : 0;
+        model.addAttribute("areas", areas);
+        model.addAttribute("floors", floorService.getAllFloorsByAreaId(firstAreaId));
         model.addAttribute("listFunction", roomFunctionService.getAllRoomFunction());
-        model.addAttribute("costs", costService.getAllByType(1));
+        model.addAttribute("costs", costService.getAllByType(Constant.COST_RENT_ROOM_PER_PERSON));
         return "admin/room/add";
     }
 
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute Room room, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors()) {
-            ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
         } else if (roomService.addRoom(room)) {
-            ra.addFlashAttribute("msg", new Message(1, "Thêm phòng thành công!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Thêm phòng thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Thêm phòng thất bại!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Thêm phòng thất bại!"));
         }
 
         return "redirect:/admin/room";
@@ -108,11 +110,11 @@ public class AdminRoomController {
     @PostMapping("/edit")
     public String edit(@Valid @ModelAttribute Room room, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors()) {
-            ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
         } else if (roomService.editRoom(room)) {
-            ra.addFlashAttribute("msg", new Message(1, "Cập nhật phòng thành công!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Cập nhật phòng thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Cập nhật phòng thất bại!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Cập nhật phòng thất bại!"));
         }
         return "redirect:/admin/room";
     }

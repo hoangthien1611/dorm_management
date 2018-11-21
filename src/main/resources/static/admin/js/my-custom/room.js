@@ -1,33 +1,36 @@
 function changeStatus(roomId, stt) {
-    var btn = '<span class="hide">' + stt + '</span>';
-    if (stt == 1) {
-        btn += '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus(' + roomId + ',0)">'
-            + 'Active'
-            + ' </button>';
-    } else {
-        btn += '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus(' + roomId + ',1)">'
-            + 'Inactive'
-            + ' </button>';
-    }
-
-    $.ajax({
-        type: 'post',
-        url: '/admin/room/change-status',
-        data: {
-            roomId: roomId,
-            stt: stt
-        },
-        success: function (data) {
-            if (data != null) {
-                $('.change-stt-' + roomId).html(btn);
-            } else {
-                alert('Cập nhật trạng thái thất bại!');
-            }
-        },
-        error: function () {
-            alert('Đã có lỗi xảy ra!');
+    var result = confirm('Bạn có chắc muốn thay đổi trạng thái phòng?');
+    if (result) {
+        var btn = '<span class="hide">' + stt + '</span>';
+        if (stt == 1) {
+            btn += '<button type="button" class="btn btn-success btn-xs" onclick="changeStatus(' + roomId + ',0)">'
+                + 'Active'
+                + ' </button>';
+        } else {
+            btn += '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus(' + roomId + ',1)">'
+                + 'Inactive'
+                + ' </button>';
         }
-    });
+
+        $.ajax({
+            type: 'post',
+            url: '/admin/room/change-status',
+            data: {
+                roomId: roomId,
+                stt: stt
+            },
+            success: function (data) {
+                if (data != null) {
+                    $('.change-stt-' + roomId).html(btn);
+                } else {
+                    alert('Cập nhật trạng thái thất bại!');
+                }
+            },
+            error: function () {
+                alert('Đã có lỗi xảy ra!');
+            }
+        });
+    }
 }
 
 $(document).ready(function () {
@@ -257,7 +260,7 @@ $(document).ready(function () {
         $.ajax({
             type : 'get',
             dataType : 'json',
-            url : '/admin/user/room/' + roomId,
+            url : '/admin/student/room/' + roomId,
             success: function(result) {
                 var html = '';
                 if (result != null && result.length > 0) {

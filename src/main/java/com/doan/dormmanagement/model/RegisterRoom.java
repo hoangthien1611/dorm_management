@@ -1,5 +1,6 @@
 package com.doan.dormmanagement.model;
 
+import com.doan.dormmanagement.utility.TimeString;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -45,6 +46,26 @@ public class RegisterRoom implements Serializable {
     private Integer areaId;
 
     private String areaName;
+
+    private String timeRegisterCustom;
+
+    private String timeCensorCustom;
+
+    public String getTimeRegisterCustom() {
+        return TimeString.convertTimeStampToTimeString(timeRegister);
+    }
+
+    public void setTimeRegisterCustom(String timeRegisterCustom) {
+        this.timeRegisterCustom = timeRegisterCustom;
+    }
+
+    public String getTimeCensorCustom() {
+        return TimeString.convertTimeStampToTimeString(timeCensor);
+    }
+
+    public void setTimeCensorCustom(String timeCensorCustom) {
+        this.timeCensorCustom = timeCensorCustom;
+    }
 
     public Integer getId() {
         return id;

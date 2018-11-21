@@ -9,6 +9,8 @@ public interface SubsistenceFeeService {
 
     List<SubsistenceFee> getAllByMonthAndYearAndArea(Integer month, Integer year, Integer areaId);
 
+    List<SubsistenceFee> getAllByMonthAndYearAndFloor(Integer month, Integer year, Integer floorId);
+
     List<SubsistenceFee> getSubsistenceFeeByRoomId(Integer id);
 
     List<SubsistenceFee> getSubsistenceFeeByRoomIdAndTime(Integer roomId, Integer month, Integer year);
@@ -16,4 +18,6 @@ public interface SubsistenceFeeService {
     boolean editSubsistenceFee(SubsistenceFee subsistenceFee);
 
     boolean addSubsistenceFee(SubsistenceFee subsistenceFee);
+
+    boolean changeStatusToPaid(Integer subsistenceId);
 }

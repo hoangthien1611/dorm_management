@@ -36,11 +36,9 @@ public class SubsistenceFee implements Serializable {
     @NotNull
     @Min(1)
     private Integer newNumberElec;
-    @NotNull
-    @Min(1)
+
     private Integer oldNumberWater;
-    @NotNull
-    @Min(1)
+
     private Integer oldNumberElec;
 
     private Float costWater;

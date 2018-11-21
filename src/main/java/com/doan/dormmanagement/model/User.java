@@ -3,6 +3,7 @@ package com.doan.dormmanagement.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
@@ -22,6 +23,16 @@ public class User implements Serializable {
     private UserDetail userDetail;
 
     private StudentCode studentCode;
+
+    List<RoleUser> roleUsers;
+
+    public List<RoleUser> getRoleUsers() {
+        return roleUsers;
+    }
+
+    public void setRoleUsers(List<RoleUser> roleUsers) {
+        this.roleUsers = roleUsers;
+    }
 
     public StudentCode getStudentCode() {
         return studentCode;

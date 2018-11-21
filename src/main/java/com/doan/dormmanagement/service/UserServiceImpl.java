@@ -33,4 +33,31 @@ public class UserServiceImpl implements UserService {
 
         return null;
     }
+
+    @Override
+    public List<User> getAllUsersByFloorId(Integer floorId) {
+        DataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "user/floor/" + floorId, DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            List<User> users = (List<User>) data.getData();
+            return users;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsersByAreaId(Integer areaId) {
+        DataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "user/area/" + areaId, DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            List<User> users = (List<User>) data.getData();
+            return users;
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean changeStatus(Integer userId, Integer status) {
+        return true;
+    }
 }

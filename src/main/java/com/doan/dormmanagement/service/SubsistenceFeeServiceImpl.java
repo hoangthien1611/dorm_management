@@ -37,6 +37,17 @@ public class SubsistenceFeeServiceImpl implements SubsistenceFeeService {
     }
 
     @Override
+    public List<SubsistenceFee> getAllByMonthAndYearAndFloor(Integer month, Integer year, Integer floorId) {
+        String url = BaseAPI.BASE_API_PREFIX + "subsistence/floor/" + floorId + "/" + month + "/" + year;
+        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
+
+        if (data.getCode() == 200 && data.getData() != null) {
+            return (List<SubsistenceFee>) data.getData();
+        }
+        return null;
+    }
+
+    @Override
     public List<SubsistenceFee> getSubsistenceFeeByRoomId(Integer id) {
         DataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "subsistence/room/" + id, DataResponse.class);
         if (data.getCode() == 200 && data.getData() != null) {
@@ -76,6 +87,16 @@ public class SubsistenceFeeServiceImpl implements SubsistenceFeeService {
         ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.PUT, entity, DataResponse.class);
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean changeStatusToPaid(Integer subsistenceId) {
+        String url = BaseAPI.BASE_API_PREFIX + "subsistence/pay/" + subsistenceId;
+        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
+        if (data.getCode() == 207 && data.getData() != null) {
             return true;
         }
         return false;

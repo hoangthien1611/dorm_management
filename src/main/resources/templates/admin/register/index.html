@@ -32,6 +32,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
+                            <form th:action="@{/admin/register-room/accept-all}" method="post" class="form-horizontal form-label-left">
                             <div class="x_title">
                                 <h2>Danh sách Đăng ký phòng</h2>
                                 <button type="submit" id="acceptAll" class="btn btn-warning" style="margin-left: 10px;display:none;">Phê duyệt tất cả
@@ -44,36 +45,34 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <form data-parsley-validate class="form-horizontal form-label-left">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Khu nhà
-                                        </label>
-                                        <div class="col-md-2 col-sm-2 col-xs-12">
-                                            <select class="form-control" id="select-area">
-                                                <option th:each="area,iterStat:${areas}" th:text="${area.name}"
-                                                        th:value="${area.id}"></option>
-                                            </select>
-                                        </div>
-                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Tầng
-                                        </label>
-                                        <div class="col-md-2 col-sm-2 col-xs-12">
-                                            <select class="form-control" id="select-floor">
-                                                <option value="0">Tất cả</option>
-                                                <option th:each="floor,iterStat:${floors}" th:value="${floor.id}"
-                                                        th:text="${floor.name}">Choose option</option>
-                                            </select>
-                                        </div>
-                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Phòng
-                                        </label>
-                                        <div class="col-md-2 col-sm-2 col-xs-12">
-                                            <select class="form-control" id="select-room">
-                                                <option value="0">Tất cả</option>
-                                                <option th:each="room,iterStat:${rooms}" th:value="${room.id}"
-                                                        th:text="${room.name}">Choose option</option>
-                                            </select>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Khu nhà
+                                    </label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                        <select class="form-control" id="select-area">
+                                            <option th:each="area,iterStat:${areas}" th:text="${area.name}"
+                                                    th:value="${area.id}"></option>
+                                        </select>
                                     </div>
-                                </form>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Tầng
+                                    </label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                        <select class="form-control" id="select-floor">
+                                            <option value="0">Tất cả</option>
+                                            <option th:each="floor,iterStat:${floors}" th:value="${floor.id}"
+                                                    th:text="${floor.name}">Choose option</option>
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Phòng
+                                    </label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                        <select class="form-control" id="select-room">
+                                            <option value="0">Tất cả</option>
+                                            <option th:each="room,iterStat:${rooms}" th:value="${room.id}"
+                                                    th:text="${room.name}">Choose option</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <table class="table table-striped table-hover">
                                     <thead>
                                     <tr>
@@ -89,7 +88,7 @@
                                         <th>Hành động</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="table-body">
                                     <th:block th:if="${#lists.isEmpty(registers)}">
                                         <tr><td colspan="9" class="text-center"><h3>Không có dữ liệu!</h3></td></tr>
                                     </th:block>
@@ -103,7 +102,7 @@
                                         <td th:text="${reg.fullName}" class="name"></td>
                                         <td th:text="${reg.className}" class="class"></td>
                                         <td th:text="${reg.gender == 1 ? 'Nam' : 'Nữ'}" class="gender"></td>
-                                        <td th:text="${reg.timeRegister}" class="time-register"></td>
+                                        <td th:text="${reg.timeRegisterCustom}" class="time-register"></td>
                                         <td th:text="${reg.roomName}" class="room"></td>
                                         <td class="stt">
                                             <span th:text="${reg.status}" class="hide"></span>
@@ -112,22 +111,19 @@
                                                 </button>
                                             </th:block>
                                             <th:block th:if="${reg.status == 0}">
-                                                <button type="button" class="btn btn-danger btn-xs">Chưa phê duyệt
+                                                <button type="button" class="btn btn-danger btn-xs">Chờ phê duyệt
                                                 </button>
                                             </th:block>
                                         </td>
                                         <td>
-                                            <button href="#" class="btn btn-primary btn-xs"><i
-                                                    class="fa fa-folder"></i> View
-                                            </button>
-                                            <button href="#" class="btn btn-info btn-xs btn-edit"
-                                                    data-toggle="modal"
-                                                    data-target="#areaModal"><i class="fa fa-pencil"></i>Edit
+                                            <button type="button" class="btn btn-primary btn-xs btn-view"
+                                                    data-toggle="modal" data-target="#viewModal">
+                                                <i class="fa fa-folder"></i> View
                                             </button>
                                         </td>
                                         <td th:text="${reg.studentCode}" class="std-code hide"></td>
                                         <td th:text="${reg.year}" class="year hide"></td>
-                                        <td th:text="${reg.timeCensor}" class="time-censor hide"></td>
+                                        <td th:text="${reg.timeCensorCustom}" class="time-censor hide"></td>
                                         <td th:text="${reg.semesterName}" class="semester hide"></td>
                                         <td th:text="${reg.floorName}" class="floor hide"></td>
                                         <td th:text="${reg.areaName}" class="area hide"></td>
@@ -135,76 +131,60 @@
                                     </th:block>
                                     </tbody>
                                 </table>
-                                <div id="areaModal" class="modal fade" role="dialog">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;
-                                                </button>
-                                                <h4 class="modal-title">CẬP NHẬT THÔNG TIN KHU NHÀ</h4>
+                            </div>
+                            </form>
+                            <div id="viewModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                            </button>
+                                            <h4 class="modal-title title-view">THÔNG TIN ĐĂNG KÝ PHÒNG</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12">
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                        <tr>
+                                                            <th style="border-top: none">Họ tên</th>
+                                                            <td id="name-view" style="border-top: none">Nguyễn A</td>
+                                                            <th style="border-top: none">MSSV</th>
+                                                            <td id="std-code-view" style="border-top: none">Tiền nước</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Lớp</th>
+                                                            <td id="class-view">123</td>
+                                                            <th>Giới tính</th>
+                                                            <td id="gender-view">12</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Thời hạn</th>
+                                                            <td id="semester-view">133</td>
+                                                            <th>Năm</th>
+                                                            <td id="year-view">15</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>TG đăng ký</th>
+                                                            <td id="register-view">10</td>
+                                                            <th>TG phê duyệt</th>
+                                                            <td id="accept-view">3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Phòng ĐK</th>
+                                                            <td colspan="3" id="room-view">Phòng 123, Tầng 1, Khu nhà 1</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
                                             </div>
-                                            <form id="demo-form2" data-parsley-validate
-                                                  class="form-horizontal" th:action="@{/admin/area/edit}" method="post">
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-sm-12 col-md-12">
-
-                                                            <div class="form-group hide">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                                                       for="id">Id
-                                                                </label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <input type="text" id="id" name="id"
-                                                                           class="form-control col-md-7 col-xs-12">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                                                       for="name">Tên <span
-                                                                        class="required">*</span>
-                                                                </label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <input type="text" id="name" name="name"
-                                                                           required="required"
-                                                                           class="form-control col-md-7 col-xs-12">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                                                       for="numberFloor">Số tầng <span
-                                                                        class="required">*</span>
-                                                                </label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <input type="number" id="numberFloor"
-                                                                           name="numberFloor"
-                                                                           required="required"
-                                                                           class="form-control col-md-7 col-xs-12">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Trạng
-                                                                    thái</label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <select class="form-control" name="status"
-                                                                            id="status">
-                                                                        <option value="1">Active</option>
-                                                                        <option value="0">Inactive</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default"
-                                                            data-dismiss="modal">
-                                                        Đóng
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary antosubmit">Lưu
-                                                    </button>
-                                                </div>
-                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">
+                                                Đóng
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

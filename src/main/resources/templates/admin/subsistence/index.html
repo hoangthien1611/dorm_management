@@ -46,10 +46,19 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1 col-sm-1 col-xs-12">Khu nhà
                                     </label>
-                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
                                         <select class="form-control" id="select-area-index" name="areaId">
                                             <option th:each="area,iterStat:${areas}" th:text="${area.name}"
                                                     th:value="${area.id}"></option>
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Tầng
+                                    </label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                        <select class="form-control" id="select-floor-index" name="floorId">
+                                            <option value="0">Tất cả</option>
+                                            <option th:each="floor,iterStat:${floors}" th:text="${floor.name}"
+                                                    th:value="${floor.id}"></option>
                                         </select>
                                     </div>
                                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Thời gian
@@ -94,18 +103,18 @@
                                                 <td th:text="${(fee.newNumberElec - fee.oldNumberElec)*fee.costElec + ' VND'}" class="elec"></td>
                                                 <td th:text="${(fee.newNumberWater - fee.oldNumberWater)*fee.costWater + ' VND'}" class="water"></td>
                                                 <td th:text="${fee.total + ' VND'}" class="total"></td>
-                                                <td class="stt">
+                                                <td th:class="${'stt change-stt-' + fee.id}">
                                                     <span th:text="${fee.status}" class="hide"></span>
                                                     <th:block th:if="${fee.status == 1}">
                                                         <button type="button" class="btn btn-success btn-xs">Đã nộp
                                                         </button>
                                                     </th:block>
                                                     <th:block th:if="${fee.status == 0}">
-                                                        <button type="button" class="btn btn-dark btn-xs">Chưa nộp
+                                                        <button type="button" class="btn btn-dark btn-xs" th:onclick="'javascript:changeStatus('+ ${fee.id} +');'">Chưa nộp
                                                         </button>
                                                     </th:block>
                                                 </td>
-                                                <td>
+                                                <td id="btn-actions">
                                                     <button href="#" class="btn btn-primary btn-xs btn-view"
                                                             data-toggle="modal"
                                                             data-target="#viewModal"><i class="fa fa-folder"></i> View
@@ -228,22 +237,22 @@
                                                                         <th>Số cũ</th>
                                                                         <td>
                                                                             <input type="number" id="oldElecEdit" name="oldNumberElec"
-                                                                               class="form-control">
+                                                                               class="form-control" readonly>
                                                                         </td>
                                                                         <td>
                                                                             <input type="number" id="oldWaterEdit" name="oldNumberWater"
-                                                                                   class="form-control">
+                                                                                   class="form-control" readonly>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Số mới</th>
                                                                         <td>
                                                                             <input type="number" id="newElecEdit" name="newNumberElec"
-                                                                                   class="form-control">
+                                                                                   class="form-control" required>
                                                                         </td>
                                                                         <td>
                                                                             <input type="number" id="newWaterEdit" name="newNumberWater"
-                                                                                   class="form-control">
+                                                                                   class="form-control" required>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>

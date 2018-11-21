@@ -1,9 +1,11 @@
 package com.doan.dormmanagement.controller;
 
+import com.doan.dormmanagement.common.Constant;
 import com.doan.dormmanagement.dto.Message;
 import com.doan.dormmanagement.model.Area;
 import com.doan.dormmanagement.model.SubsistenceFee;
 import com.doan.dormmanagement.service.AreaService;
+import com.doan.dormmanagement.service.FloorService;
 import com.doan.dormmanagement.service.RoomService;
 import com.doan.dormmanagement.service.SubsistenceFeeService;
 import com.doan.dormmanagement.utility.TimeString;
@@ -32,12 +34,16 @@ public class AdminSubsistenceFeeController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private FloorService floorService;
+
     @GetMapping
     public String index(Model model) {
         List<Area> areas = areaService.getAllAreas();
         int firstAreaId = areas.size() > 0 ? areas.get(0).getId() : 0;
         int[] time = TimeString.getPreviousMonth();
         model.addAttribute("areas", areas);
+        model.addAttribute("floors", floorService.getAllFloorsByAreaId(firstAreaId));
         model.addAttribute("feeList", subsistenceFeeService.getAllByMonthAndYearAndArea(time[0], time[1], firstAreaId));
         model.addAttribute("yearMonth", TimeString.convertYearMonthtoString(time[1], time[0]));
         return "admin/subsistence/index";
@@ -59,25 +65,44 @@ public class AdminSubsistenceFeeController {
         } catch (NumberFormatException e) {
             return new ArrayList<>();
         }
+    }
 
+    @ResponseBody
+    @GetMapping("/floor/{floorId}/{month}/{year}")
+    public List<SubsistenceFee> getAllSubsistenceByFloorAndTime(@PathVariable("floorId") Optional<String> id, @PathVariable("month") Optional<String> m, @PathVariable("year") Optional<String> y) {
+        try {
+            if (id.isPresent() && m.isPresent() && y.isPresent()) {
+                Integer floorId = Integer.parseInt(id.get());
+                Integer month = Integer.parseInt(m.get());
+                Integer year = Integer.parseInt(y.get());
+
+                List<SubsistenceFee> list = subsistenceFeeService.getAllByMonthAndYearAndFloor(month, year, floorId);
+                return list != null ? list : new ArrayList<>();
+            }
+            return new ArrayList<>();
+        } catch (NumberFormatException e) {
+            return new ArrayList<>();
+        }
     }
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("areas", areaService.getAllAreas());
-        model.addAttribute("rooms", roomService.getRoomsByAreaId(1));
+        List<Area> areas = areaService.getAllAreas();
+        int firstAreaId = areas.size() > 0 ? areas.get(0).getId() : 0;
+        model.addAttribute("areas", areas);
+        model.addAttribute("rooms", roomService.getRoomsByAreaId(firstAreaId));
         return "admin/subsistence/add";
     }
 
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute SubsistenceFee subsistenceFee, BindingResult br, RedirectAttributes ra) {
-        if (br.hasErrors() || subsistenceFee.getNewNumberWater() < subsistenceFee.getOldNumberWater() || subsistenceFee.getNewNumberElec() < subsistenceFee.getOldNumberElec()) {
-            ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập đầy đủ thông tin phù hợp!"));
+        if (br.hasErrors()) {
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập đầy đủ thông tin phù hợp!"));
             return "redirect:/admin/subsistence/add";
         } else if (subsistenceFeeService.addSubsistenceFee(subsistenceFee)) {
-            ra.addFlashAttribute("msg", new Message(1, "Thêm thành công!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Thêm thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Thêm thất bại!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Thêm thất bại!"));
         }
 
         return "redirect:/admin/subsistence";
@@ -118,12 +143,21 @@ public class AdminSubsistenceFeeController {
     @PostMapping("/edit")
     public String edit(@Valid @ModelAttribute SubsistenceFee subsistenceFee, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors() || subsistenceFee.getNewNumberWater() < subsistenceFee.getOldNumberWater() || subsistenceFee.getNewNumberElec() < subsistenceFee.getOldNumberElec()) {
-            ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
         } else if (subsistenceFeeService.editSubsistenceFee(subsistenceFee)) {
-            ra.addFlashAttribute("msg", new Message(1, "Cập nhật thành công!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Cập nhật thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Cập nhật thất bại!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Cập nhật thất bại!"));
         }
         return "redirect:/admin/subsistence";
+    }
+
+    @PostMapping("/paid")
+    @ResponseBody
+    public String changeStatusToPaid(@RequestParam("feeId") Integer id) {
+        if (subsistenceFeeService.changeStatusToPaid(id)) {
+            return "OK";
+        }
+        return null;
     }
 }

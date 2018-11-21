@@ -1,5 +1,7 @@
 package com.doan.dormmanagement.utility;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,5 +25,10 @@ public class TimeString {
 
     public static String convertYearMonthtoString(int year, int month) {
         return month < 10 ? year + "-0" + month : year + "-" + month;
+    }
+
+    public static String convertTimeStampToTimeString(Timestamp time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.mmm");
+        return sdf.format(time);
     }
 }

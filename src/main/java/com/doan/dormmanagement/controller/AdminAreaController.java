@@ -1,5 +1,6 @@
 package com.doan.dormmanagement.controller;
 
+import com.doan.dormmanagement.common.Constant;
 import com.doan.dormmanagement.dto.Message;
 import com.doan.dormmanagement.model.Area;
 import com.doan.dormmanagement.service.AreaService;
@@ -28,11 +29,11 @@ public class AdminAreaController {
     @PostMapping("/edit")
     public String edit(@Valid @ModelAttribute Area area, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors()) {
-            ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
         } else if (areaService.editArea(area)) {
-            ra.addFlashAttribute("msg", new Message(1, "Cập nhật " + area.getName() + " thành công!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Cập nhật " + area.getName() + " thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Cập nhật " + area.getName() + " thất bại!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Cập nhật " + area.getName() + " thất bại!"));
         }
 
         return "redirect:/admin/area";
@@ -46,11 +47,11 @@ public class AdminAreaController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute Area area, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors()) {
-            ra.addFlashAttribute("msg", new Message(0, "Vui lòng nhập thông tin phù hợp!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
         } else if (areaService.addArea(area)) {
-            ra.addFlashAttribute("msg", new Message(1, "Thêm khu nhà thành công!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Thêm khu nhà thành công!"));
         } else {
-            ra.addFlashAttribute("msg", new Message(0, "Thêm khu nhà thất bại!"));
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Thêm khu nhà thất bại!"));
         }
 
         return "redirect:/admin/area";

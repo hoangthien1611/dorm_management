@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface FloorService {
     List<Floor> getAllFloorsByAreaId(Integer areaId);
+
+    boolean addFloor(Floor floor);
+
+    boolean changeStatus(Integer floorId, Integer status);
 }

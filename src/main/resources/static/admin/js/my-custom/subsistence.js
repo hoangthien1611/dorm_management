@@ -1,57 +1,126 @@
+function changeStatus(feeId) {
+    var result = confirm('Bạn có chắc muốn xác nhận phòng này đã nộp tiền?');
+    if (result) {
+        var btn = '<span class="hide">1</span>'
+                    + '<button type="button" class="btn btn-success btn-xs">Đã nộp</button>';
+        var actions = '<button href="#" class="btn btn-primary btn-xs btn-view" data-toggle="modal" data-target="#viewModal"><i class="fa fa-folder"></i> View </button>'
+                        + ' <button href="#" class="btn btn-info btn-xs disabled"><i class="fa fa-pencil"></i> Edit </button>';
+
+
+        $.ajax({
+            type: 'post',
+            url: '/admin/subsistence/paid',
+            data: {
+                feeId
+            },
+            success: function (data) {
+                if (data != null) {
+                    $('.change-stt-' + feeId).html(btn);
+                    $('#btn-actions').html(actions);
+                } else {
+                    alert('Cập nhật trạng thái thất bại!');
+                }
+            },
+            error: function () {
+                alert('Đã có lỗi xảy ra!');
+            }
+        });
+    }
+}
+
+
 $(document).ready(function () {
 
     $(document).on("click", "#submit", function () {
         var areaId = $('#select-area-index').val();
+        var floorId = $('#select-floor-index').val();
         var time = $('#timeFilter').val();
         var monthYear = time.split('-');
-        console.log(areaId + " " + time);
+        console.log(areaId + " " + floorId + " " + time);
 
         if (monthYear.length == 2) {
             var year = monthYear[0];
             var month = monthYear[1];
-            $.ajax({
-                type : 'get',
-                dataType : 'json',
-                url : '/admin/subsistence/area/' + areaId + '/' + month + '/' + year,
-                success: function(result) {
-                    var html = '';
-                    if (result != null && result.length > 0) {
-                        result.forEach(function (item, index) {
-                            html += '<tr>'
-                                    + '<td scope="row">' + (index + 1) + '</td>'
-                                    + '<td class="id hide">' + item.id + '</td>'
-                                    + '<td class="room-name">' + item.roomName + '</td>'
-                                    + '<td class="area-name">' + item.areaName + '</td>'
-                                    + '<td class="time">' + item.month + '/' + item.year + '</td>'
-                                    + '<td class="elec">' + (item.newNumberElec - item.oldNumberElec)*item.costElec + ' VND' + '</td>'
-                                    + '<td class="water">' + (item.newNumberWater - item.oldNumberWater)*item.costWater + ' VND' + '</td>'
-                                    + '<td class="total">' + item.total + ' VND' + '</td>'
-                                    + '<td class="stt">'
-                                    + '<span class="hide">' + item.status + '</span>'
-                                    + (item.status == 0 ? '<button type="button" class="btn btn-dark btn-xs">Chưa nộp</button>' : '<button type="button" class="btn btn-success btn-xs">Đã nộp</button>')
-                                    + '</td>'
-                                    + '<td>'
-                                    + '<button href="#" class="btn btn-primary btn-xs btn-view" data-toggle="modal" data-target="#viewModal"><i class="fa fa-folder"></i> View </button>'
-                                    + (item.status == 0 ? '<button href="#" class="btn btn-info btn-xs btn-edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i> Edit </button>' : '<button href="#" class="btn btn-info btn-xs disabled"><i class="fa fa-pencil"></i> Edit </button>')
-                                    + '</td>'
-                                    + '<td class="oldElec hide">' + item.oldNumberElec + '</td>'
-                                    + '<td class="newElec hide">' + item.newNumberElec + '</td>'
-                                    + '<td class="oldWater hide">' + item.oldNumberWater + '</td>'
-                                    + '<td class="newWater hide">' + item.newNumberWater + '</td>'
-                                    + '<td class="roomId hide">' + item.roomId + '</td>'
-                                    + '</tr>';
-                        });
-                    } else {
-                        html = '<tr><td colspan="9" class="text-center"><h3>Không có dữ liệu!</h3></td></tr>';
-                    }
-                    $('#tbody-subsistence').html(html);
-                },
-                error: function () {
-                    alert('Đã có lỗi xảy ra!');
-                }
-            });
+            var url = '/admin/subsistence/area/' + areaId + '/' + month + '/' + year;
+            if (floorId != 0) {
+                url = '/admin/subsistence/floor/' + floorId + '/' + month + '/' + year;
+            }
+            showData(url);
         }
     });
+
+    $(document).on("change", "#select-area-index", function () {
+        var areaId = this.value;
+        showFloors(areaId, '#select-floor-index');
+    });
+
+    function showFloors(areaId, destination) {
+        $.ajax({
+            type : 'get',
+            dataType : 'json',
+            url : '/admin/floor/area/' + areaId,
+            success: function(result) {
+                console.log('floors: ' + result.length);
+                var html = '';
+                if (result != null && result.length > 0) {
+                    html += '<option value="0">Tất cả</option>';
+                    result.forEach(function (item, index) {
+                        html += '<option value="' + item.id + '">' + item.name + '</option>';
+                    });
+                } else {
+                    html = '<option value="">Không tìm thấy tầng nào!</option>';
+                }
+                $(destination).html(html);
+            },
+            error: function () {
+                alert('Đã có lỗi xảy ra!');
+            }
+        });
+    }
+
+    function showData(url) {
+        $.ajax({
+            type : 'get',
+            dataType : 'json',
+            url : url,
+            success: function(result) {
+                var html = '';
+                if (result != null && result.length > 0) {
+                    result.forEach(function (item, index) {
+                        html += '<tr>'
+                            + '<td scope="row">' + (index + 1) + '</td>'
+                            + '<td class="id hide">' + item.id + '</td>'
+                            + '<td class="room-name">' + item.roomName + '</td>'
+                            + '<td class="area-name">' + item.areaName + '</td>'
+                            + '<td class="time">' + item.month + '/' + item.year + '</td>'
+                            + '<td class="elec">' + (item.newNumberElec - item.oldNumberElec)*item.costElec + ' VND' + '</td>'
+                            + '<td class="water">' + (item.newNumberWater - item.oldNumberWater)*item.costWater + ' VND' + '</td>'
+                            + '<td class="total">' + item.total + ' VND' + '</td>'
+                            + '<td class="stt change-stt-' + item.id + '">'
+                            + '<span class="hide">' + item.status + '</span>'
+                            + (item.status == 0 ? '<button type="button" class="btn btn-dark btn-xs" onclick="changeStatus('+ item.id +')">Chưa nộp</button>' : '<button type="button" class="btn btn-success btn-xs">Đã nộp</button>')
+                            + '</td>'
+                            + '<td id="btn-actions">'
+                            + '<button href="#" class="btn btn-primary btn-xs btn-view" data-toggle="modal" data-target="#viewModal"><i class="fa fa-folder"></i> View </button>'
+                            + (item.status == 0 ? ' <button href="#" class="btn btn-info btn-xs btn-edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i> Edit </button>' : ' <button href="#" class="btn btn-info btn-xs disabled"><i class="fa fa-pencil"></i> Edit </button>')
+                            + '</td>'
+                            + '<td class="oldElec hide">' + item.oldNumberElec + '</td>'
+                            + '<td class="newElec hide">' + item.newNumberElec + '</td>'
+                            + '<td class="oldWater hide">' + item.oldNumberWater + '</td>'
+                            + '<td class="newWater hide">' + item.newNumberWater + '</td>'
+                            + '<td class="roomId hide">' + item.roomId + '</td>'
+                            + '</tr>';
+                    });
+                } else {
+                    html = '<tr><td colspan="9" class="text-center"><h3>Không có dữ liệu!</h3></td></tr>';
+                }
+                $('#tbody-subsistence').html(html);
+            },
+            error: function () {
+                alert('Đã có lỗi xảy ra!');
+            }
+        });
+    }
 
     $(document).on("click", ".btn-view", function () {
         var oldElec = $(this).closest('tr').children('td.oldElec').text();

@@ -4,11 +4,9 @@ import com.doan.dormmanagement.model.Floor;
 import com.doan.dormmanagement.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,5 +32,23 @@ public class AdminFloorController {
         } catch (NumberFormatException e) {
             return new ArrayList<>();
         }
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public String addFloor(@Valid @ModelAttribute Floor floor) {
+        if (floorService.addFloor(floor)) {
+            return "OK";
+        }
+        return null;
+    }
+
+    @PostMapping("/change-status")
+    @ResponseBody
+    public String changeStatus(@RequestParam("floorId") Integer id, @RequestParam("stt") Integer stt) {
+        if (floorService.changeStatus(id, stt)) {
+            return "OK";
+        }
+        return null;
     }
 }

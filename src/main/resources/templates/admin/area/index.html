@@ -75,19 +75,109 @@
                                                 </th:block>
                                             </td>
                                             <td>
-                                                <button href="#" class="btn btn-primary btn-xs"><i
-                                                        class="fa fa-folder"></i> View
+                                                <button href="#" class="btn btn-primary btn-xs btn-view"
+                                                        data-toggle="modal"
+                                                        data-target="#areaModalView">
+                                                    <i class="fa fa-folder"></i> View
                                                 </button>
                                                 <button href="#" class="btn btn-info btn-xs btn-edit"
                                                         data-toggle="modal"
-                                                        data-target="#areaModal"><i class="fa fa-pencil"></i>
+                                                        data-target="#areaModalEdit"><i class="fa fa-pencil"></i>
                                                     Edit
                                                 </button>
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div id="areaModal" class="modal fade" role="dialog">
+                                    <!-- Modal View -->
+                                    <div id="areaModalView" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                    <h4 class="modal-title">THÔNG TIN KHU NHÀ</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 text-center">
+                                                                    <h4>THÔNG TIN KHU NHÀ</h4>
+                                                                </div>
+                                                            </div>
+                                                            <table class="table table-striped">
+                                                                <tbody>
+                                                                <tr class="hide">
+                                                                    <th>ID:</th>
+                                                                    <td id="id-view"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Tên:</th>
+                                                                    <td id="name-view"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Số tầng:</th>
+                                                                    <td id="number-floor-view"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Trạng thái:</th>
+                                                                    <td id="status-view"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-sm-6"  style="border-left: solid 1px black;">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 text-center">
+                                                                    <h4>DANH SÁCH CÁC TẦNG</h4>
+                                                                </div>
+                                                            </div>
+                                                            <table class="table table-hover table-striped"  id="table-subsistence-view">
+                                                                <tbody id="tbody-floors-view">
+                                                                <tr>
+                                                                    <td id="name-floor-view">Tầng 1</td>
+                                                                    <td id="stt-floor-view">
+                                                                        <button type="button" class="btn btn-success btn-xs">Active</button>
+                                                                    </td>
+                                                                </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <button class="btn btn-primary btn-add-floor">Thêm tầng</button>
+                                                                    <form id="form-add-floor" data-parsley-validate style="display:none;"
+                                                                          class="form-horizontal">
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                                                <input type="text" id="nameFloor" name="name"
+                                                                                       required="required" placeholder="Nhập tên tầng"
+                                                                                       class="form-control col-md-7 col-xs-12">
+                                                                            </div>
+                                                                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                                                                <button type="button" class="btn btn-info btn-submit-add">Thêm</button>
+                                                                            </div>
+                                                                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                                                                <button type="button" class="btn btn-basic btn-cancel-add">Hủy</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Đóng
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="areaModalEdit" class="modal fade" role="dialog">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">

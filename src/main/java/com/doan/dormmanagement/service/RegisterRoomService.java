@@ -8,4 +8,8 @@ public interface RegisterRoomService {
     List<RegisterRoom> getAllByRoomId(Integer roomId);
 
     List<RegisterRoom> getAllByAreaId(Integer areaId);
+
+    List<RegisterRoom> getAllByFloorId(Integer floorId);
+
+    boolean acceptAll(Integer[] intArr);
 }
