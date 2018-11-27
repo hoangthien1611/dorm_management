@@ -97,8 +97,10 @@ public class AdminRoomController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute Room room, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors()) {
-            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
-        } else if (roomService.addRoom(room)) {
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập đầy đủ thông tin phù hợp!"));
+            return "redirect:/admin/room/add";
+        }
+        if (roomService.addRoom(room)) {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Thêm phòng thành công!"));
         } else {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Thêm phòng thất bại!"));

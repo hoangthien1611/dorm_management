@@ -14,7 +14,7 @@ function changeStatus(feeId) {
                 feeId
             },
             success: function (data) {
-                if (data != null) {
+                if (data == "OK") {
                     $('.change-stt-' + feeId).html(btn);
                     $('#btn-actions').html(actions);
                 } else {
@@ -41,11 +41,13 @@ $(document).ready(function () {
         if (monthYear.length == 2) {
             var year = monthYear[0];
             var month = monthYear[1];
-            var url = '/admin/subsistence/area/' + areaId + '/' + month + '/' + year;
+            // var url = '/admin/subsistence/area/' + areaId + '/' + month + '/' + year;
+            var url = 'http://localhost:8080/admin/subsistence?area=' + areaId + '&floor=0&month=' + month + '&year=' + year;
             if (floorId != 0) {
-                url = '/admin/subsistence/floor/' + floorId + '/' + month + '/' + year;
+                url = 'http://localhost:8080/admin/subsistence?area=' + areaId + '&floor=' + floorId + '&month=' + month + '&year=' + year;
             }
-            showData(url);
+            // showData(url);
+            window.location = url;
         }
     });
 
@@ -165,6 +167,8 @@ $(document).ready(function () {
         var oldWater = $(this).closest('tr').children('td.oldWater').text();
         var newWater = $(this).closest('tr').children('td.newWater').text();
         var roomId = $(this).closest('tr').children('td.roomId').text();
+        var areaId = $('#select-area-index').val();
+        var floorId = $('#select-floor-index').val();
 
         var room = $(this).closest('tr').children('td.room-name').text();
         var area = $(this).closest('tr').children('td.area-name').text();
@@ -186,6 +190,8 @@ $(document).ready(function () {
         $('#roomId').val(roomId);
         $('#month').val(month);
         $('#year').val(year);
+        $('#floorId').val(floorId);
+        $('#areaId').val(areaId);
     });
 
     $(document).on("change", "#select-area", function () {

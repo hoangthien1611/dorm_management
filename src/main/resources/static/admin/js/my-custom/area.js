@@ -20,7 +20,7 @@ function changeStatus(areaId, stt) {
                 stt
             },
             success: function (data) {
-                if (data != null) {
+                if (data == "OK") {
                     $('.change-stt-' + areaId).html(btn);
                     $('#status-view').html(btn);
                 } else {
@@ -56,7 +56,7 @@ function changeStatusFloor(floorId, stt) {
                 stt
             },
             success: function (data) {
-                if (data != null) {
+                if (data == "OK") {
                     $('.change-stt-floor-' + floorId).html(btn);
                 } else {
                     alert('Cập nhật trạng thái thất bại!');

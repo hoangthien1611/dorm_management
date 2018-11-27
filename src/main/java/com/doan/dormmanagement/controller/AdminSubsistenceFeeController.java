@@ -38,15 +38,39 @@ public class AdminSubsistenceFeeController {
     private FloorService floorService;
 
     @GetMapping
-    public String index(Model model) {
-        List<Area> areas = areaService.getAllAreas();
-        int firstAreaId = areas.size() > 0 ? areas.get(0).getId() : 0;
-        int[] time = TimeString.getPreviousMonth();
-        model.addAttribute("areas", areas);
-        model.addAttribute("floors", floorService.getAllFloorsByAreaId(firstAreaId));
-        model.addAttribute("feeList", subsistenceFeeService.getAllByMonthAndYearAndArea(time[0], time[1], firstAreaId));
-        model.addAttribute("yearMonth", TimeString.convertYearMonthtoString(time[1], time[0]));
-        return "admin/subsistence/index";
+    public String index(Model model, @RequestParam("area") Optional<String> aId, @RequestParam("floor") Optional<String> fId,
+                        @RequestParam("month") Optional<String> m, @RequestParam("year") Optional<String> y) {
+        try {
+            List<Area> areas = areaService.getAllAreas();
+
+            if (aId.isPresent() && fId.isPresent() && m.isPresent() && y.isPresent()) {
+                Integer areaId = Integer.parseInt(aId.get());
+                Integer floorId = Integer.parseInt(fId.get());
+                Integer month = Integer.parseInt(m.get());
+                Integer year = Integer.parseInt(y.get());
+
+                if (floorId == 0) {
+                    model.addAttribute("feeList", subsistenceFeeService.getAllByMonthAndYearAndArea(month, year, areaId));
+                } else {
+                    model.addAttribute("feeList", subsistenceFeeService.getAllByMonthAndYearAndFloor(month, year, floorId));
+                }
+                model.addAttribute("floors", floorService.getAllFloorsByAreaId(areaId));
+                model.addAttribute("yearMonth", TimeString.convertYearMonthtoString(year, month));
+                model.addAttribute("areaDefault", areaId);
+                model.addAttribute("floorDefault", floorId);
+            } else {
+                int firstAreaId = areas.size() > 0 ? areas.get(0).getId() : 0;
+                int[] time = TimeString.getPreviousMonth();
+                model.addAttribute("floors", floorService.getAllFloorsByAreaId(firstAreaId));
+                model.addAttribute("feeList", subsistenceFeeService.getAllByMonthAndYearAndArea(time[0], time[1], firstAreaId));
+                model.addAttribute("yearMonth", TimeString.convertYearMonthtoString(time[1], time[0]));
+            }
+
+            model.addAttribute("areas", areas);
+            return "admin/subsistence/index";
+        } catch (NumberFormatException e) {
+            return "admin/error/page_404";
+        }
     }
 
     @ResponseBody
@@ -99,7 +123,8 @@ public class AdminSubsistenceFeeController {
         if (br.hasErrors()) {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập đầy đủ thông tin phù hợp!"));
             return "redirect:/admin/subsistence/add";
-        } else if (subsistenceFeeService.addSubsistenceFee(subsistenceFee)) {
+        }
+        if (subsistenceFeeService.addSubsistenceFee(subsistenceFee)) {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Thêm thành công!"));
         } else {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Thêm thất bại!"));
@@ -149,7 +174,8 @@ public class AdminSubsistenceFeeController {
         } else {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Cập nhật thất bại!"));
         }
-        return "redirect:/admin/subsistence";
+        return "redirect:/admin/subsistence?area=" + subsistenceFee.getAreaId() + "&floor=" + subsistenceFee.getFloorId()
+                + "&month=" + subsistenceFee.getMonth() + "&year=" + subsistenceFee.getYear();
     }
 
     @PostMapping("/paid")

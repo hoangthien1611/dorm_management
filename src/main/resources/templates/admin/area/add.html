@@ -13,17 +13,7 @@
       <div class="">
         <div class="page-title">
           <div class="title_left">
-            <h3>Form Elements</h3>
-          </div>
-          <div class="title_right">
-            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                              <button class="btn btn-default" type="button">Go!</button>
-                              </span>
-              </div>
-            </div>
+            <h3>Quản lý Khu nhà</h3>
           </div>
         </div>
         <div class="clearfix"></div>
@@ -32,6 +22,11 @@
             <div class="x_panel">
               <div class="x_title">
                 <h2>Thêm Khu nhà</h2>
+                <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
+                  <div th:class="${'alert alert-' + type}" style="margin-left: 200px">
+                    <strong th:text="${msg.message}"></strong>
+                  </div>
+                </th:block>
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">

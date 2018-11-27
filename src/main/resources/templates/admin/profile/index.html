@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout/admin::header"></head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div th:replace="layout/admin::sidebar"></div>
+
+        <!-- top navigation -->
+        <div th:replace="layout/admin::top-nav"></div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Profile</h3>
+              </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Cập nhật thông tin cá nhân</h2>
+                    <th:block th:if="${msg1 != null}" th:with="type=${msg1.type == 1 ? 'success' : 'danger'}">
+                        <div th:class="${'alert alert-' + type}" style="margin-left: 220px">
+                        <strong th:text="${msg1.message}"></strong>
+                        </div>
+                    </th:block>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" th:action="@{/admin/profile/__${user.id}__/update-infor}" method="post">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="username" name="userName"  th:value="${user.userName}" readonly class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullname">Họ tên <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="fullname" name="fullName" th:value="${user.userDetail.fullName}" required="required"
+                                 minlength="2" maxlength="50" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Giới tính</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="form-control" name="gender"
+                                  id="gender">
+                            <option value="0" th:selected="${user.gender == 0 ? true : false}">Nữ</option>
+                            <option value="1" th:selected="${user.gender == 1 ? true : false}">Nam</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Điện thoại <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="phone" name="phone" th:value="${user.userDetail.phone}" required="required"
+                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                 maxlength="10" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">Địa chỉ <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="address" name="address" th:value="${user.userDetail.address}" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-success">Cập nhật thông tin</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Cập nhật mật khẩu</h2>
+                    <th:block th:if="${msg2 != null}" th:with="type=${msg2.type == 1 ? 'success' : 'danger'}">
+                        <div th:class="${'alert alert-' + type}" style="margin-left: 160px">
+                            <strong th:text="${msg2.message}"></strong>
+                        </div>
+                    </th:block>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="form-change-pass" data-parsley-validate class="form-horizontal form-label-left" th:action="@{/admin/profile/__${user.id}__/change-password}" method="post">
+                        <div class="form-group hide">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Username
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" id="name" name="name" th:value="${user.userName}" readonly class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Password cũ <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input type="password" name="oldPassword" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Password mới <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input type="password" id="newPassword" name="newPassword" required="required"
+                                 minlength="6" maxlength="30" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Re-password mới <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input type="password" id="confirm-new-password" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-success">Cập nhật mật khẩu</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer th:replace="layout/admin::footer"></footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+    <div th:replace="layout/admin::script-area"></div>
+    <script src="../../../static/admin/js/my-custom/profile.js" th:src="@{/admin/js/my-custom/profile.js}"></script>
+  </body>
+</html>

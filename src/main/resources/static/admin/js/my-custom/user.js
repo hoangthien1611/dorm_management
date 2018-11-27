@@ -20,7 +20,7 @@ function changeStatus(userId, stt) {
                 stt
             },
             success: function (data) {
-                if (data != null) {
+                if (data == "OK") {
                     $('.change-stt-' + userId).html(btn);
                 } else {
                     alert('Cập nhật trạng thái thất bại!');
@@ -39,41 +39,59 @@ $(document).ready(function () {
         console.log("area: " + areaId);
         var uriFloor = '/admin/floor/area/' + areaId;
         var uriRoom = '/admin/room/area/' + areaId;
-        var uri = '/admin/student/area/' + areaId;
+        var uri = '/admin/user/student/area/' + areaId;
 
         showDataSelect(uriFloor, '#select-floor');
         showDataSelect(uriRoom, '#select-room');
-        showStudents(uri);
+        // showStudents(uri);
     });
 
     $(document).on("change", "#select-floor", function () {
         var areaId = $('#select-area').val();
         var floorId = this.value;
         var uriRoom = '/admin/room/floor/' + floorId;
-        var uri = '/admin/student/floor/' + floorId;
+        var uri = '/admin/user/student/floor/' + floorId;
 
         if (floorId == 0) {
             uriRoom = '/admin/room/area/' + areaId;
-            uri = '/admin/student/area/' + areaId;
+            uri = '/admin/user/student/area/' + areaId;
         }
         showDataSelect(uriRoom, '#select-room');
-        showStudents(uri);
+        // showStudents(uri);
     });
 
     $(document).on("change", "#select-room", function () {
         var roomId = this.value;
         var areaId = $('#select-area').val();
         var floorId = $('#select-floor').val();
-        var uri = '/admin/student/room/' + roomId;
+        var uri = '/admin/user/student/room/' + roomId;
         console.log("area: " + areaId + " floor: " + floorId);
         if (roomId == 0) {
             if (floorId == 0) {
-                uri = '/admin/student/area/' + areaId;
+                uri = '/admin/user/student/area/' + areaId;
             } else {
-                uri = '/admin/student/floor/' + floorId;
+                uri = '/admin/user/student/floor/' + floorId;
             }
         }
-        showStudents(uri);
+        // showStudents(uri);
+    });
+
+    $(document).on("click", "#view-student-list", function () {
+        var areaId = $('#select-area').val();
+        var floorId = $('#select-floor').val();
+        var roomId = $('#select-room').val();
+        console.log("roomId: " + roomId);
+
+        url = 'http://localhost:8080/admin/user/student?area=' + areaId + '&floor=' + floorId + '&room=' + roomId;
+        window.location = url;
+    });
+
+    $(document).on("click", "#view-empl-list", function () {
+        var groupId = $('#select-group').val();
+        console.log("group: " + groupId);
+
+        url = 'http://localhost:8080/admin/user/employee?group=' + groupId;
+        window.location = url;
     });
 
     $(document).on("click", ".btn-view", function () {
@@ -85,6 +103,7 @@ $(document).ready(function () {
         var phone = $(this).closest('tr').children('td.phone').text();
         var address = $(this).closest('tr').children('td.address').text();
         var mssv = $(this).closest('tr').children('td.mssv').text();
+        var group = $(this).closest('tr').children('td.group-empl').text();
 
         $('#fullname-view').html(fullname);
         $('#class-view').html(className);
@@ -93,6 +112,64 @@ $(document).ready(function () {
         $('#phone-view').html(phone);
         $('#address-view').html(address);
         $('#mssv-view').html(mssv);
+        $('#group-view').html(group);
+    });
+
+    $(document).on("click", ".btn-reset-pass", function () {
+        var username = $(this).closest('tr').children('td.username').text();
+        var result = confirm('Bạn có chắc muốn reset password cho tài khoản ' + username + '?');
+        if (result) {
+            $.ajax({
+                type: 'post',
+                url: '/admin/user/reset-password',
+                data: {
+                    name: username,
+                },
+                success: function (data) {
+                    if (data == "OK") {
+                        alert('Reset password cho tài khoản ' + username + ' thành công!');
+                    } else {
+                        alert('Reset password thất bại!');
+                    }
+                },
+                error: function () {
+                    alert('Đã có lỗi xảy ra!');
+                }
+            });
+        }
+    });
+
+    $(document).on("click", ".btn-change-group", function () {
+        var username = $(this).closest('tr').children('td.username').text();
+        var userId = $(this).closest('tr').children('td.id').text();
+        var group = $(this).closest('tr').children('td.group-empl').text();
+
+        $('#name').val(username);
+        $('#id').val(userId);
+        $(`#update-group option:contains(${group})`).prop('selected',true);
+    });
+
+    $(document).on("click", ".btn-check-username", function () {
+        var username = $("#userName").val();
+
+        $.ajax({
+            type: 'post',
+            url: '/admin/user/check-username',
+            data: {
+                username
+            },
+            success: function (data) {
+                if (data == "Existed") {
+                    alert('Username này đã tồn tại. Vui lòng nhập username khác!');
+                    ("#userName").focus();
+                } else {
+                    alert('Có thể sử dụng username này!');
+                }
+            },
+            error: function () {
+                alert('Đã có lỗi xảy ra!');
+            }
+        });
     });
 
     function showStudents(uri) {
@@ -149,7 +226,7 @@ $(document).ready(function () {
                         html += '<option value="' + item.id + '">' + item.name + '</option>';
                     });
                 } else {
-                    html = '<option value="">Not found!</option>';
+                    html = '<option value="0">Not found!</option>';
                 }
                 $(destination).html(html);
             },
@@ -158,4 +235,6 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('.alert').fadeOut(5000);
 });

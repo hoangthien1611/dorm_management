@@ -22,7 +22,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Danh sách Sinh viên</h2>
+                                <h2>Danh sách Nhân viên</h2>
                                 <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
                                 <div th:class="${'alert alert-' + type}" style="margin-left: 200px">
                                     <strong th:text="${msg.message}"></strong>
@@ -33,34 +33,17 @@
                             <div class="x_content">
                                 <form class="form-horizontal form-label-left">
                                     <div class="form-group"  style="margin-bottom: 30px;">
-                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Khu nhà
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Group
                                         </label>
-                                        <div class="col-md-2 col-sm-2 col-xs-12">
-                                            <select class="form-control" id="select-area">
-                                                <option th:each="area,iterStat:${areas}" th:text="${area.name}"
-                                                        th:value="${area.id}" th:selected="${area.id == areaDefault? true : false}"></option>
-                                            </select>
-                                        </div>
-                                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Tầng
-                                        </label>
-                                        <div class="col-md-2 col-sm-2 col-xs-12">
-                                            <select class="form-control" id="select-floor">
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <select class="form-control" id="select-group">
                                                 <option value="0">Tất cả</option>
-                                                <option th:each="floor,iterStat:${floors}" th:value="${floor.id}"
-                                                        th:text="${floor.name}" th:selected="${floor.id == floorDefault? true : false}">Choose option</option>
-                                            </select>
-                                        </div>
-                                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Phòng
-                                        </label>
-                                        <div class="col-md-2 col-sm-2 col-xs-12">
-                                            <select class="form-control" id="select-room">
-                                                <option value="0">Tất cả</option>
-                                                <option th:each="room,iterStat:${rooms}" th:value="${room.id}"
-                                                        th:text="${room.name}" th:selected="${room.id == roomDefault? true : false}">Choose option</option>
+                                                <option th:each="group,iterStat:${groups}" th:text="${group.name}"
+                                                        th:value="${group.id}" th:selected="${group.id == groupDefault? true : false}"></option>
                                             </select>
                                         </div>
                                         <div class="col-md-1 col-sm-1 col-xs-12">
-                                            <input type="button" id="view-student-list" name="submit" value="Xem"
+                                            <input type="button" id="view-empl-list" name="submit" value="Xem"
                                                    class="form-control btn btn-info">
                                         </div>
                                     </div>
@@ -76,13 +59,12 @@
                                         <th class="hide">ID</th>
                                         <th>Username</th>
                                         <th>Họ tên</th>
-                                        <th>Lớp</th>
-                                        <th>Giới tính</th>
-                                        <th>Trạng thái</th>
-                                        <th>Hành động</th>
                                         <th class="hide">Phone</th>
                                         <th class="hide">Address</th>
-                                        <th class="hide">MSSV</th>
+                                        <th>Giới tính</th>
+                                        <th>Group</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody id="table-body">
@@ -91,8 +73,10 @@
                                             <td th:text="${user.id}" class="id hide"></td>
                                             <td th:text="${user.userName}" class="username"></td>
                                             <td th:text="${user.userDetail.fullName}" class="fullname"></td>
-                                            <td th:text="${user.studentCode.name}" class="class"></td>
+                                            <td th:text="${user.userDetail.phone}" class="phone hide"></td>
+                                            <td th:text="${user.userDetail.address}" class="address hide"></td>
                                             <td th:text="${user.gender == 1 ? 'Nam' : 'Nữ'}" class="gender"></td>
+                                            <td th:text="${user.group.name}" class="group-empl"></td>
                                             <td th:class="${'stt change-stt-' + user.id}">
                                                 <span th:text="${user.status}" class="hide"></span>
                                                 <th:block th:if="${user.status == 1}">
@@ -110,13 +94,16 @@
                                                         data-target="#viewModal">
                                                     <i class="fa fa-folder"></i> View
                                                 </button>
+                                                <button href="#" class="btn btn-info btn-xs btn-change-group"
+                                                        data-toggle="modal"
+                                                        data-target="#editModal"><i class="fa fa-pencil"></i>
+                                                    Change group
+                                                </button>
                                                 <button class="btn btn-warning btn-xs btn-reset-pass"><i class="fa fa-key"></i>
                                                     Reset Password
                                                 </button>
                                             </td>
-                                            <td th:text="${user.userDetail.phone}" class="phone hide"></td>
-                                            <td th:text="${user.userDetail.address}" class="address hide"></td>
-                                            <td th:text="${user.studentCode.value}" class="mssv hide"></td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -127,7 +114,7 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal">&times;
                                                 </button>
-                                                <h4 class="modal-title title-view">THÔNG TIN SINH VIÊN</h4>
+                                                <h4 class="modal-title title-view">THÔNG TIN USER</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
@@ -147,14 +134,6 @@
                                                                 <td id="gender-view">Nam</td>
                                                             </tr>
                                                             <tr>
-                                                                <th>MSSV</th>
-                                                                <td id="mssv-view">102140000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Lớp</th>
-                                                                <td id="class-view">14T1</td>
-                                                            </tr>
-                                                            <tr>
                                                                 <th>Điện thoại</th>
                                                                 <td id="phone-view">0969696969</td>
                                                             </tr>
@@ -163,8 +142,8 @@
                                                                 <td id="address-view">Đà Nẵng</td>
                                                             </tr>
                                                             <tr>
-                                                                <th>Role</th>
-                                                                <td id="role-view">Sinh viên</td>
+                                                                <th>Group</th>
+                                                                <td id="group-view">Sinh viên</td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -178,6 +157,66 @@
                                                     Đóng
                                                 </button>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="editModal" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;
+                                                </button>
+                                                <h4 class="modal-title">CẬP NHẬT GROUP CHO USER</h4>
+                                            </div>
+                                            <form id="demo-form2" data-parsley-validate
+                                                  class="form-horizontal" th:action="@{/admin/user/change-group}" method="post">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-12">
+
+                                                            <div class="form-group hide">
+                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
+                                                                       for="id">Id
+                                                                </label>
+                                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                    <input type="text" id="id" name="userId"
+                                                                           class="form-control col-md-7 col-xs-12">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
+                                                                       for="name">Username
+                                                                </label>
+                                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                    <input type="text" id="name" name="username"
+                                                                           readonly
+                                                                           class="form-control col-md-7 col-xs-12">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Trạng
+                                                                    thái</label>
+                                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                    <select class="form-control" name="groupId"
+                                                                            id="update-group">
+                                                                        <option th:each="group,iterStat:${groups}" th:text="${group.name}"
+                                                                                th:value="${group.id}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">
+                                                        Đóng
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary antosubmit">Lưu
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

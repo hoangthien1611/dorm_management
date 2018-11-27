@@ -30,7 +30,7 @@ public class AdminAreaController {
     public String edit(@Valid @ModelAttribute Area area, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors()) {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
-        } else if (areaService.editArea(area)) {
+        } if (areaService.editArea(area)) {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Cập nhật " + area.getName() + " thành công!"));
         } else {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Cập nhật " + area.getName() + " thất bại!"));
@@ -47,8 +47,10 @@ public class AdminAreaController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute Area area, BindingResult br, RedirectAttributes ra) {
         if (br.hasErrors()) {
-            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập thông tin phù hợp!"));
-        } else if (areaService.addArea(area)) {
+            ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Vui lòng nhập đầy đủ thông tin phù hợp!"));
+            return "redirect:/admin/area/add";
+        }
+        if (areaService.addArea(area)) {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Thêm khu nhà thành công!"));
         } else {
             ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Thêm khu nhà thất bại!"));

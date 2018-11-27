@@ -1,8 +1,10 @@
 package com.doan.dormmanagement.service;
 
 import com.doan.dormmanagement.common.BaseAPI;
-import com.doan.dormmanagement.dto.DataResponse;
+import com.doan.dormmanagement.common.Headers;
+import com.doan.dormmanagement.dto.*;
 import com.doan.dormmanagement.model.User;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -57,7 +59,102 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllUsersByGroupId(Integer groupId) {
+        DataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "user/get-users-by-groups/" + groupId, DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            List<User> users = (List<User>) data.getData();
+            return users;
+        }
+
+        return null;
+    }
+
+    @Override
+    public User getUserByUserId(Integer userId) {
+        UserDataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "user/get_user/" + userId, UserDataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            return data.getData();
+        }
+
+        return null;
+    }
+
+    @Override
     public boolean changeStatus(Integer userId, Integer status) {
-        return true;
+        String url = BaseAPI.BASE_API_PREFIX + "user/change-status/" + userId + "/" + status;
+        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addUser(UserRegister user) {
+        HttpHeaders headers = Headers.getHeaders();
+        HttpEntity<UserRegister> entity = new HttpEntity<>(user, headers);
+        String resourceUrl = BaseAPI.BASE_API_PREFIX + "user/register-staff/" + user.getGroupId();
+        ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, entity, DataResponse.class);
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean resetPassword(PasswordChange passwordDto) {
+        HttpHeaders headers = Headers.getHeaders();
+        HttpEntity<PasswordChange> entity = new HttpEntity<>(passwordDto, headers);
+        String resourceUrl = BaseAPI.BASE_API_PREFIX + "user/reset-password";
+        ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, entity, DataResponse.class);
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean changePassword(PasswordChange passwordChange) {
+        HttpHeaders headers = Headers.getHeaders();
+        HttpEntity<PasswordChange> entity = new HttpEntity<>(passwordChange, headers);
+        String resourceUrl = BaseAPI.BASE_API_PREFIX + "user/change-password";
+        ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, entity, DataResponse.class);
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isUserNameExisted(String username) {
+        String url = BaseAPI.BASE_API_PREFIX + "user/is-exist-user/" + username;
+        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean changeGroup(Integer userId, Integer groupId) {
+        String url = BaseAPI.BASE_API_PREFIX + "user/change-group-b-user/" + userId + "/" + groupId;
+        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateInfor(Integer userId, UserUpdate userUpdate) {
+        HttpHeaders headers = Headers.getHeaders();
+        HttpEntity<UserUpdate> entity = new HttpEntity<>(userUpdate, headers);
+        String resourceUrl = BaseAPI.BASE_API_PREFIX + "user/update-user/" + userId;
+        ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, entity, DataResponse.class);
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
+            return true;
+        }
+        return false;
     }
 }

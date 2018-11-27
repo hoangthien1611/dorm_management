@@ -20,7 +20,7 @@ function changeStatus(roomId, stt) {
                 stt: stt
             },
             success: function (data) {
-                if (data != null) {
+                if (data == "OK") {
                     $('.change-stt-' + roomId).html(btn);
                 } else {
                     alert('Cập nhật trạng thái thất bại!');
@@ -260,7 +260,7 @@ $(document).ready(function () {
         $.ajax({
             type : 'get',
             dataType : 'json',
-            url : '/admin/student/room/' + roomId,
+            url : '/admin/user/student/room/' + roomId,
             success: function(result) {
                 var html = '';
                 if (result != null && result.length > 0) {
