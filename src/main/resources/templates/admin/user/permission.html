@@ -22,108 +22,97 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Cập nhật quyền Nhân viên</h2>
-                    <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
-                      <div th:class="${'alert alert-' + type}" style="margin-left: 200px">
-                        <strong th:text="${msg.message}"></strong>
-                      </div>
-                    </th:block>
+                    <h2>Thông tin Nhân viên</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
                       <form class="form-horizontal form-label-left">
                           <div class="form-group">
-                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Username
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Username
                               </label>
-                              <div class="col-md-3 col-sm-3 col-xs-12">
+                              <div class="col-md-9 col-sm-9 col-xs-12">
                                   <input type="text" id="username" name="username"
                                          th:value="${user.userName}" class="form-control" readonly>
                               </div>
-                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Họ tên
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Họ tên
                               </label>
-                              <div class="col-md-3 col-sm-3 col-xs-12">
+                              <div class="col-md-9 col-sm-9 col-xs-12">
                                   <input type="text" id="fullName" name="fullName"
                                          th:value="${user.userDetail.fullName}" class="form-control" readonly>
                               </div>
                           </div>
                           <div class="form-group">
-                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Giới tính
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Giới tính
                               </label>
-                              <div class="col-md-3 col-sm-3 col-xs-12">
+                              <div class="col-md-9 col-sm-9 col-xs-12">
                                   <input type="text" id="gender" name="gender"
                                          th:value="${user.gender == 1? 'Nam' : 'Nữ'}" class="form-control" readonly>
                               </div>
-                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Group
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Group
                               </label>
-                              <div class="col-md-3 col-sm-3 col-xs-12">
+                              <div class="col-md-9 col-sm-9 col-xs-12">
                                   <input type="text" id="group" name="group"
                                          th:value="${user.group.name}" class="form-control" readonly>
                               </div>
                           </div>
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Phone
+                              </label>
+                              <div class="col-md-9 col-sm-9 col-xs-12">
+                                  <input type="text" id="phone" name="phone"
+                                         th:value="${user.userDetail.phone}" class="form-control" readonly>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Địa chỉ
+                              </label>
+                              <div class="col-md-9 col-sm-9 col-xs-12">
+                                  <input type="text" id="address" name="address"
+                                         th:value="${user.userDetail.address}" class="form-control" readonly>
+                              </div>
+                          </div>
                       </form>
                       <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" th:action="@{/admin/user/update-permission}" method="post">
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Switch</label>
-                        <div class="col-md-1 col-sm-1 col-xs-12">
-                          <label class="switch">
-                            <input type="checkbox" >
-                            <span class="slider"></span>
-                          </label>
-                        </div>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Switch</label>
-                        <div class="col-md-1 col-sm-1 col-xs-12">
-                          <label class="switch">
-                            <input type="checkbox" >
-                            <span class="slider"></span>
-                          </label>
-                        </div>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Switch</label>
-                        <div class="col-md-1 col-sm-1 col-xs-12">
-                          <label class="switch">
-                            <input type="checkbox" >
-                            <span class="slider"></span>
-                          </label>
-                        </div>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Switch</label>
-                        <div class="col-md-1 col-sm-1 col-xs-12">
-                          <label class="switch">
-                            <input type="checkbox" >
-                            <span class="slider"></span>
-                          </label>
-                        </div>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Switch</label>
-                        <div class="col-md-1 col-sm-1 col-xs-12">
-                          <label class="switch">
-                            <input type="checkbox" >
-                            <span class="slider"></span>
-                          </label>
-                        </div>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Switch</label>
-                        <div class="col-md-1 col-sm-1 col-xs-12">
-                          <label class="switch">
-                            <input type="checkbox" >
-                            <span class="slider"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                      </div>
-
-                    </form>
                   </div>
                 </div>
               </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Cập nhật quyền Nhân viên</h2>
+                            <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
+                                <div th:class="${'alert alert-' + type}" style="margin-left: 220px">
+                                    <strong th:text="${msg.message}"></strong>
+                                </div>
+                            </th:block>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br />
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                <div class="form-group" th:each="action,iterStat:${actions}">
+                                    <label class="label-switch col-md-9 col-sm-9 col-xs-12" th:text="${iterStat.count + '. ' + action.name}">Switch</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <label th:class="${'switch change-action-' + action.id}">
+                                            <input type="checkbox" th:checked="${action.status == 1? true : false}"
+                                                   th:onclick="'javascript:changeStatusAction(\''+ ${user.userName} +'\',' + ${action.id} + ',' + ${action.status} + ');'">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
           </div>

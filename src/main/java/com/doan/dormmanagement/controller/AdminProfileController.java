@@ -21,42 +21,37 @@ public class AdminProfileController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{userId}")
-    public String index(Model model, @PathVariable("userId") Optional<String> id) {
-        try {
-            if (id.isPresent()) {
-                Integer userId = Integer.parseInt(id.get());
-                User user = userService.getUserByUserId(userId);
-                if (user == null) {
-                    return "admin/error/page_404";
-                }
-                model.addAttribute("user", user);
-                return "admin/profile/index";
+    @GetMapping("/{username}")
+    public String index(Model model, @PathVariable("username") Optional<String> username) {
+        if (username.isPresent()) {
+            User user = userService.getUserByUsername(username.get());
+            if (user == null) {
+                return "admin/error/page_404";
             }
-            return "admin/error/page_404";
-        } catch (NumberFormatException e) {
-            return "admin/error/page_500";
+            model.addAttribute("user", user);
+            return "admin/profile/index";
         }
+        return "admin/error/page_404";
     }
 
-    @PostMapping("/{userId}/change-password")
-    public String changePassword(@ModelAttribute PasswordChange passwordChange, @PathVariable("userId") Integer userId, RedirectAttributes ra) {
+    @PostMapping("/{username}/change-password")
+    public String changePassword(@ModelAttribute PasswordChange passwordChange, @PathVariable("username") String username, RedirectAttributes ra) {
         if (userService.changePassword(passwordChange)) {
             ra.addFlashAttribute("msg2", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Cập nhật thành công!"));
         } else {
             ra.addFlashAttribute("msg2", new Message(Constant.MESSAGE_TYPE_FAILURE, "Cập nhật thất bại!"));
         }
 
-        return "redirect:/admin/profile/" + userId;
+        return "redirect:/admin/profile/" + username;
     }
 
-    @PostMapping("{userId}/update-infor")
-    public String updateInfor(@ModelAttribute UserUpdate userUpdate, @PathVariable("userId") Integer userId, RedirectAttributes ra) {
-        if (userService.updateInfor(userId, userUpdate)) {
+    @PostMapping("{username}/update-infor")
+    public String updateInfor(@ModelAttribute UserUpdate userUpdate, @PathVariable("username") String username, RedirectAttributes ra) {
+        if (userService.updateInfor(userUpdate)) {
             ra.addFlashAttribute("msg1", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Cập nhật thành công!"));
         } else {
             ra.addFlashAttribute("msg1", new Message(Constant.MESSAGE_TYPE_FAILURE, "Cập nhật thất bại!"));
         }
-        return "redirect:/admin/profile/" + userId;
+        return "redirect:/admin/profile/" + username;
     }
 }

@@ -42,6 +42,12 @@ public class AdminUserController {
     @Autowired
     private GroupService groupService;
 
+    @Autowired
+    private ActionService actionService;
+
+    @Autowired
+    private RoleUserService roleUserService;
+
     @GetMapping("/student")
     public String indexUser(Model model, @RequestParam("area") Optional<String> aId,
                             @RequestParam("floor") Optional<String> fId, @RequestParam("room") Optional<String> rId) {
@@ -197,6 +203,15 @@ public class AdminUserController {
         return null;
     }
 
+    @PostMapping("/change-status-action")
+    @ResponseBody
+    public String changeStatus(@RequestParam("username") String username, @RequestParam("actionId") Integer actionId) {
+        if (roleUserService.changeStatusActionByUsernameAndActionId(username, actionId)) {
+            return "OK";
+        }
+        return null;
+    }
+
     @PostMapping("/reset-password")
     @ResponseBody
     public String resetPassword(@ModelAttribute PasswordChange passwordChange) {
@@ -225,22 +240,18 @@ public class AdminUserController {
         return "redirect:/admin/user/employee";
     }
 
-    @GetMapping("/{userId}/update-permission")
-    public String updatePermission(Model model, @PathVariable("userId") Optional<String> id) {
-        try {
-            if (id.isPresent()) {
-                Integer userId = Integer.parseInt(id.get());
-                User user = userService.getUserByUserId(userId);
-                if (user == null) {
-                    return "admin/error/page_404";
-                }
-                model.addAttribute("user", user);
-                return "admin/user/permission";
+    @GetMapping("/{username}/update-permission")
+    public String updatePermission(Model model, @PathVariable("username") Optional<String> username) {
+        if (username.isPresent()) {
+            User user = userService.getUserByUsername(username.get());
+            if (user == null) {
+                return "admin/error/page_404";
             }
-            return "admin/error/page_404";
-        } catch (NumberFormatException e) {
-            return "admin/error/page_500";
+            model.addAttribute("user", user);
+            model.addAttribute("actions", actionService.getAllActionsByUserName(username.get()));
+            return "admin/user/permission";
         }
+        return "admin/error/page_404";
     }
 
     private List<Group> getListGroupsExceptOneGroup(String groupName) {

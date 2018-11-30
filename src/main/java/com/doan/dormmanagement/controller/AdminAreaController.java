@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/area")
-public class AdminAreaController {
+public class AdminAreaController extends AdminBaseController {
 
     @Autowired
     private AreaService areaService;

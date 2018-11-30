@@ -33,7 +33,38 @@ function changeStatus(userId, stt) {
     }
 }
 
+function changeStatusAction(username, actionId, stt) {
+    var result = '';
+    if (stt == 1) {
+        result += '<input type="checkbox"  onclick="changeStatusAction(\'' + username + '\',' + actionId + ',0)">';
+    } else {
+        result += '<input type="checkbox" checked onclick="changeStatusAction(\'' + username + '\',' + actionId + ',1)">';
+    }
+
+    $.ajax({
+        type: 'post',
+        url: '/admin/user/change-status-action/',
+        data: {
+            username,
+            actionId
+        },
+        success: function (data) {
+            if (data == "OK") {
+                result += '<span class="slider round"></span>';
+                $('.change-action-' + actionId).html(result);
+            } else {
+                alert('Cập nhật trạng thái Action thất bại!');
+            }
+        },
+        error: function () {
+            alert('Đã có lỗi xảy ra!');
+        }
+    });
+}
+
 $(document).ready(function () {
+    var baseUrl = 'http://localhost:8080';
+
     $(document).on("change", "#select-area", function () {
         var areaId = this.value;
         console.log("area: " + areaId);
@@ -82,7 +113,7 @@ $(document).ready(function () {
         var roomId = $('#select-room').val();
         console.log("roomId: " + roomId);
 
-        url = 'http://localhost:8080/admin/user/student?area=' + areaId + '&floor=' + floorId + '&room=' + roomId;
+        var url = baseUrl + '/admin/user/student?area=' + areaId + '&floor=' + floorId + '&room=' + roomId;
         window.location = url;
     });
 
@@ -90,7 +121,7 @@ $(document).ready(function () {
         var groupId = $('#select-group').val();
         console.log("group: " + groupId);
 
-        url = 'http://localhost:8080/admin/user/employee?group=' + groupId;
+        var url = baseUrl + '/admin/user/employee?group=' + groupId;
         window.location = url;
     });
 
@@ -147,6 +178,12 @@ $(document).ready(function () {
         $('#name').val(username);
         $('#id').val(userId);
         $(`#update-group option:contains(${group})`).prop('selected',true);
+    });
+
+    $(document).on("click", ".btn-phan-quyen", function () {
+        var username = $("#username-view").text();
+        var url = baseUrl + '/admin/user/' + username + '/update-permission';
+        window.location = url;
     });
 
     $(document).on("click", ".btn-check-username", function () {

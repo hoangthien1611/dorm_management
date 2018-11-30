@@ -1,5 +1,6 @@
 package com.doan.dormmanagement.service;
 
+import com.doan.dormmanagement.model.Action;
 import com.doan.dormmanagement.model.Group;
 
 import java.util.List;
@@ -7,4 +8,6 @@ import java.util.List;
 public interface GroupService {
 
     List<Group> getAllGroup();
+
+    List<Action> getAllActionsByGroupId(Integer groupId);
 }

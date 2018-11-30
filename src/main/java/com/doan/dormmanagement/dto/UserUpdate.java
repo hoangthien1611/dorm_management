@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class UserUpdate {
+    private Integer userId;
     private String userName;
     @NotNull
     private Integer gender;
@@ -15,6 +16,14 @@ public class UserUpdate {
     @NotNull
     @Size(min=2, max=50)
     private String fullName;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;

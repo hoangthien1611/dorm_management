@@ -80,6 +80,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        UserDataResponse data = restTemplate.getForObject(BaseAPI.BASE_API_PREFIX + "user/get-user-by-name/" + username, UserDataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            return data.getData();
+        }
+
+        return null;
+    }
+
+    @Override
     public boolean changeStatus(Integer userId, Integer status) {
         String url = BaseAPI.BASE_API_PREFIX + "user/change-status/" + userId + "/" + status;
         DataResponse data = restTemplate.getForObject(url, DataResponse.class);
@@ -147,10 +157,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateInfor(Integer userId, UserUpdate userUpdate) {
+    public boolean updateInfor(UserUpdate userUpdate) {
         HttpHeaders headers = Headers.getHeaders();
         HttpEntity<UserUpdate> entity = new HttpEntity<>(userUpdate, headers);
-        String resourceUrl = BaseAPI.BASE_API_PREFIX + "user/update-user/" + userId;
+        String resourceUrl = BaseAPI.BASE_API_PREFIX + "user/update-user/" + userUpdate.getUserId();
+        ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, entity, DataResponse.class);
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean login(UserLogin userLogin) {
+        HttpHeaders headers = Headers.getHeaders();
+        HttpEntity<UserLogin> entity = new HttpEntity<>(userLogin, headers);
+        String resourceUrl = BaseAPI.BASE_API_PREFIX + "user/login";
         ResponseEntity<DataResponse> response = restTemplate.exchange(resourceUrl, HttpMethod.POST, entity, DataResponse.class);
         if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
             return true;

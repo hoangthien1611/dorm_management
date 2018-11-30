@@ -1,6 +1,7 @@
 package com.doan.dormmanagement.service;
 
 import com.doan.dormmanagement.dto.PasswordChange;
+import com.doan.dormmanagement.dto.UserLogin;
 import com.doan.dormmanagement.dto.UserRegister;
 import com.doan.dormmanagement.dto.UserUpdate;
 import com.doan.dormmanagement.model.User;
@@ -20,6 +21,8 @@ public interface UserService {
 
     User getUserByUserId(Integer userId);
 
+    User getUserByUsername(String username);
+
     boolean changeStatus(Integer userId, Integer status);
 
     boolean addUser(UserRegister user);
@@ -32,5 +35,7 @@ public interface UserService {
 
     boolean changeGroup(Integer userId, Integer groupId);
 
-    boolean updateInfor(Integer userId, UserUpdate userUpdate);
+    boolean updateInfor(UserUpdate userUpdate);
+
+    boolean login(UserLogin userLogin);
 }

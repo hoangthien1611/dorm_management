@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/admin::header"></head>
+<body class="nav-md">
+<div class="container body">
+  <div class="main_container">
+    <div th:replace="layout/admin::sidebar"></div>
+    <!-- top navigation -->
+    <div th:replace="layout/admin::top-nav"></div>
+    <!-- /top navigation -->
+    <!-- page content -->
+    <div class="right_col" role="main">
+      <div class="">
+        <div class="page-title">
+          <div class="title_left">
+            <h3>Trang chủ</h3>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2 style="margin-left: 50px;"><marquee>Chào mừng bạn đến với dự án: Quản Lý Ký Túc Xá - Welcome to our project: Dorm Management</marquee></h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <br />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /page content -->
+    <!-- footer content -->
+    <footer th:replace="layout/admin::footer"></footer>
+    <!-- /footer content -->
+  </div>
+</div>
+<div th:replace="layout/admin::script-area"></div>
+</body>
+</html>
