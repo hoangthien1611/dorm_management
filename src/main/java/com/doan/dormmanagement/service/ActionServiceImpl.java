@@ -29,4 +29,15 @@ public class ActionServiceImpl implements ActionService {
         }
         return null;
     }
+
+    @Override
+    public List<Action> getAllActionsByGroupId(Integer groupId) {
+        String url = BaseAPI.BASE_API_PREFIX + "user/get-action-by-group/" + groupId;
+        ActionDataResponse data = restTemplate.getForObject(url, ActionDataResponse.class);
+        if (data.getCode() == 200 && data.getData() != null) {
+            return data.getData();
+        }
+
+        return null;
+    }
 }

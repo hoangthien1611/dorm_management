@@ -24,7 +24,7 @@
                             <div class="x_title">
                                 <h2>Chi tiết group</h2>
                                 <button class="btn btn-primary btn-add-action" data-toggle="modal"
-                                        data-target="#modalAdd" style="margin-left: 30px;">Thêm action</button>
+                                        data-target="#modalAdd" style="margin-left: 30px;"><i class="fa fa-plus"></i> Thêm action</button>
                                 <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
                                 <div th:class="${'alert alert-' + type}" style="margin-left: 300px">
                                     <strong th:text="${msg.message}"></strong>
@@ -60,7 +60,7 @@
                                         <th class="hide">ID</th>
                                         <th>Tên action</th>
                                         <th>Mã code</th>
-                                        <th>Trạng thái</th>
+                                        <th>Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody id="table-body">
@@ -69,18 +69,12 @@
                                             <td th:text="${action.id}" class="id hide"></td>
                                             <td th:text="${action.name}" class="name"></td>
                                             <td th:text="${action.code}" class="code"></td>
-                                            <td th:class="${'stt change-stt-' + action.id}">
-                                                <span th:text="${action.status}" class="hide"></span>
-                                                <th:block th:if="${action.status == 1}">
-                                                    <button type="button" class="btn btn-success btn-xs" th:onclick="'javascript:changeStatus('+ ${action.id} +', 0);'">Active
-                                                    </button>
-                                                </th:block>
-                                                <th:block th:if="${action.status == 0}">
-                                                    <button type="button" class="btn btn-dark btn-xs" th:onclick="'javascript:changeStatus('+ ${action.id} +', 1);'">Inactive
-                                                    </button>
-                                                </th:block>
+                                            <td>
+                                                <a th:href="@{/admin/group/detail/del-action?aId=__${action.id}__&gId=__${groupDefault}__}" onclick="return confirm('Bạn có chắc muốn xóa không?')" class="btn btn-danger btn-xs">
+                                                    <i class="fa fa-trash"></i>
+                                                    Delete
+                                                </a>
                                             </td>
-
                                         </tr>
                                     </tbody>
                                 </table>
@@ -123,7 +117,8 @@
                                                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                                                     <select class="form-control" name="actionId"
                                                                             id="actionId">
-                                                                        <option th:each="action,iterStat:${actionsAdd}" th:text="${action.name}"
+                                                                        <option th:if="${#lists.isEmpty(actionsAdd)}" value="0">Không có action nào khác để thêm!</option>
+                                                                        <option th:unless="${#lists.isEmpty(actionsAdd)}" th:each="action,iterStat:${actionsAdd}" th:text="${action.name}"
                                                                                 th:value="${action.id}"></option>
                                                                     </select>
                                                                 </div>

@@ -27,6 +27,8 @@ public interface UserService {
 
     boolean addUser(UserRegister user);
 
+    boolean delUser(Integer uid);
+
     boolean resetPassword(PasswordChange passwordDto);
 
     boolean changePassword(PasswordChange passwordChange);

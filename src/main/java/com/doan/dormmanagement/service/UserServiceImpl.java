@@ -112,6 +112,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean delUser(Integer uid) {
+        String url = BaseAPI.BASE_API_PREFIX + "user/delete_user/" + uid;
+        DataResponse data = restTemplate.getForObject(url, DataResponse.class);
+        if (data.getCode() == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean resetPassword(PasswordChange passwordDto) {
         HttpHeaders headers = Headers.getHeaders();
         HttpEntity<PasswordChange> entity = new HttpEntity<>(passwordDto, headers);

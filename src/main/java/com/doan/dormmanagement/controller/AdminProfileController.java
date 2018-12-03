@@ -7,6 +7,8 @@ import com.doan.dormmanagement.dto.UserUpdate;
 import com.doan.dormmanagement.model.User;
 import com.doan.dormmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,11 @@ public class AdminProfileController {
     @GetMapping("/{username}")
     public String index(Model model, @PathVariable("username") Optional<String> username) {
         if (username.isPresent()) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            if (!name.equals(username.get())) {
+                return "admin/error/page_403";
+            }
             User user = userService.getUserByUsername(username.get());
             if (user == null) {
                 return "admin/error/page_404";

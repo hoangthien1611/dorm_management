@@ -27,7 +27,7 @@ function changeStatus(roomId, stt) {
                 }
             },
             error: function () {
-                alert('Đã có lỗi xảy ra!');
+                alert('Error! Không cập nhật được!');
             }
         });
     }

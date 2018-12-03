@@ -12,7 +12,7 @@ public class Action implements Serializable {
     private Integer id;
     @NotNull
     private String name;
-    private Integer code;
+    private String code;
     private Integer status;
 
     public Integer getId() {
@@ -31,11 +31,11 @@ public class Action implements Serializable {
         this.name = name;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

@@ -8,4 +8,6 @@ public interface ActionService {
     List<Action> getAllActionsByUserName(String username);
 
     List<Action> getAllActions();
+
+    List<Action> getAllActionsByGroupId(Integer groupId);
 }

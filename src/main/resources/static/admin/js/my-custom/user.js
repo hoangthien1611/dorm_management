@@ -27,7 +27,7 @@ function changeStatus(userId, stt) {
                 }
             },
             error: function () {
-                alert('Đã có lỗi xảy ra!');
+                alert('Error! Không cập nhật được!');
             }
         });
     }
@@ -43,7 +43,7 @@ function changeStatusAction(username, actionId, stt) {
 
     $.ajax({
         type: 'post',
-        url: '/admin/user/change-status-action/',
+        url: '/admin/user/change-status-action',
         data: {
             username,
             actionId
@@ -53,11 +53,21 @@ function changeStatusAction(username, actionId, stt) {
                 result += '<span class="slider round"></span>';
                 $('.change-action-' + actionId).html(result);
             } else {
+                if (stt == 0) {
+                    $('.change-action-' + actionId).find('input').prop('checked', false);
+                } else {
+                    $('.change-action-' + actionId).find('input').prop('checked', true);
+                }
                 alert('Cập nhật trạng thái Action thất bại!');
             }
         },
         error: function () {
-            alert('Đã có lỗi xảy ra!');
+            if (stt == 0) {
+                $('.change-action-' + actionId).find('input').prop('checked', false);
+            } else {
+                $('.change-action-' + actionId).find('input').prop('checked', true);
+            }
+            alert('Error! Không cập nhật được!');
         }
     });
 }
@@ -164,7 +174,7 @@ $(document).ready(function () {
                     }
                 },
                 error: function () {
-                    alert('Đã có lỗi xảy ra!');
+                    alert('Error! Không reset password được!!');
                 }
             });
         }

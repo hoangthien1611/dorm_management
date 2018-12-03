@@ -28,7 +28,7 @@ function changeStatus(areaId, stt) {
                 }
             },
             error: function () {
-                alert('Đã có lỗi xảy ra!');
+                alert('Error! Không cập nhật được!');
             }
         });
     }
@@ -63,7 +63,7 @@ function changeStatusFloor(floorId, stt) {
                 }
             },
             error: function () {
-                alert('Đã có lỗi xảy ra!');
+                alert('Error! Không cập nhật được!');
             }
         });
     }
@@ -127,7 +127,7 @@ $(document).ready(function () {
                     }
                 },
                 error: function () {
-                    alert('Đã có lỗi xảy ra!');
+                    alert('Không thêm được!!');
                 }
             });
 

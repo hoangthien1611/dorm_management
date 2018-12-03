@@ -149,6 +149,21 @@ public class AdminUserController {
         return "redirect:/admin/user/employee";
     }
 
+    @GetMapping("/delete")
+    public String delete(@RequestParam("uId") String uid, RedirectAttributes ra) {
+        try {
+            Integer userId = Integer.parseInt(uid);
+            if (userService.delUser(userId)) {
+                ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_SUCCESS, "Xóa user thành công!"));
+            } else {
+                ra.addFlashAttribute("msg", new Message(Constant.MESSAGE_TYPE_FAILURE, "Xóa user thất bại!"));
+            }
+            return "redirect:/admin/user/employee";
+        } catch (NumberFormatException e) {
+            return "admin/error/page_404";
+        }
+    }
+
     @GetMapping("/student/room/{roomId}")
     @ResponseBody
     public List<User> getUsersByRoomId(@PathVariable("roomId") Optional<String> id) {

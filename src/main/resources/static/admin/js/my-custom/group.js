@@ -24,6 +24,27 @@ $(document).ready(function () {
 
         $('#groupId').val(groupId);
         $('#groupName').val(group);
+
+        $.ajax({
+            type : 'get',
+            dataType : 'json',
+            url : '/admin/group/detail/get-actions-add/' + groupId,
+            success: function(result) {
+                console.log('actions: ' + result.length);
+                var html = '';
+                if (result != null && result.length > 0) {
+                    result.forEach(function (item, index) {
+                        html += '<option value="' + item.id + '">' + item.name + '</option>';
+                    });
+                } else {
+                    html = '<option value="0">Không còn action nào để thêm!</option>';
+                }
+                $("#actionId").html(html);
+            },
+            error: function () {
+                alert('Error! Không thêm được!');
+            }
+        });
     });
 
     $('.alert').fadeOut(5000);
