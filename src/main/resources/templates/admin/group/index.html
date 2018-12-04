@@ -63,7 +63,7 @@
                                                         data-target="#modalEdit"><i class="fa fa-pencil"></i>
                                                     Edit
                                                 </button>
-                                                <a th:href="@{/admin/group/delete?gId=__${group.id}__}" onclick="return confirm('Group cần xóa phải không có user và action nào. Bạn chắc chắn muốn xóa?')"
+                                                <a th:href="@{/admin/group/delete?gId=__${group.id}__}" onclick="return confirm('Hãy chắc chắn group cần xóa không có user và action nào. Bạn chắc chắn muốn xóa?')"
                                                    sec:authorize="hasAuthority('DEL_GROUP')" class="btn btn-danger btn-xs">
                                                     <i class="fa fa-trash"></i> Delete
                                                 </a>
