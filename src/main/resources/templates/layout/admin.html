@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head th:fragment="header">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Meta, title, CSS, favicons, etc. -->
@@ -55,45 +55,45 @@
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                             <div class="menu_section">
                                 <ul class="nav side-menu">
-                                    <li><a th:href="@{/admin/index}"><i class="fa fa-home"></i> Home </a>
+                                    <li sec:authorize="hasAuthority('VIEW_HOME')"><a th:href="@{/admin/index}"><i class="fa fa-home"></i> Home </a>
                                     </li>
-                                    <li>
+                                    <li sec:authorize="hasAnyAuthority('VIEW_ROOMS', 'ADD_ROOM')">
                                         <a><i class="fa fa-institution"></i> Phòng <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a th:href="@{/admin/room}">Danh sách</a></li>
-                                            <li><a th:href="@{/admin/room/add}">Thêm</a></li>
+                                            <li sec:authorize="hasAuthority('VIEW_ROOMS')"><a th:href="@{/admin/room}">Danh sách</a></li>
+                                            <li sec:authorize="hasAuthority('ADD_ROOM')"><a th:href="@{/admin/room/add}">Thêm</a></li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li sec:authorize="hasAnyAuthority('ADD_AREA', 'VIEW_AREAS')">
                                         <a><i class="fa fa-building-o"></i> Khu nhà <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a th:href="@{/admin/area}">Danh sách</a></li>
-                                            <li><a th:href="@{/admin/area/add}">Thêm</a></li>
+                                            <li sec:authorize="hasAuthority('VIEW_AREAS')"><a th:href="@{/admin/area}">Danh sách</a></li>
+                                            <li sec:authorize="hasAuthority('ADD_AREA')"><a th:href="@{/admin/area/add}">Thêm</a></li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li sec:authorize="hasAnyAuthority('ADD_SUBSISTENCE', 'VIEW_SUBSISTENCE')">
                                         <a><i class="fa fa-money"></i> Phí điện nước <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a th:href="@{/admin/subsistence}">Danh sách</a></li>
-                                            <li><a th:href="@{/admin/subsistence/add}">Thêm</a></li>
+                                            <li sec:authorize="hasAuthority('VIEW_SUBSISTENCE')"><a th:href="@{/admin/subsistence}">Danh sách</a></li>
+                                            <li sec:authorize="hasAuthority('ADD_SUBSISTENCE')"><a th:href="@{/admin/subsistence/add}">Thêm</a></li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li sec:authorize="hasAuthority('VIEW_REGISTERS')">
                                         <a th:href="@{/admin/register-room}"><i class="fa fa-laptop"></i> Đăng ký phòng </a>
                                     </li>
-                                    <li>
+                                    <li sec:authorize="hasAnyAuthority('VIEW_USERS', 'ADD_USER')">
                                         <a><i class="fa fa-user"></i> User <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a th:href="@{/admin/user/student}">Sinh viên</a></li>
-                                            <li><a th:href="@{/admin/user/employee}">Nhân viên</a></li>
-                                            <li><a th:href="@{/admin/user/add}">Thêm</a></li>
+                                            <li sec:authorize="hasAuthority('VIEW_USERS')"><a th:href="@{/admin/user/student}">Sinh viên</a></li>
+                                            <li sec:authorize="hasAuthority('VIEW_USERS')"><a th:href="@{/admin/user/employee}">Nhân viên</a></li>
+                                            <li sec:authorize="hasAuthority('ADD_USER')"><a th:href="@{/admin/user/add}">Thêm</a></li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li sec:authorize="hasAnyAuthority('VIEW_GROUPS', 'VIEW_DETAIL_GROUP')">
                                         <a><i class="fa fa-users"></i> Group <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a th:href="@{/admin/group}">Danh sách</a></li>
-                                            <li><a th:href="@{/admin/group/detail}">Chi tiết</a></li>
+                                            <li sec:authorize="hasAuthority('VIEW_GROUPS')"><a th:href="@{/admin/group}">Danh sách</a></li>
+                                            <li sec:authorize="hasAuthority('VIEW_DETAIL_GROUP')"><a th:href="@{/admin/group/detail}">Chi tiết</a></li>
                                         </ul>
                                     </li>
                                 </ul>

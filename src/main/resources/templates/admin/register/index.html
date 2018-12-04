@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="layout/admin::header"></head>
 <body class="nav-md">
 <div class="container body">
@@ -24,7 +24,7 @@
                             <form th:action="@{/admin/register-room/accept-all}" method="post" class="form-horizontal form-label-left">
                             <div class="x_title">
                                 <h2>Danh sách Đăng ký phòng</h2>
-                                <button type="submit" id="acceptAll" class="btn btn-warning" style="margin-left: 10px;display:none;">Phê duyệt tất cả
+                                <button type="submit" id="acceptAll" class="btn btn-warning" style="margin-left: 10px;display:none;" sec:authorize="hasAuthority('ACCEPT_REGISTER')">Phê duyệt tất cả
                                 </button>
                                 <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
                                 <div th:class="${'alert alert-' + type}" style="margin-left: 300px">

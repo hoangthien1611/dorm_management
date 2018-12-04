@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="layout/admin::header"></head>
 <body class="nav-md">
 <div class="container body">
@@ -23,8 +23,8 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2>Danh sách Group</h2>
-                                <button class="btn btn-primary" data-toggle="modal"
-                                        data-target="#modalAdd" style="margin-left: 30px;"><i class="fa fa-plus"></i> Thêm group</button>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd" style="margin-left: 30px;"
+                                        sec:authorize="hasAuthority('ADD_GROUP')"><i class="fa fa-plus"></i> Thêm group</button>
                                 <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
                                 <div th:class="${'alert alert-' + type}" style="margin-left: 350px">
                                     <strong th:text="${msg.message}"></strong>
@@ -54,16 +54,17 @@
                                             <td th:text="${group.name}" class="name"></td>
                                             <td th:text="${group.totalAction}" class="total-actions"></td>
                                             <td>
-                                                <a th:href="@{/admin/group/detail?group=__${group.id}__}" class="btn btn-primary btn-xs btn-detail">
+                                                <a th:href="@{/admin/group/detail?group=__${group.id}__}" class="btn btn-primary btn-xs btn-detail"
+                                                   sec:authorize="hasAuthority('VIEW_DETAIL_GROUP')">
                                                     <i class="fa fa-folder"></i> Detail
                                                 </a>
                                                 <button href="#" class="btn btn-info btn-xs btn-edit"
-                                                        data-toggle="modal"
+                                                        data-toggle="modal" sec:authorize="hasAuthority('EDIT_GROUP')"
                                                         data-target="#modalEdit"><i class="fa fa-pencil"></i>
                                                     Edit
                                                 </button>
-                                                <a th:href="@{/admin/group/delete?gId=__${group.id}__}" onclick="return confirm('Khi xóa group thì đồng thời sẽ xóa luôn danh sách user trong group đó. Bạn chắc chắn muốn xóa?')"
-                                                   class="btn btn-danger btn-xs">
+                                                <a th:href="@{/admin/group/delete?gId=__${group.id}__}" onclick="return confirm('Group cần xóa phải không có user và action nào. Bạn chắc chắn muốn xóa?')"
+                                                   sec:authorize="hasAuthority('DEL_GROUP')" class="btn btn-danger btn-xs">
                                                     <i class="fa fa-trash"></i> Delete
                                                 </a>
                                             </td>
