@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="layout/admin::header"></head>
 <body class="nav-md">
 <div class="container body">
@@ -110,7 +110,7 @@
                                                         data-target="#viewModal">
                                                     <i class="fa fa-folder"></i> View
                                                 </button>
-                                                <button class="btn btn-warning btn-xs btn-reset-pass"><i class="fa fa-key"></i>
+                                                <button class="btn btn-warning btn-xs btn-reset-pass" sec:authorize="hasAuthority('RESET_PASS_USER')"><i class="fa fa-key"></i>
                                                     Reset Password
                                                 </button>
                                             </td>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="layout/admin::header"></head>
 <body class="nav-md">
 <div class="container body">
@@ -70,7 +70,7 @@
                                                     <i class="fa fa-folder"></i> View
                                                 </button>
                                                 <button href="#" class="btn btn-info btn-xs btn-edit"
-                                                        data-toggle="modal"
+                                                        data-toggle="modal" sec:authorize="hasAuthority('EDIT_AREA')"
                                                         data-target="#areaModalEdit"><i class="fa fa-pencil"></i>
                                                     Edit
                                                 </button>
@@ -135,7 +135,7 @@
                                                             </table>
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button class="btn btn-primary btn-add-floor">Thêm tầng</button>
+                                                                    <button class="btn btn-primary btn-add-floor" sec:authorize="hasAuthority('ADD_FLOOR')">Thêm tầng</button>
                                                                     <form id="form-add-floor" data-parsley-validate style="display:none;"
                                                                           class="form-horizontal">
                                                                         <div class="form-group">

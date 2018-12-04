@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="layout/admin::header"></head>
 <body class="nav-md">
 <div class="container body">
@@ -23,7 +23,7 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2>Chi tiết group</h2>
-                                <button class="btn btn-primary btn-add-action" data-toggle="modal"
+                                <button class="btn btn-primary btn-add-action" data-toggle="modal" sec:authorize="hasAuthority('ADD_ACTION_GROUP')"
                                         data-target="#modalAdd" style="margin-left: 30px;"><i class="fa fa-plus"></i> Thêm action</button>
                                 <th:block th:if="${msg != null}" th:with="type=${msg.type == 1 ? 'success' : 'danger'}">
                                 <div th:class="${'alert alert-' + type}" style="margin-left: 300px">
@@ -70,7 +70,8 @@
                                             <td th:text="${action.name}" class="name"></td>
                                             <td th:text="${action.code}" class="code"></td>
                                             <td>
-                                                <a th:href="@{/admin/group/detail/del-action?aId=__${action.id}__&gId=__${groupDefault}__}" onclick="return confirm('Bạn có chắc muốn xóa không?')" class="btn btn-danger btn-xs">
+                                                <a th:href="@{/admin/group/detail/del-action?aId=__${action.id}__&gId=__${groupDefault}__}" onclick="return confirm('Bạn có chắc muốn xóa không?')"
+                                                   sec:authorize="hasAuthority('DEL_ACTION_GROUP')" class="btn btn-danger btn-xs">
                                                     <i class="fa fa-trash"></i>
                                                     Delete
                                                 </a>
