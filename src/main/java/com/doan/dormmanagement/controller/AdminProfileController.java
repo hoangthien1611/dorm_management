@@ -23,6 +23,11 @@ public class AdminProfileController {
     @Autowired
     private UserService userService;
 
+    @ModelAttribute
+    public void addCommonObjects(Model model) {
+        model.addAttribute("title", "Quản lý profile");
+    }
+
     @GetMapping("/{username}")
     public String index(Model model, @PathVariable("username") Optional<String> username) {
         if (username.isPresent()) {

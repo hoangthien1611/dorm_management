@@ -15,10 +15,15 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/area")
-public class AdminAreaController extends AdminBaseController {
+public class AdminAreaController {
 
     @Autowired
     private AreaService areaService;
+
+    @ModelAttribute
+    public void addCommonObjects(Model model) {
+        model.addAttribute("title", "Quản lý khu nhà");
+    }
 
     @GetMapping
     public String index(Model model) {

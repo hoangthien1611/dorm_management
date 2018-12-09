@@ -14,6 +14,15 @@ public class Group implements Serializable {
     private String name;
     private List<Action> actions;
     private Integer totalAction;
+    private Integer totalUser;
+
+    public Integer getTotalUser() {
+        return totalUser;
+    }
+
+    public void setTotalUser(Integer totalUser) {
+        this.totalUser = totalUser;
+    }
 
     public Integer getTotalAction() {
         return actions != null ? actions.size() : 0;

@@ -44,6 +44,7 @@
                                             <th class="hide">ID</th>
                                             <th>Tên group</th>
                                             <th>Số action</th>
+                                            <th>Số user</th>
                                             <th>Hành động</th>
                                         </tr>
                                         </thead>
@@ -53,6 +54,7 @@
                                             <td th:text="${group.id}" class="id hide"></td>
                                             <td th:text="${group.name}" class="name"></td>
                                             <td th:text="${group.totalAction}" class="total-actions"></td>
+                                            <td th:text="${group.totalUser}" class="total-users"></td>
                                             <td>
                                                 <a th:href="@{/admin/group/detail?group=__${group.id}__}" class="btn btn-primary btn-xs btn-detail"
                                                    sec:authorize="hasAuthority('VIEW_DETAIL_GROUP')">

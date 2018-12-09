@@ -37,6 +37,11 @@ public class AdminSubsistenceFeeController {
     @Autowired
     private FloorService floorService;
 
+    @ModelAttribute
+    public void addCommonObjects(Model model) {
+        model.addAttribute("title", "Quản lý phí điện nước");
+    }
+
     @GetMapping
     public String index(Model model, @RequestParam("area") Optional<String> aId, @RequestParam("floor") Optional<String> fId,
                         @RequestParam("month") Optional<String> m, @RequestParam("year") Optional<String> y) {

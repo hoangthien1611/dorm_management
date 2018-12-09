@@ -25,7 +25,49 @@
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">
-                <br />
+                <div class="row">
+                  <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                      <div class="icon"><i class="fa fa-institution"></i>
+                      </div>
+                      <div class="count" th:text="${info.sumRoom}">123</div>
+
+                      <h3><a th:href="@{/admin/room}">Phòng</a></h3>
+                      <p>Phòng ở sinh viên, phòng tự học...</p>
+                    </div>
+                  </div>
+                  <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                      <div class="icon"><i class="fa fa-building-o"></i>
+                      </div>
+                      <div class="count" th:text="${info.getSumArea()}">9</div>
+
+                      <h3><a th:href="@{/admin/area}">Khu nhà</a></h3>
+                      <p>Tất cả các khu nhà trong ký túc xá.</p>
+                    </div>
+                  </div>
+                  <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                      <div class="icon"><i class="fa fa-user"></i>
+                      </div>
+                      <div class="count" th:text="${info.sumUser}">17</div>
+
+                      <h3><a th:href="@{/admin/user/employee}">Users</a></h3>
+                      <p>Gổm sinh viên, nhân viên, ...</p>
+                    </div>
+                  </div>
+                  <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                      <div class="icon"><i class="fa fa-users"></i>
+                      </div>
+                      <div class="count" th:text="${info.totalGroup}">4</div>
+
+                      <h3><a th:href="@{/admin/group  }">Group</a></h3>
+                      <p>Các group của users ...</p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

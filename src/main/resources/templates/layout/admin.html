@@ -6,8 +6,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="images/favicon.ico" type="image/ico"/>
-        <title>Admin | </title>
+        <link rel="icon" th:href="@{/admin/images/favicon.ico}" type="image/ico"/>
+        <title th:text="${title != null ? title : 'Admin'}">Admin </title>
         <!-- Bootstrap -->
         <link href="../../static/admin/css/bootstrap/bootstrap.min.css" th:href="@{/admin/css/bootstrap/bootstrap.min.css}"
               rel="stylesheet">
@@ -135,7 +135,7 @@
                 <!-- footer content -->
                 <footer th:fragment="footer">
                     <div class="pull-right">
-                        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                        Quản lý Ký túc xá - Dorm Management. All rights reserved.
                     </div>
                     <div class="clearfix"></div>
                 </footer>

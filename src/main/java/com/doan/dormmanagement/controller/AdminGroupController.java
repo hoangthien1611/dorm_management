@@ -4,10 +4,12 @@ import com.doan.dormmanagement.common.Constant;
 import com.doan.dormmanagement.dto.Message;
 import com.doan.dormmanagement.model.Action;
 import com.doan.dormmanagement.model.Group;
+import com.doan.dormmanagement.model.InfoIndex;
 import com.doan.dormmanagement.model.Role;
 import com.doan.dormmanagement.service.ActionService;
 import com.doan.dormmanagement.service.GroupService;
 import com.doan.dormmanagement.service.RoleService;
+import com.doan.dormmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +35,25 @@ public class AdminGroupController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private UserService userService;
+
+    @ModelAttribute
+    public void addCommonObjects(Model model) {
+        model.addAttribute("title", "Quản lý group");
+    }
+
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("groups", groupService.getAllGroup());
+        List<Group> groups = groupService.getAllGroup();
+        InfoIndex info = userService.getInfoIndex();
+        if (info.getSumGroup() != null) {
+            List<Integer> values = info.getSumGroup().values().stream().collect(Collectors.toList());
+            for (int i = 0; i < values.size(); i++) {
+                groups.get(i).setTotalUser(values.get(i));
+            }
+        }
+        model.addAttribute("groups", groups);
         return "admin/group/index";
     }
 

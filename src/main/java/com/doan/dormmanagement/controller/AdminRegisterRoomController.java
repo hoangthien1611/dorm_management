@@ -34,6 +34,11 @@ public class AdminRegisterRoomController {
     @Autowired
     private FloorService floorService;
 
+    @ModelAttribute
+    public void addCommonObjects(Model model) {
+        model.addAttribute("title", "Quản lý đăng ký phòng");
+    }
+
     @GetMapping()
     public String index(Model model) {
         List<Area> areas = areaService.getAllAreas();

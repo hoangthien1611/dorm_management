@@ -48,6 +48,11 @@ public class AdminUserController {
     @Autowired
     private RoleUserService roleUserService;
 
+    @ModelAttribute
+    public void addCommonObjects(Model model) {
+        model.addAttribute("title", "Quản lý user");
+    }
+
     @GetMapping("/student")
     public String indexUser(Model model, @RequestParam("area") Optional<String> aId,
                             @RequestParam("floor") Optional<String> fId, @RequestParam("room") Optional<String> rId) {
@@ -67,6 +72,7 @@ public class AdminUserController {
 
                 if (roomId == 0) {
                     if (floorId == 0) {
+
                         model.addAttribute("users", userService.getAllUsersByAreaId(areaId));
                     } else {
                         model.addAttribute("users", userService.getAllUsersByFloorId(floorId));
